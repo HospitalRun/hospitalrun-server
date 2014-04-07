@@ -51,7 +51,7 @@ function denormalize_oauth(user) {
 
 function validate_oauth(oauth) {
     try {
-        if (oauth.consumer_keys.length > 0 && oauth.tokens.length > 0) {
+        if (Object.keys(oauth.consumer_keys).length > 0 && Object.keys(oauth.tokens).length > 0) {
             return true;
         }
     } catch (ex) {
