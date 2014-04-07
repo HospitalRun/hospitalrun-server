@@ -80,14 +80,13 @@ app.get('/auth/google',
 app.get('/auth/google/callback', function(req, res, next) {
     passport.authenticate('google', function(err, user, info) {
         if ((err && err.error && err.error === 'not_found') || !user) { 
-            return res.redirect('/');
+            return res.redirect('/#/login');
         } else {
-            var redir_url = '/?';
+            var redir_url = '/#/?';
             redir_url += 's1='+user.consumer_secret;
             redir_url += '&s2='+user.token_secret;
             redir_url += '&k='+user.consumer_key;
             redir_url += '&t='+user.token_key;
-            console.log("redirecting to:"+redir_url);
             res.redirect(redir_url);
         }
     })(req, res, next);
