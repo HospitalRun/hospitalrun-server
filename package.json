@@ -2,7 +2,7 @@
   "name": "hospitalrun-server",
   "version": "0.0.0",
   "dependencies": {
-    "express": ">= 0.0.0",
+    "express": "<= 3.5.x",
     "ejs": ">= 0.0.0",
     "nano": ">= 0.0.0",
     "passport": ">= 0.0.0",
