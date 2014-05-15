@@ -1,7 +1,10 @@
 var config =  require('./config.js'), 
     couch_oauth = require('./couch-oauth.js'), 
     express = require('express'), 
+    follow = require('follow'),
     forward = require('./forward.js'),
+    nano = require('nano')(config.couch_auth_db_url),
+    maindb = nano.use('main'),
     passport = require('passport'),
     util = require('util'),
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;  
@@ -34,7 +37,71 @@ passport.use(
     }, couch_oauth)
 );
 
-
+var couchFollowOpts = {
+    db: config.couch_auth_db_url+'/main',
+    include_docs: true,
+    since: config.couch_db_changes_since,
+    query_params : {
+        conflicts: true
+    }
+};
+follow(couchFollowOpts, function(error, change) {
+    if(!error) {
+        if (change.doc && change.doc._conflicts) {
+            var conflicts = change.doc._conflicts;
+            
+            maindb.get(change.id, {open_revs: JSON.stringify(conflicts)}, function(err, body) {
+                var compareObj, 
+                    currentDoc = change.doc,
+                    currentModifiedDate,
+                    i, 
+                    key, 
+                    modifiedDate, 
+                    updateDocument = false,
+                    updateProperty;
+                if (!currentDoc.modifiedFields) {
+                    currentDoc.modifiedFields = {};
+                }
+                if (err) {
+                    console.log("ERROR GETTING CONFLICTING REVS: ",err);
+                } else if (body.length) {
+                    for (i=0;i<body.length;i++) {
+                        compareObj = body[i].ok;
+                        if (compareObj.modifiedFields) {
+                            for (key in compareObj.modifiedFields) {
+                                updateProperty = false;
+                                modifiedDate = new Date(compareObj.modifiedFields[key]);
+                                if (currentDoc.modifiedFields[key]) {
+                                    currentModifiedDate = new Date(currentDoc.modifiedFields[key]);
+                                    if (modifiedDate.getTime() > currentModifiedDate.getTime()) {
+                                        updateProperty = true;
+                                    }
+                                } else {
+                                    updateProperty = true;
+                                }
+                                if (updateProperty) {
+                                    updateDocument = true;
+                                    currentDoc.modifiedFields[key] = modifiedDate;
+                                    currentDoc[key] = compareObj[key];
+                                }
+                            }
+                        }
+                    }
+                    if (updateDocument) {
+                        delete currentDoc._conflicts;
+                        maindb.insert(currentDoc, currentDoc._id, function(err, response) {
+                            if (!err && !response.ok) {
+                                for (i=0;i< conflicts.length;i++) {
+                                    maindb.destroy(currentDoc._id,  conflicts[i]);
+                                }
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
+});
 
 
 var app = express();
@@ -44,7 +111,7 @@ app.configure(function() {
   app.use(forward(/\/db\/(.*)/, config.couch_db_url));
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
-  app.use(express.logger());
+  //app.use(express.logger());
   app.use(express.cookieParser());
   app.use(express.json());
   app.use(express.urlencoded());

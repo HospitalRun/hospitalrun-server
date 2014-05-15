@@ -4,10 +4,12 @@
   "dependencies": {
     "express": "<= 3.5.x",
     "ejs": ">= 0.0.0",
+    "follow": ">=0.11.0",
     "nano": ">= 0.0.0",
     "passport": ">= 0.0.0",
     "passport-google-oauth": ">= 0.0.0",
     "request": ">= 0.0.0",
     "serializer": ">= 0.0.0"
+    
   }
 }

@@ -1,7 +1,8 @@
 var config = {    
     couch_db_server: 'localhost',
     couch_db_port: '5984',
-    couch_db_use_ssl: false,    
+    couch_db_use_ssl: false,
+    couch_db_changes_since: 'now',
     couch_admin_user: 'COUCH ADMIN USER GOES HERE',
     couch_admin_password: 'COUCH ADMIN PASSWORD GOES HERE',
     google_client_id: 'FOR GOOGLE SSO; GOOGLE CLIENT ID GOES HERE',
