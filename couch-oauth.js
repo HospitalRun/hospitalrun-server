@@ -4,7 +4,6 @@ var config =  require('./config.js'),
     users = nano.use('_users');  
 
 function create_oauth_tokens(secret_base, user, callback) {
-    console.log("in create_oauth_tokens, secretBase is: %d,%s",secret_base.length,secret_base);
     var consumer_key = serializer.randomString(96);
     var token_key = serializer.randomString(96);    
     user.oauth = {
