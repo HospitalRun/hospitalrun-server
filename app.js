@@ -154,6 +154,7 @@ app.get('/auth/google/callback', function(req, res, next) {
             redir_url += '&s2='+user.token_secret;
             redir_url += '&k='+user.consumer_key;
             redir_url += '&t='+user.token_key;
+            redir_url += '&i='+user.name;
             res.redirect(redir_url);
         }
     })(req, res, next);
