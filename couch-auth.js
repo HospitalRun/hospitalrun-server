@@ -59,17 +59,42 @@ function validate_oauth(oauth) {
     return false;
 }
                                 
-module.exports = function(accessToken, refreshToken, profile, callback) {
-    var user_key = 'org.couchdb.user:'+profile._json.email;
-    users.get(user_key, {}, function(err, body) {
-        if (err) {
-            callback(err);
-            return;
-        }        
-        if (validate_oauth(body.oauth)) {
-            callback(null, denormalize_oauth(body));            
-        } else {
-            create_oauth_tokens(accessToken, body, callback);
+module.exports = {
+    find_oauth_user: function(accessToken, refreshToken, profile, callback) {        
+        var user_key = 'org.couchdb.user:'+profile._json.email;
+        users.get(user_key, {}, function(err, body) {
+            if (err) {
+                callback(err);
+                return;
+            }        
+            if (validate_oauth(body.oauth)) {
+                callback(null, denormalize_oauth(body));            
+            } else {
+                create_oauth_tokens(accessToken, body, callback);
+            }
+        });
+    },
+    
+    find_user: function(userName, callback) {
+        var user_key = 'org.couchdb.user:'+userName;
+        users.get(user_key, {}, function(err, body) {
+            if (err) {
+                callback(err);
+                return;
+            }        
+            callback(null, body);
+        });    
+    },
+    
+    get_primary_role: function(user) {
+        var primaryRole = '';
+        if (user.roles) {
+            user.roles.forEach(function(role) {
+                if (role !== 'user' && role !== 'admin') {
+                    primaryRole = role;
+                }
+            });
         }
-    });
+        return primaryRole;
+    },
 };

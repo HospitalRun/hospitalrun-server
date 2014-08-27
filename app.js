@@ -1,12 +1,11 @@
 var config =  require('./config.js'), 
-    couch_oauth = require('./couch-oauth.js'), 
+    couch_auth = require('./couch-auth.js'), 
     express = require('express'), 
     follow = require('follow'),
     forward = require('./forward.js'),
     nano = require('nano')(config.couch_auth_db_url),
     maindb = nano.use('main'),
     passport = require('passport'),
-    util = require('util'),
     GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;  
 
 // Passport session setup.
@@ -34,7 +33,7 @@ passport.use(
         clientID: config.google_client_id,
         clientSecret: config.google_client_secret,
         callbackURL: config.server_url+'/auth/google/callback'
-    }, couch_oauth)
+    }, couch_auth.find_oauth_user)
 );
 
 var couchFollowOpts = {
@@ -134,7 +133,7 @@ app.configure(function() {
 app.get('/auth/google',
   passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/userinfo.profile',
                                             'https://www.googleapis.com/auth/userinfo.email'] }),
-  function(req, res){
+  function(){
     // The request will be redirected to Google for authentication, so this
     // function will not be called.
   });
@@ -144,26 +143,46 @@ app.get('/auth/google',
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-app.get('/auth/google/callback', function(req, res, next) {
-    passport.authenticate('google', function(err, user, info) {
-        if ((err && err.error && err.error === 'not_found') || !user) { 
-            return res.redirect('/#/login');
-        } else {
-            var redir_url = '/#/?';
-            redir_url += 's1='+user.consumer_secret;
-            redir_url += '&s2='+user.token_secret;
-            redir_url += '&k='+user.consumer_key;
-            redir_url += '&t='+user.token_key;
-            redir_url += '&i='+user.name;
-            redir_url += '&p='+user.userPrefix;
-            res.redirect(redir_url);
-        }
-    })(req, res, next);
-});
+app.get('/auth/google/callback',        
+  passport.authenticate('google', { failureRedirect: '/#/login' }),
+  function(req, res) {
+      var user = req.user;
+      var redir_url = '/#/?';
+      redir_url += 's1='+user.consumer_secret;
+      redir_url += '&s2='+user.token_secret;
+      redir_url += '&k='+user.consumer_key;
+      redir_url += '&t='+user.token_key;
+      redir_url += '&i='+user.name;
+      redir_url += '&p='+user.userPrefix;
+      res.redirect(redir_url);      
+  }
+);
 
 app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
+});
+
+app.post('/chkuser', function(req, res){
+    if (req.isAuthenticated()) {
+        res.json({
+            displayName: req.user.displayName,
+            prefix: req.user.userPrefix,
+            role: couch_auth.get_primary_role(req.user)
+        });
+    } else {
+        couch_auth.find_user(req.body.name, function(err, user) {
+            if (err) {
+                res.json({error:true, errorResult: err});
+            } else {
+                res.json({
+                    displayName: user.displayName,
+                    prefix: user.userPrefix,
+                    role: couch_auth.get_primary_role(user)
+                });
+            }            
+        });
+    }
 });
 
 app.listen(config.server_port);
