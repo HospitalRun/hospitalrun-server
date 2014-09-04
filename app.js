@@ -1,8 +1,11 @@
 var config =  require('./config.js'), 
     couch_auth = require('./couch-auth.js'), 
-    express = require('express'), 
+    express = require('express'),     
     follow = require('follow'),
     forward = require('./forward.js'),
+    fs = require('fs'),
+    https = require('https'),
+    http = require('http'),    
     nano = require('nano')(config.couch_auth_db_url),
     maindb = nano.use('main'),
     passport = require('passport'),
@@ -185,4 +188,13 @@ app.post('/chkuser', function(req, res){
     }
 });
 
-app.listen(config.server_port);
+
+if (config.use_ssl) { 
+    var options = {
+        key: fs.readFileSync(config.ssl_key),
+        cert: fs.readFileSync(config.ssl_cert)
+    };  
+    https.createServer(options, app).listen(config.server_port);
+} else {
+    http.createServer(app).listen(config.server_port);
+}

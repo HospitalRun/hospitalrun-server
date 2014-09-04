@@ -9,6 +9,8 @@ var config = {
     google_client_secret: 'FOR GOOGLE SSO; GOOGLE CLIENT SECRET GOES HERE',
     server_port: '3000',
     server: 'localhost',
+    ssl_cert: 'file location of ssl cert if needed',
+    ssl_key: 'file location of ssl key if needed',    
     use_ssl: false        
 };
 

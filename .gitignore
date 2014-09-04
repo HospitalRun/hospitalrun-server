@@ -8,3 +8,13 @@ public
 hrconfig.js
 
 rebuild.sh
+
+hospitalrun.crt
+
+hospitalrun.key
+
+privatekey.pem
+
+certrequest.csr
+
+certificate.pem
