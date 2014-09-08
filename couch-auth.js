@@ -48,6 +48,18 @@ function denormalize_oauth(user) {
     return user;
 }
 
+function is_admin(user) {
+    var isAdmin = false;
+    if (user.roles) {
+        user.roles.forEach(function(role) {
+            if (role === 'admin') {
+                isAdmin = true;
+            }
+        });
+    }
+    return isAdmin;
+}
+
 function validate_oauth(oauth) {
     try {
         if (Object.keys(oauth.consumer_keys).length > 0 && Object.keys(oauth.tokens).length > 0) {
@@ -60,6 +72,18 @@ function validate_oauth(oauth) {
 }
                                 
 module.exports = {
+    delete_user: function(user, idToDelete, rev, res) {
+        if(is_admin(user)) {
+            users.destroy(idToDelete, rev, function(err, body) {
+                if (err) {
+                    res.json({error:true, errorResult: err});
+                } else {
+                    res.json(body);
+                }
+            });
+        }
+    },
+    
     find_oauth_user: function(accessToken, refreshToken, profile, callback) {        
         var user_key = 'org.couchdb.user:'+profile._json.email;
         users.get(user_key, {}, function(err, body) {
@@ -86,6 +110,36 @@ module.exports = {
         });    
     },
     
+    get_user: function(user, id, res) {
+        if(is_admin(user)) {
+            this.find_user(id, function(err, body) {
+                if (err) {
+                    res.json({error:true, errorResult: err});
+                } else {
+                    res.json(body);
+                }
+            });
+        }
+    },
+    
+    get_users: function(user, res) {
+        if(is_admin(user)) {
+            var options = {
+                include_docs: true,
+                startkey: 'org.couchdb.user'
+            };
+            users.list(options, function (err, body) {
+                if (err) {
+                    res.json({error:true, errorResult: err});
+                } else {
+                    res.json(body);
+                }
+            });
+        } else {
+            res.json({error:true, errorResult: 'Unauthorized'});
+        }
+    },
+    
     get_primary_role: function(user) {
         var primaryRole = '';
         if (user.roles) {
@@ -97,4 +151,17 @@ module.exports = {
         }
         return primaryRole;
     },
+    
+    update_user: function(user, userData, updateParams, res) {
+        if(is_admin(user)) {
+            users.insert(userData, updateParams, function(err, body) {
+                if (err) {
+                    res.json({error:true, errorResult: err});
+                } else {
+                    res.json(body);
+                }
+            });
+        }
+    },
+
 };

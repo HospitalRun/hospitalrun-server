@@ -188,6 +188,70 @@ app.post('/chkuser', function(req, res){
     }
 });
 
+app.post('/allusers', function(req, res){
+    var user;
+    if (req.isAuthenticated()) {
+        user = req.user;
+        couch_auth.get_users(user, res);
+    } else {                     
+        couch_auth.find_user(req.body.name, function(err, user) {            
+            if (err) {
+                res.json({error:true, errorResult: err});
+            } else {
+                couch_auth.get_users(user, res);
+            }
+        });
+    }
+});
+
+app.post('/deleteuser', function(req, res){
+    var user;
+    if (req.isAuthenticated()) {
+        user = req.user;
+        couch_auth.delete_user(user, req.body.id, req.body.rev, res);
+    } else {                     
+        couch_auth.find_user(req.body.name, function(err, user) {            
+            if (err) {
+                res.json({error:true, errorResult: err});
+            } else {
+                couch_auth.delete_user(user, req.body.id, req.body.rev, res);
+            }
+        });
+    }
+});
+
+app.post('/getuser', function(req, res){
+    var user;
+    if (req.isAuthenticated()) {
+        user = req.user;
+        couch_auth.get_user(user, req.body.id, res);
+    } else {                     
+        couch_auth.find_user(req.body.name, function(err, user) {            
+            if (err) {
+                res.json({error:true, errorResult: err});
+            } else {
+                couch_auth.get_user(user, req.body.id, res);
+            }
+        });
+    }
+});
+
+app.post('/updateuser', function(req, res){
+    var user;
+    if (req.isAuthenticated()) {
+        user = req.user;
+        couch_auth.update_user(user, req.body.data, req.body.updateParams, res);
+    } else {                     
+        couch_auth.find_user(req.body.name, function(err, user) {            
+            if (err) {
+                res.json({error:true, errorResult: err});
+            } else {
+                couch_auth.update_user(user, req.body.data, req.body.updateParams, res);
+            }
+        });
+    }
+});
+
 
 if (config.use_ssl) { 
     var options = {
