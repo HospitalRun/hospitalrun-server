@@ -18,3 +18,9 @@ privatekey.pem
 certrequest.csr
 
 certificate.pem
+
+restart.sh
+
+start.sh
+
+stop.sh
