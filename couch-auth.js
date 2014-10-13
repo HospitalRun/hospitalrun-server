@@ -88,11 +88,15 @@ module.exports = {
         var user_key = 'org.couchdb.user:'+profile._json.email;
         users.get(user_key, {}, function(err, body) {
             if (err) {
-                callback(err);
+                if (err.status_code === 404) {
+                    callback();
+                } else {
+                    callback(err);
+                }
                 return;
             }        
             if (validate_oauth(body.oauth)) {
-                callback(null, denormalize_oauth(body));            
+                return callback(null, denormalize_oauth(body));            
             } else {
                 create_oauth_tokens(accessToken, body, callback);
             }
