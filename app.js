@@ -150,13 +150,13 @@ app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/#/login' }),
   function(req, res) {
       var user = req.user;
-      var redir_url = '/#/?';
-      redir_url += 's1='+user.consumer_secret;
-      redir_url += '&s2='+user.token_secret;
-      redir_url += '&k='+user.consumer_key;
-      redir_url += '&t='+user.token_key;
-      redir_url += '&i='+user.name;
-      redir_url += '&p='+user.userPrefix;
+      var redir_url = '/#/finishgauth/';
+      redir_url += user.consumer_secret;
+      redir_url += '/'+user.token_secret;
+      redir_url += '/'+user.consumer_key;
+      redir_url += '/'+user.token_key;
+      redir_url += '/'+user.name;
+      redir_url += '/'+user.userPrefix;
       res.redirect(redir_url);      
   }
 );
