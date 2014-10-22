@@ -9,7 +9,9 @@ var config =  require('./config.js'),
     nano = require('nano')(config.couch_auth_db_url),
     maindb = nano.use('main'),
     passport = require('passport'),
-    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;  
+    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy, 
+    globSync   = require('glob').sync,
+    dbListeners = globSync('./dblisteners/**/*.js', { cwd: __dirname }).map(require);
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -49,59 +51,9 @@ var couchFollowOpts = {
 };
 follow(couchFollowOpts, function(error, change) {
     if(!error) {
-        if (change.doc && change.doc._conflicts) {
-            var conflicts = change.doc._conflicts;
-            
-            maindb.get(change.id, {open_revs: JSON.stringify(conflicts)}, function(err, body) {
-                var compareObj, 
-                    currentDoc = change.doc,
-                    currentModifiedDate,
-                    i, 
-                    key, 
-                    modifiedDate, 
-                    updateDocument = false,
-                    updateProperty;
-                if (!currentDoc.modifiedFields) {
-                    currentDoc.modifiedFields = {};
-                }
-                if (err) {
-                    console.log("ERROR GETTING CONFLICTING REVS: ",err);
-                } else if (body.length) {
-                    for (i=0;i<body.length;i++) {
-                        compareObj = body[i].ok;
-                        if (compareObj.modifiedFields) {
-                            for (key in compareObj.modifiedFields) {
-                                updateProperty = false;
-                                modifiedDate = new Date(compareObj.modifiedFields[key]);
-                                if (currentDoc.modifiedFields[key]) {
-                                    currentModifiedDate = new Date(currentDoc.modifiedFields[key]);
-                                    if (modifiedDate.getTime() > currentModifiedDate.getTime()) {
-                                        updateProperty = true;
-                                    }
-                                } else {
-                                    updateProperty = true;
-                                }
-                                if (updateProperty) {
-                                    updateDocument = true;
-                                    currentDoc.modifiedFields[key] = modifiedDate;
-                                    currentDoc[key] = compareObj[key];
-                                }
-                            }
-                        }
-                    }
-                    if (updateDocument) {
-                        delete currentDoc._conflicts;
-                        maindb.insert(currentDoc, currentDoc._id, function(err, response) {
-                            if (!err && !response.ok) {
-                                for (i=0;i< conflicts.length;i++) {
-                                    maindb.destroy(currentDoc._id,  conflicts[i]);
-                                }
-                            }
-                        });
-                    }
-                }
-            });
-        }
+        dbListeners.forEach(function(listener) { 
+            listener(change, maindb, config); 
+        });
     }
 });
 
