@@ -5,13 +5,11 @@ var fs = require('fs'),
  * Upload file that is temporarily stored as attachment.
  */
 module.exports = function(change, maindb, config) {
-    console.log('in file-upload, change is:',change);
     if (change.doc && change.doc.localFile && change.doc.localFile === true && change.doc._attachments) {
         try {
             var currentDoc = change.doc,
                 fileName = '/patientimages'+currentDoc.fileName,
                 filePath = config.web_dir+fileName;
-            console.log('about to write file'+filePath);
             //Make the directory to the file if it doesn't exist
             mkdirp(path.dirname(filePath), function (err) {
                 if(err) {
@@ -36,12 +34,10 @@ module.exports = function(change, maindb, config) {
                                 console.log('Error deleting attachment on '+currentDoc._id+', rev:'+currentDoc._rev);
                                 return;
                             }
-                            console.log('body from destroy was:',body);
                             currentDoc._rev = body.rev;
                             currentDoc.url = fileName;
                             currentDoc.localFile = false;
                             delete currentDoc._attachments;
-                            console.log("about to save updated doc:", currentDoc);
                             //Update the url
                             maindb.insert(currentDoc, currentDoc._id, function(err) {
                                 if (err) {
