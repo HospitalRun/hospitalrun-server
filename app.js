@@ -77,6 +77,7 @@ app.configure(function() {
   app.use(passport.session());
   app.use(app.router);
   app.use(express.static(__dirname + '/public'));
+  app.use('/patientimages', express.static(config.imagesdir));
 });
 
 

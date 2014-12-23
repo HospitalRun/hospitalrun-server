@@ -9,7 +9,7 @@ module.exports = function(change, maindb, config) {
         try {
             var currentDoc = change.doc,
                 fileName = '/patientimages'+currentDoc.fileName,
-                filePath = config.web_dir+fileName;
+                filePath = config.imagesdir+currentDoc.fileName;
             //Make the directory to the file if it doesn't exist
             mkdirp(path.dirname(filePath), function (err) {
                 if(err) {

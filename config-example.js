@@ -11,7 +11,8 @@ var config = {
     server: 'localhost',
     ssl_cert: 'file location of ssl cert if needed',
     ssl_key: 'file location of ssl key if needed',    
-    use_ssl: false        
+    use_ssl: false,
+    imagesdir: __dirname+'/patientimages'
 };
 
 config.couch_credentials = function() {
