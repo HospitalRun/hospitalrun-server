@@ -31,7 +31,7 @@ module.exports = function(change, maindb, config) {
                         //Remove the attachment from the document
                         maindb.attachment.destroy(currentDoc._id, 'file', currentDoc._rev, function(err, body) {
                             if (err) {
-                                console.log('Error deleting attachment on '+currentDoc._id+', rev:'+currentDoc._rev);
+                                console.log('Error deleting attachment on '+currentDoc._id+', rev:'+currentDoc._rev, err);
                                 return;
                             }
                             currentDoc._rev = body.rev;
