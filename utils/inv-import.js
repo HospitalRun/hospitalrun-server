@@ -8,6 +8,12 @@
     
     var inventoryMap = {
     };
+
+    var locationMap = {
+    };
+
+    var aisleMap = {
+    };
     
     var types = {};
     var units = {};
@@ -66,7 +72,7 @@
                 _id: purchaseId,
                 aisleLocation: csvItem.aisleLocation,
                 currentQuantity: convertToInt(csvItem.quantity),
-                dateReceived: moment('2014-11-01').toDate(),
+                dateReceived: moment('2015-01-01').toDate(),
                 inventoryItem: inventoryDetails.item._id,
                 originalQuantity: convertToInt(csvItem.quantity),
                 purchaseCost: convertToInt(csvItem.purchaseCost),
@@ -145,12 +151,26 @@
             handleItem(item, function(err) {
                 if (err) {
                     console.log('Got error while processing item', item, err);
-                }
+                } else {
+				    if (!aisleMap[item.aisleLocation]) {
+				        aisleMap[item.aisleLocation] = true;
+				    }
+				    if (!locationMap[item.location]) {
+				        locationMap[item.location] = true;
+				    }
+				}
                 numItems++;
                 processItem(inventoryToImport.shift());
             });
         } else {
             console.log("DONE, processed "+numItems);
+            updateLocations(function(err) {
+                if (err) {
+                    console.log("Error updating locations: ", err);
+                } else {
+                    console.log("SUCCESS updating locations.");
+                }
+            });
         }
     }
 
@@ -280,4 +300,51 @@
                 }
             }
         });        
+    }
+
+    function locationMatch(locations, location) {
+        var foundMatch = false;
+        for (var i = 0; i < locations.length; i++) {
+            if (locations[i] === location) {
+                foundMatch = true;
+                break;
+            }
+        }
+        return foundMatch;
+    }
+
+    function addNewLocations(listname, locationMap, callback) {
+        maindb.get(listname, function(err, list) {
+            if (err) {
+                list = {
+                    _id: listname,
+                    value: []
+                };
+            }
+            var updateList = false;
+            for (var location in locationMap) {
+                if (location && location !== '') {
+                    var existingLocation = locationMatch(list.value, location);
+                    if (!existingLocation) {
+                        console.log("location doesn't exist adding: ",location);
+                        list.value.push(location);
+                        updateList = true;
+                    }
+                }
+            }
+            if (updateList) {
+                updateRecord(list, callback);
+            } else {
+                callback();
+            }
+        });
+    }
+
+    function updateLocations(callback) {
+        addNewLocations('lookup_warehouse_list', locationMap, function(err) {
+            if (err) {
+                callback(err);
+            }
+            addNewLocations('lookup_aisle_location_list', aisleMap, callback);
+        });
     }
