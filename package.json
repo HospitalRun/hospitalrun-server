@@ -1,6 +1,10 @@
 {
   "name": "hospitalrun-server",
-  "version": "0.0.0",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:HospitalRun/server"
+  },    
   "dependencies": {
     "csv-parse": "0.0.6",
     "ejs": ">= 0.0.0",
