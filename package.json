@@ -4,10 +4,10 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:HospitalRun/server"
-  },    
+  },
   "dependencies": {
     "csv-parse": "0.0.6",
-    "ejs": ">= 0.0.0",
+    "ejs": "^2.3.1",
     "express": "<= 3.5.x",
     "follow": ">=0.11.0",
     "glob": "^4.0.6",
@@ -15,9 +15,12 @@
     "moment": "^2.8.4",
     "nano": "<= 5.12.1",
     "node-uuid": "^1.4.2",
+    "nodemailer": "^1.3.1",
+    "nodemailer-sendmail-transport": "^1.0.0",
+    "nodemailer-smtp-transport": "^1.0.0",
     "passport": ">= 0.0.0",
-    "passport-google-oauth": ">= 0.0.0",
-    "request": ">= 0.0.0",
-    "serializer": ">= 0.0.0"
+    "passport-google-oauth": "^0.2.0",
+    "request": "^0.2.1",
+    "serializer": "^0.0.3"
   }
 }

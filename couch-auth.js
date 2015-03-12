@@ -84,8 +84,8 @@ module.exports = {
         }
     },
     
-    find_oauth_user: function(accessToken, refreshToken, profile, callback) {        
-        var user_key = 'org.couchdb.user:'+profile._json.email;
+    find_oauth_user: function(accessToken, refreshToken, profile, callback) {
+        var user_key = 'org.couchdb.user:'+profile.emails[0].value;
         users.get(user_key, {}, function(err, body) {
             if (err) {
                 if (err.status_code === 404) {
