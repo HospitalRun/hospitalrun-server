@@ -20,7 +20,7 @@
     "nodemailer-smtp-transport": "^1.0.0",
     "passport": ">= 0.0.0",
     "passport-google-oauth": "^0.2.0",
-    "request": "^0.2.1",
+    "request": "^2.53.0",
     "serializer": "^0.0.3"
   }
 }
