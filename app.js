@@ -63,6 +63,7 @@ var app = express();
 // configure Express
 app.configure(function() {
   app.use(forward(/\/db\/(.*)/, config.couch_db_url));
+  app.use(forward(/\/search\/(.*)/, config.search_url));
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
   //app.use(express.logger());
