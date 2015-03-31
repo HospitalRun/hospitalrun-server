@@ -41,7 +41,9 @@
                 number = number.replace(',','');
             }
             return parseInt(number);
-        }    
+        } else {
+            return 0;
+        }
     }
 
     function isEmpty(obj) {
@@ -72,7 +74,7 @@
                 _id: purchaseId,
                 aisleLocation: csvItem.aisleLocation,
                 currentQuantity: convertToInt(csvItem.quantity),
-                dateReceived: moment('2015-01-01').toDate(),
+                dateReceived: moment('2015-03-30').toDate(),
                 inventoryItem: inventoryDetails.item._id,
                 originalQuantity: convertToInt(csvItem.quantity),
                 purchaseCost: convertToInt(csvItem.purchaseCost),
@@ -88,27 +90,33 @@
             newPurchase.giftInKind = true;
         }
         inventoryDetails.item.quantity += newPurchase.currentQuantity;
-                
-        //Insert purchase
-        updateRecord(newPurchase, function(err) {
-            if(err) {
-                callback(err);
-            } else {
-                if (!inventoryDetails.item.purchases) {
-                    inventoryDetails.item.purchases = [];
-                }
-                inventoryDetails.item.purchases.push(purchaseId);
-                //Update insert location
-                addPurchaseToLocation(inventoryDetails, newPurchase, function(err){
-                    //Update inventory item
-                    if (err) {
-                        callback(err);
-                    } else {
-                        updateRecord(inventoryDetails.item, callback);
+        
+        if (newPurchase.currentQuantity === 0 && inventoryDetails.item.purchases && inventoryDetails.item.purchases.length > 0) {
+            //Don't save a purchase of zero quantity if the item already exists
+            console.log("Skipping purchase because of zero quantity and it already exists: ",csvItem);
+            callback();           
+        } else {
+            //Insert purchase
+            updateRecord(newPurchase, function(err) {
+                if(err) {
+                    callback(err);
+                } else {
+                    if (!inventoryDetails.item.purchases) {
+                        inventoryDetails.item.purchases = [];
                     }
-                });
-            }
-        });
+                    inventoryDetails.item.purchases.push(purchaseId);
+                    //Update insert location
+                    addPurchaseToLocation(inventoryDetails, newPurchase, function(err){
+                        //Update inventory item
+                        if (err) {
+                            callback(err);
+                        } else {
+                            updateRecord(inventoryDetails.item, callback);
+                        }
+                    });
+                }
+            });
+        }
     }
     
     function updateRecord(record, callback) {
