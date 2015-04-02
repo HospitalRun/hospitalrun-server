@@ -264,7 +264,8 @@
                 name: item.name,
                 distributionUnit: item.distributionUnit,
                 quantity: 0, //Quantity gets added via purchases
-                type: item.type                    
+                type: item.type,
+                crossReference: item.crossReference
             };
         if (!types[item.type]) {
             types[item.type] = true;
