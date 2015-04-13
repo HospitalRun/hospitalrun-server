@@ -11,6 +11,7 @@ var config = {
     server: 'localhost',
     ssl_cert: 'file location of ssl cert if needed',
     ssl_key: 'file location of ssl key if needed',    
+    ssl_ca: [], //Array of file locations of trusted certificates in PEM format if needed
     use_ssl: false,
     imagesdir: __dirname+'/patientimages'
 };

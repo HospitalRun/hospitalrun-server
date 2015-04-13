@@ -211,7 +211,13 @@ if (config.use_ssl) {
     var options = {
         key: fs.readFileSync(config.ssl_key),
         cert: fs.readFileSync(config.ssl_cert)
-    };  
+    };
+    if (config.ssl_ca) {
+        options.ca = [];
+        config.ssl_ca.forEach(function(caFile) {
+            options.ca.push(fs.readFileSync(caFile));
+        });
+    }
     https.createServer(options, app).listen(config.server_port);
 } else {
     http.createServer(app).listen(config.server_port);
