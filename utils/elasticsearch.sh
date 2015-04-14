@@ -1,9 +1,41 @@
 echo "Setting up mappings"
 curl -XPUT 'localhost:9200/hrdb' -d' {
     "mappings": {
-        "_default_": {
-            "date_detection": false
-        }
+        "_default_": {        
+            "date_detection": false,
+            "properties" : {
+                "crossReference": {
+                    "type" : "string"
+                },
+                "description": {
+                    "type" : "string"
+                },
+                "externalInvoiceNumber": {
+                    "type" : "string"
+                },
+                "externalPatientId": {
+                    "type" : "string"                
+                },
+                "firstName": {
+                    "type" : "string"
+                },                
+                "friendlyId": {
+                    "type" : "string"
+                },
+                "lastName": {
+                    "type" : "string"
+                },
+                "name": {
+                    "type" : "string"
+                },
+                "patientInfo": {
+                    "type" : "string"
+                },
+                "prescription": {
+                    "type" : "string"
+                }
+            }
+        }        
     }
  }'
  echo "Setting up couchdb river"
