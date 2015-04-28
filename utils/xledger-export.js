@@ -2,8 +2,27 @@
 var config =  require('../config.js'),
     fs = require('fs'),
     nano = require('nano')(config.couch_auth_db_url),
+    nodemailer = require('nodemailer'),
+    sendmailTransport = require('nodemailer-sendmail-transport'),
     maindb = nano.use('main'),
     moment = require('moment'),
+    accounts = {
+        accountsPayable: '2100',
+        accountsReceivable: '1210',
+        inventory: '1410',
+        cashInSafe: '1170',
+        gikContributions: '4505',
+        patientRevenueCharitable: '4180',
+        patientRevenuePrivate: '4160',
+        inventoryConsumed: '5140',
+        gikUsage: '5160',
+        inventoryObsolescence: '5180'
+        
+    },
+
+    costCenters = {
+        admin: '101',
+    },
     exportRows = [],
     rowsToExport,
     rowCount = 0,
@@ -58,7 +77,9 @@ var config =  require('../config.js'),
         'Dummy5',
         'EOL'
     ],
-    voucherDate = moment().format('YYYYMMDD');
+    voucherDate = moment().format('YYYYMMDD'),
+    voucherNumber = 1,
+    voucherMap = [];
 
 setupView(function(err) {
     if (err) {
@@ -108,27 +129,67 @@ function addExportRow(row) {
     exportRows.push(exportRow);
 }
 
+function findInventoryPurchase(purchases, id) {
+    var matchingItems = purchases.filter(function(purchase) {
+        if (purchase.id === id) {
+            return true;
+        }
+    });
+    if (matchingItems.length > 0) {
+        return matchingItems[0];
+    }
+}
+
+function findVoucherNumber(purchase) {
+    if (isEmpty(purchase.invoiceNo)) {
+        return voucherNumber++;
+    } else {
+        var matchingVoucher = voucherMap.filter(function(voucherItem) {
+            return (voucherItem.vendor === purchase.vendor && voucherItem.invoiceNo === purchase.invoiceNo);
+        });
+        if (matchingVoucher.length > 0) {
+            console.log("Found matching voucher:",matchingVoucher);
+            return matchingVoucher[0].voucherNumber;
+        } else {
+            var voucher = {
+                invoiceNo: purchase.invoiceNo,
+                vendor: purchase.vendor,
+                voucherNumber: voucherNumber++
+            };
+            voucherMap.push(voucher);
+            return voucher.voucherNumber;
+        }
+    }
+}
+
 function finishProcessRow(err, doc) {
     if (err) {
-        console.log("Error processing row: ", err, doc);
+        if (err.error !== 'not_found') {
+            console.log("Error processing row doc was: ", doc);
+            console.log("Error processing row error reason and error were ", err.reason, err.error, err);
+        }
         processRow(rowsToExport.shift());
     } else {
         processRow(rowsToExport.shift());
-        /*doc.exportedToXledger = true;
-        maindb.insert(doc, function(err) {
-            if (err) {
-                console.log("error marking row as exported to xledger: ",err, doc);
-            }
-            processRow(rowsToExport.shift());        
-        });*/
+        if (!doc.skipRecord) { 
+            /*doc.exportedToXledger = true;
+            maindb.insert(doc, function(err) {
+                if (err) {
+                    console.log("error marking row as exported to xledger: ",err, doc);
+                }
+                processRow(rowsToExport.shift());        
+            });*/
+        }
     }    
 }
 
 function getExpenseAccountCode(expenseAccount) {
-    var numberPattern = /\d+/g, //Regex to find numbers
-        matches = expenseAccount.match(numberPattern);
-    if (matches.length > 0) {
-        return matches[0];
+    if (expenseAccount) {
+        var numberPattern = /\d+/g, //Regex to find numbers
+            matches = expenseAccount.match(numberPattern);
+        if (matches && matches.length > 0) {
+            return matches[0];
+        }
     }
 }
 
@@ -140,35 +201,215 @@ function getExpenseAccountText(expenseAccount) {
     }
 }
 
-function processInvoice(invoice, id, callback) {
-    maindb.fetch(invoice.lineItems, function(err, lineItems) {
+function getInventoryDetails(inventoryId, callback) {
+    maindb.get(inventoryId, function(err, inventoryItem) {
         if (err) {
-            callback(err);
+            callback(err, inventoryId);
+        } else {
+            var url = config.server_url+'/#/inventory/edit/'+ inventoryId.substr(10);
+            callback(null, inventoryItem.name+' : '+ url, url);
+        }
+    });
+}
+
+function getPurchaseCostPerUnit(purchase) {
+    var purchaseCost = purchase.purchaseCost,
+        quantity = parseInt(purchase.originalQuantity);
+    if (!purchaseCost || !quantity || purchaseCost === 0 || quantity === 0) {
+        return 0;
+    }
+    return Number((purchaseCost/quantity).toFixed(2));
+}
+
+function isEmpty(value) {
+    return (!value || value === '');
+}
+
+function processInvoice(invoice, id, callback) {
+    var fetchParams = {
+        keys: invoice.lineItems
+    };
+    maindb.fetch(fetchParams, function(err, lineItems) {
+        if (err) {
+            callback(err, invoice);            
+        } else {            
+            lineItems.rows.forEach(function(row) {
+            });
+            callback(null, invoice);
         }
     });
 }
 
 function processInventoryPurchase(inventoryPurchase, id, callback) {
-    callback(null, inventoryPurchase);
+    if (isEmpty(inventoryPurchase.purchaseCost) || inventoryPurchase.purchaseCost === 0) {
+        console.log("DO NOT HAVE COST:",inventoryPurchase);
+        callback(null, inventoryPurchase);
+        return;
+    }
+    if (isEmpty(inventoryPurchase.vendor)) {
+        console.log("DO NOT HAVE VENDOR:",inventoryPurchase);
+        callback(null, inventoryPurchase);
+        return;
+    }    
+    getInventoryDetails(inventoryPurchase.inventoryItem, function(err, inventoryDetails, url) {
+        if (err) {
+            callback(err, inventoryPurchase);
+        } else {
+            var currentVoucherNo = findVoucherNumber(inventoryPurchase);
+            console.log("currentVoucherNumber: ",currentVoucherNo);
+            addExportRow({
+                voucherType: 'LG',
+                account: accounts.inventory,
+                posting1: costCenters.admin,
+                text: inventoryDetails,
+                amount: inventoryPurchase.purchaseCost,
+                VoucherNo: currentVoucherNo
+            });
+            var exportRow = {
+                voucherType: 'LG',
+                posting1: costCenters.admin,
+                amount: '-'+inventoryPurchase.purchaseCost,
+                VoucherNo: currentVoucherNo
+            };
+            if (inventoryPurchase.giftInKind) {                
+                exportRow.account = accounts.gikContributions;
+                exportRow.text = 'GIK contributed to the hospital: '+ url;
+            } else {
+                exportRow.SubledgerNo = inventoryPurchase.vendor;
+                exportRow.account = accounts.accountsPayable;
+                exportRow.text = 'A/P to '+ inventoryPurchase.vendor +' : '+ url;
+            }
+            addExportRow(exportRow);
+            callback(null, inventoryPurchase);
+        }
+    });
 }
 function processInventoryRequest(inventoryRequest, id, callback) {
-    callback(null, inventoryRequest);
+    if (inventoryRequest.status !== 'Completed' || inventoryRequest.transactionType === 'Transfer') {
+        inventoryRequest.skipRecord = true;
+        callback(null, inventoryRequest);
+    } else {
+        if (isEmpty(inventoryRequest.expenseAccount)) {
+            //console.log("DON'T HAVE expense ACCOUNT: ",inventoryRequest);
+            callback(null, inventoryRequest);
+            return;
+        }
+        if (isEmpty(getExpenseAccountCode(inventoryRequest.expenseAccount))) {
+            console.log("DON'T HAVE calculated expense ACCOUNT: ",inventoryRequest);
+            callback(null, inventoryRequest);
+            return;
+        }
+        getInventoryDetails(inventoryRequest.inventoryItem, function(err, inventoryDetails) {
+            if (err) {
+                callback(err, inventoryRequest);
+            } else {
+                var purchaseIds = inventoryRequest.purchasesAffected.map(function(purchase) {
+                    return 'inv-purchase_'+purchase.id;
+                });
+                var fetchvars = {
+                    keys: purchaseIds
+                };
+                maindb.fetch(fetchvars, function(err, fetchResult) {
+                    var currentVoucherNo = voucherNumber++,
+                        deductFromInventory;
+                    if (err) {
+                        callback(err, inventoryRequest);
+                    } else {
+                        var accountToUse,
+                            purchases = fetchResult.rows;
+                        switch (inventoryRequest.transactionType) {
+                            case 'Adjustment (Remove)':
+                            case 'Write Off': {
+                                accountToUse = accounts.inventoryObsolescence;
+                                deductFromInventory = true;
+                                break;
+                            }
+                            case 'Fulfillment': {
+                                deductFromInventory = true;
+                                accountToUse = accounts.inventoryConsumed; //(5160 -if gift in kind)
+                                break;
+                            }
+                            case 'Return To Vendor': {
+                                accountToUse = accounts.accountsReceivable;
+                                deductFromInventory = true;
+                                break;
+                            }
+                            case 'Adjustment (Add)': 
+                            case 'Return': {
+                                accountToUse = accounts.inventoryConsumed; //(5160 -if gift in kind)
+                                deductFromInventory = false;
+                                break;
+                            }
+                        }
+                        
+                        var exportRow = {
+                                voucherType: 'LG',
+                                account: accounts.inventory,
+                                posting1: costCenters.admin,
+                                text: inventoryDetails,
+                                VoucherNo: currentVoucherNo
+                            },
+                            multiPurchase = (purchases.length > 1),
+                            total = Number(inventoryRequest.costPerUnit * inventoryRequest.quantity).toFixed(2);
+                        if (deductFromInventory) {
+                            exportRow.amount = '-'+ total;
+                        } else {
+                            exportRow.amount = total;
+                        }
+                        addExportRow(exportRow);
+                        if (multiPurchase) {
+                            console.log("HAVE MORE THAN ONE PURCHASE FOR", inventoryRequest);
+                        }
+                        purchases.forEach(function(purchase) {
+                            var costPerUnit = getPurchaseCostPerUnit(purchase.doc),
+                                purchaseAffected = findInventoryPurchase(inventoryRequest.purchasesAffected, purchase.doc._id.substr(13)),
+                                transactionAmount =  Number(purchaseAffected.quantity * costPerUnit).toFixed(2),
+                                exportRow = {
+                                    voucherType: 'LG',
+                                    account: accounts.inventoryConsumed,
+                                    posting1: getExpenseAccountCode(inventoryRequest.expenseAccount),
+                                    text: inventoryDetails,
+                                    amount: transactionAmount,
+                                    VoucherNo: currentVoucherNo
+                                };
+                            if (multiPurchase) {
+                                console.log("COST PER UNIT IS:"+costPerUnit, inventoryRequest.costPerUnit);
+                            }                            
+                            if (deductFromInventory) {
+                                exportRow.amount = transactionAmount;
+                            } else {
+                                exportRow.amount = '-'+transactionAmount;
+                            }
+                            if (purchase.doc.giftInKind && accountToUse === accounts.inventoryConsumed) {
+                                exportRow.account = accounts.gikUsage;
+                            } else {
+                                exportRow.account = accountToUse;
+                            }
+                            addExportRow(exportRow);
+                        });
+                    }
+                });
+                callback(null, inventoryRequest);
+            }
+        });
+    }
 }
+
 function processPayment(payment, id, callback) {
     var accountToDebit,
         expenseAccountText = getExpenseAccountText(payment.expenseAccount),
         url = config.server_url+'/#/payment/edit/'+id;
     addExportRow({
         voucherType: 'SO',
-        account: '1170',
-        posting1: '101',
+        account: accounts.cashInSafe,
+        posting1: costCenters.admin,
         text: 'Cash paid for deposit '+url,
         amount: payment.amount
     });
     if (payment.charityPatient) {
-        accountToDebit = '4180';
+        accountToDebit = accounts.patientRevenueCharitable;
     } else {
-        accountToDebit = '4160';
+        accountToDebit = accounts.patientRevenuePrivate; 
     }    
     addExportRow({
         voucherType: 'SO',
@@ -203,7 +444,7 @@ function processRow(row) {
             case 'inv-request': {
                 processInventoryRequest(doc, id, finishProcessRow);
                 break;
-            } 
+            }        
         }
     } else {        
         console.log(moment().format() +' Done.  '+rowCount+' rows processed');
@@ -211,7 +452,7 @@ function processRow(row) {
             csvString;
         csvRows.push(exportColumns.join(';'));
         exportRows.forEach(function(row) { 
-            csvRows.push(row.join(';'));
+            csvRows.push('"'+row.join('";"')+'"');
         });
         csvString = csvRows.join('\r\n');
         var now = new Date();
@@ -219,6 +460,7 @@ function processRow(row) {
             if (err) {
                 console.log('Error writing csv file:'+err);
             } else {
+                //var transporter = nodemailer.createTransport(sendmailTransport());
                 console.log('Done writing file');
             }
         });
