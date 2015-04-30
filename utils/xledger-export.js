@@ -2,8 +2,8 @@
 var config =  require('../config.js'),
     fs = require('fs'),
     nano = require('nano')(config.couch_auth_db_url),
-    nodemailer = require('nodemailer'),
-    sendmailTransport = require('nodemailer-sendmail-transport'),
+    mandrill = require('mandrill-api/mandrill'),
+    mandrill_client = new mandrill.Mandrill(config.mandrill_api_key),
     maindb = nano.use('main'),
     moment = require('moment'),
     accounts = {
@@ -129,6 +129,11 @@ function addExportRow(row) {
     exportRows.push(exportRow);
 }
 
+function formatDate(dateString) {
+    var date = new Date(dateString);
+    return moment(date).format('YYYYMMDD');
+}
+
 function findInventoryPurchase(purchases, id) {
     var matchingItems = purchases.filter(function(purchase) {
         if (purchase.id === id) {
@@ -148,7 +153,6 @@ function findVoucherNumber(purchase) {
             return (voucherItem.vendor === purchase.vendor && voucherItem.invoiceNo === purchase.invoiceNo);
         });
         if (matchingVoucher.length > 0) {
-            console.log("Found matching voucher:",matchingVoucher);
             return matchingVoucher[0].voucherNumber;
         } else {
             var voucher = {
@@ -170,7 +174,17 @@ function finishProcessRow(err, doc) {
         }
         processRow(rowsToExport.shift());
     } else {
-        processRow(rowsToExport.shift());
+
+        if (doc.updateRecord) {
+            maindb.insert(doc, function(err) {
+                if (err) {
+                    console.log("error updateRecord: ",err, doc);
+                }
+                processRow(rowsToExport.shift());        
+            });            
+        } else {
+            processRow(rowsToExport.shift());            
+        }
         if (!doc.skipRecord) { 
             /*doc.exportedToXledger = true;
             maindb.insert(doc, function(err) {
@@ -242,22 +256,20 @@ function processInvoice(invoice, id, callback) {
 
 function processInventoryPurchase(inventoryPurchase, id, callback) {
     if (isEmpty(inventoryPurchase.purchaseCost) || inventoryPurchase.purchaseCost === 0) {
-        console.log("DO NOT HAVE COST:",inventoryPurchase);
         callback(null, inventoryPurchase);
         return;
     }
-    if (isEmpty(inventoryPurchase.vendor)) {
-        console.log("DO NOT HAVE VENDOR:",inventoryPurchase);
-        callback(null, inventoryPurchase);
-        return;
-    }    
     getInventoryDetails(inventoryPurchase.inventoryItem, function(err, inventoryDetails, url) {
         if (err) {
             callback(err, inventoryPurchase);
         } else {
+            if (!inventoryPurchase.giftInKind && isEmpty(inventoryPurchase.vendor)) {
+                callback(null, inventoryPurchase);
+                return;
+            }            
             var currentVoucherNo = findVoucherNumber(inventoryPurchase);
-            console.log("currentVoucherNumber: ",currentVoucherNo);
             addExportRow({
+                VoucherDate: formatDate(inventoryPurchase.dateReceived),
                 voucherType: 'LG',
                 account: accounts.inventory,
                 posting1: costCenters.admin,
@@ -290,14 +302,62 @@ function processInventoryRequest(inventoryRequest, id, callback) {
         callback(null, inventoryRequest);
     } else {
         if (isEmpty(inventoryRequest.expenseAccount)) {
-            //console.log("DON'T HAVE expense ACCOUNT: ",inventoryRequest);
             callback(null, inventoryRequest);
             return;
         }
         if (isEmpty(getExpenseAccountCode(inventoryRequest.expenseAccount))) {
-            console.log("DON'T HAVE calculated expense ACCOUNT: ",inventoryRequest);
-            callback(null, inventoryRequest);
-            return;
+            switch (inventoryRequest.expenseAccount) {
+                case 'Supplies & Materials - Admin': {
+                    inventoryRequest.expenseAccount = 'Admin Operations - 101';
+                    inventoryRequest.updateRecord = true;
+                    break;
+                }
+                case 'Supplies & Materials - Housekeeping': {
+                    inventoryRequest.expenseAccount = 'Housekeeping - 110';
+                    inventoryRequest.updateRecord = true;
+                    break;
+                }
+                case 'Supplies & Materials - Kitchen': {
+                    inventoryRequest.expenseAccount = 'Kitchen - 111';
+                    inventoryRequest.updateRecord = true;
+                    break;
+                }
+                case 'Supplies & Materials - Lab': {
+                    inventoryRequest.expenseAccount = 'Lab - 112';
+                    inventoryRequest.updateRecord = true;
+                    break;
+                }
+                case 'Supplies & Materials - Mainten': {
+                    inventoryRequest.expenseAccount = 'Maintenance - 114';
+                    inventoryRequest.updateRecord = true;
+                    break;
+                }
+                case 'Supplies & Materials - Nursing': {
+                    inventoryRequest.expenseAccount = 'Nursing - 117';
+                    inventoryRequest.updateRecord = true;
+                    break;
+                }
+                case 'Supplies & Materials - OR': {
+                    inventoryRequest.expenseAccount = 'OR - 119';
+                    inventoryRequest.updateRecord = true;
+                    break;
+                }                                        
+                case 'Supplies & Materials - Pharmacy': {
+                    inventoryRequest.expenseAccount = 'Pharmacy - 123';
+                    inventoryRequest.updateRecord = true;
+                    break;
+                }
+                case 'Supplies & Materials - Therapy': {
+                    inventoryRequest.expenseAccount = 'Therapy - 129';
+                    inventoryRequest.updateRecord = true;
+                    break;
+                }
+                default: {
+                    console.log("DON'T HAVE calculated expense ACCOUNT: ",inventoryRequest._id, inventoryRequest.expenseAccount);
+                    callback(null, inventoryRequest);
+                    return;
+                }
+            }
         }
         getInventoryDetails(inventoryRequest.inventoryItem, function(err, inventoryDetails) {
             if (err) {
@@ -315,7 +375,8 @@ function processInventoryRequest(inventoryRequest, id, callback) {
                     if (err) {
                         callback(err, inventoryRequest);
                     } else {
-                        var accountToUse,
+                        var completedDate = formatDate(inventoryRequest.dateCompleted),
+                            accountToUse,
                             purchases = fetchResult.rows;
                         switch (inventoryRequest.transactionType) {
                             case 'Adjustment (Remove)':
@@ -340,31 +401,14 @@ function processInventoryRequest(inventoryRequest, id, callback) {
                                 deductFromInventory = false;
                                 break;
                             }
-                        }
-                        
-                        var exportRow = {
-                                voucherType: 'LG',
-                                account: accounts.inventory,
-                                posting1: costCenters.admin,
-                                text: inventoryDetails,
-                                VoucherNo: currentVoucherNo
-                            },
-                            multiPurchase = (purchases.length > 1),
-                            total = Number(inventoryRequest.costPerUnit * inventoryRequest.quantity).toFixed(2);
-                        if (deductFromInventory) {
-                            exportRow.amount = '-'+ total;
-                        } else {
-                            exportRow.amount = total;
-                        }
-                        addExportRow(exportRow);
-                        if (multiPurchase) {
-                            console.log("HAVE MORE THAN ONE PURCHASE FOR", inventoryRequest);
-                        }
+                        }                        
+                        var total = 0;
                         purchases.forEach(function(purchase) {
                             var costPerUnit = getPurchaseCostPerUnit(purchase.doc),
                                 purchaseAffected = findInventoryPurchase(inventoryRequest.purchasesAffected, purchase.doc._id.substr(13)),
                                 transactionAmount =  Number(purchaseAffected.quantity * costPerUnit).toFixed(2),
                                 exportRow = {
+                                    VoucherDate: completedDate,
                                     voucherType: 'LG',
                                     account: accounts.inventoryConsumed,
                                     posting1: getExpenseAccountCode(inventoryRequest.expenseAccount),
@@ -372,9 +416,7 @@ function processInventoryRequest(inventoryRequest, id, callback) {
                                     amount: transactionAmount,
                                     VoucherNo: currentVoucherNo
                                 };
-                            if (multiPurchase) {
-                                console.log("COST PER UNIT IS:"+costPerUnit, inventoryRequest.costPerUnit);
-                            }                            
+                            total += Number(transactionAmount);
                             if (deductFromInventory) {
                                 exportRow.amount = transactionAmount;
                             } else {
@@ -387,6 +429,21 @@ function processInventoryRequest(inventoryRequest, id, callback) {
                             }
                             addExportRow(exportRow);
                         });
+                        var exportRow = {
+                            VoucherDate: completedDate,
+                            voucherType: 'LG',
+                            account: accounts.inventory,
+                            posting1: costCenters.admin,
+                            text: inventoryDetails,
+                            VoucherNo: currentVoucherNo
+                        };
+                        total = Number(total).toFixed(2);
+                        if (deductFromInventory) {
+                            exportRow.amount = '-'+ total;
+                        } else {
+                            exportRow.amount = total;
+                        }
+                        addExportRow(exportRow);
                     }
                 });
                 callback(null, inventoryRequest);
@@ -456,6 +513,31 @@ function processRow(row) {
         });
         csvString = csvRows.join('\r\n');
         var now = new Date();
+        var emailText = 'XLedger Export '+moment(now).format('l');
+        var message = {
+            html: emailText,
+            text: emailText,
+            subject: emailText,
+            from_email: 'notifications@hospitalrun.io',
+            from_name: 'HospitalRun Notifications',
+            to: [{
+                email: config.xledger_notification_email,
+            }],
+            attachments: [{
+                type: 'text/csv',
+                name: now.getTime()+'.csv',
+                content: new Buffer(csvString).toString('base64')
+            }]
+        };
+        
+        mandrill_client.messages.send({message: message }, function() {
+            console.log('Sucessfully sent email.');
+        }, function(e) {
+            // Mandrill returns the error as an object with name and message keys
+            console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message, e);
+        });
+        
+        
         fs.writeFile(config.xledger_dir+'/'+now.getTime()+'.csv', csvString, function (err) {
             if (err) {
                 console.log('Error writing csv file:'+err);
