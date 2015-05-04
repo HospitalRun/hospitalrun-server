@@ -62,6 +62,8 @@ var app = express();
 
 // configure Express
 app.configure(function() {
+  app.use(express.static(__dirname + '/public'));
+  app.use('/patientimages', express.static(config.imagesdir));
   app.use(forward(/\/db\/(.*)/, config.couch_db_url));
   app.use(forward(/\/search\/(.*)/, config.search_url));
   app.set('views', __dirname + '/views');
@@ -77,8 +79,6 @@ app.configure(function() {
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(app.router);
-  app.use(express.static(__dirname + '/public'));
-  app.use('/patientimages', express.static(config.imagesdir));
 });
 
 
