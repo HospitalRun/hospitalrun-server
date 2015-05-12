@@ -76,7 +76,9 @@ var config =  require('../config.js'),
         'Dummy4',
         'Dummy5',
         'EOL'
-    ],
+    ],    
+    missingVendors = {},
+    vendorCodeMap = {},
     voucherDate = moment().format('YYYYMMDD'),
     voucherNumber = 1,
     voucherMap = [];
@@ -85,15 +87,21 @@ setupView(function(err) {
     if (err) {
         console.log("Error setting up view:", err);        
     } else {
-        maindb.view('xledger', 'unimported', function(err, body) {
+        getVendorList(function(err) {
             if (err) {
-                console.log("Error getting rows from view:", err);
+                console.log("Error getting vendor list:", err);
             } else {
-                rowsToExport = body.rows;
-                processRow(rowsToExport.shift());
+                maindb.view('xledger', 'unimported', function(err, body) {
+                    if (err) {
+                        console.log("Error getting rows from view:", err);
+                    } else {
+                        rowsToExport = body.rows;
+                        processRow(rowsToExport.shift());
+                    }
+                });
             }
         });
-    }    
+    }
 });
 
 function addExportRow(row) {    
@@ -132,6 +140,27 @@ function addExportRow(row) {
 function formatDate(dateString) {
     var date = new Date(dateString);
     return moment(date).format('YYYYMMDD');
+}
+
+function findSubledgerNo(inventoryPurchase) {
+    var vendor = inventoryPurchase.vendor;
+    if (isEmpty(vendor)) {
+        return;
+    }
+    if (vendorCodeMap[vendor]) {
+        console.log("FOUND VENDOR: "+vendor);
+        return vendorCodeMap[vendor];        
+    } else if (vendorCodeMap[vendor.toUpperCase()]) {
+        console.log("FOUND UPPER VENDOR: "+vendor+"; returning:",vendorCodeMap[vendor.toUpperCase()]);
+        return vendorCodeMap[vendor.toUpperCase()];        
+    } else {
+        if (!missingVendors[vendor]) {
+            missingVendors[vendor] = [inventoryPurchase._id];
+        } else {
+            missingVendors[vendor].push(inventoryPurchase._id);
+        }
+        return;        
+    }
 }
 
 function findInventoryPurchase(purchases, id) {
@@ -221,6 +250,9 @@ function getInventoryDetails(inventoryId, callback) {
             callback(err, inventoryId);
         } else {
             var url = config.server_url+'/#/inventory/edit/'+ inventoryId.substr(10);
+            if (inventoryItem.name.replace) {
+                inventoryItem.name = inventoryItem.name.replace(';',' ').replace(/[\W]+/g,' ');                
+            }
             callback(null, inventoryItem.name+' : '+ url, url);
         }
     });
@@ -233,6 +265,22 @@ function getPurchaseCostPerUnit(purchase) {
         return 0;
     }
     return Number((purchaseCost/quantity).toFixed(2));
+}
+
+function getVendorList(callback) {
+    maindb.get('lookup_vendor_list', function(err, body) {
+        if (err) {            
+            callback(err);
+        } else { 
+            if (body.codeMap) {
+                vendorCodeMap = body.codeMap;
+                console.log("vendorCodeMap: ",vendorCodeMap);
+                callback(null);            
+            } else {
+                callback('Vendor List did not have codemap.');
+            }
+        }
+    });
 }
 
 function isEmpty(value) {
@@ -263,11 +311,14 @@ function processInventoryPurchase(inventoryPurchase, id, callback) {
         if (err) {
             callback(err, inventoryPurchase);
         } else {
-            if (!inventoryPurchase.giftInKind && isEmpty(inventoryPurchase.vendor)) {
+            var currentVoucherNo,
+                exportRow,
+                subledgerNo = findSubledgerNo(inventoryPurchase);
+            if (!inventoryPurchase.giftInKind && isEmpty(subledgerNo)) {
                 callback(null, inventoryPurchase);
                 return;
             }            
-            var currentVoucherNo = findVoucherNumber(inventoryPurchase);
+            currentVoucherNo = findVoucherNumber(inventoryPurchase);
             addExportRow({
                 VoucherDate: formatDate(inventoryPurchase.dateReceived),
                 voucherType: 'LG',
@@ -277,17 +328,18 @@ function processInventoryPurchase(inventoryPurchase, id, callback) {
                 amount: inventoryPurchase.purchaseCost,
                 VoucherNo: currentVoucherNo
             });
-            var exportRow = {
+            exportRow = {
                 voucherType: 'LG',
                 posting1: costCenters.admin,
                 amount: '-'+inventoryPurchase.purchaseCost,
+                VoucherDate: formatDate(inventoryPurchase.dateReceived),
                 VoucherNo: currentVoucherNo
             };
             if (inventoryPurchase.giftInKind) {                
                 exportRow.account = accounts.gikContributions;
                 exportRow.text = 'GIK contributed to the hospital: '+ url;
             } else {
-                exportRow.SubledgerNo = inventoryPurchase.vendor;
+                exportRow.SubledgerNo = subledgerNo;
                 exportRow.account = accounts.accountsPayable;
                 exportRow.text = 'A/P to '+ inventoryPurchase.vendor +' : '+ url;
             }
@@ -509,7 +561,7 @@ function processRow(row) {
             csvString;
         csvRows.push(exportColumns.join(';'));
         exportRows.forEach(function(row) { 
-            csvRows.push('"'+row.join('";"')+'"');
+            csvRows.push(row.join(';'));
         });
         csvString = csvRows.join('\r\n');
         var now = new Date();
@@ -537,6 +589,10 @@ function processRow(row) {
             console.log('A mandrill error occurred: ' + e.name + ' - ' + e.message, e);
         });
         
+        console.log("Missing vendors are: ",missingVendors);
+        for (var vendor in missingVendors) {
+            console.log(vendor);
+        }
         
         fs.writeFile(config.xledger_dir+'/'+now.getTime()+'.csv', csvString, function (err) {
             if (err) {
