@@ -13,7 +13,9 @@ var config = {
     ssl_key: 'file location of ssl key if needed',    
     ssl_ca: [], //Array of file locations of trusted certificates in PEM format if needed
     use_ssl: false,
-    imagesdir: __dirname+'/patientimages'
+    imagesdir: __dirname+'/patientimages',
+    log_requests: false,
+    log_format: 'default' //See http://www.senchalabs.org/connect/logger.html for log formats
 };
 
 config.couch_credentials = function() {

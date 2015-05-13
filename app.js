@@ -63,12 +63,12 @@ var app = express();
 // configure Express
 app.configure(function() {
   app.use(express.static(__dirname + '/public'));
+  if (config.log_requests) {
+    app.use(express.logger(config.log_format));
+  }
   app.use('/patientimages', express.static(config.imagesdir));
   app.use(forward(/\/db\/(.*)/, config.couch_db_url));
   app.use(forward(/\/search\/(.*)/, config.search_url));
-  app.set('views', __dirname + '/views');
-  app.set('view engine', 'ejs');
-  //app.use(express.logger());
   app.use(express.cookieParser());
   app.use(express.json());
   app.use(express.urlencoded());
