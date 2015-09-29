@@ -23,5 +23,9 @@
     "passport-google-oauth": "^0.2.0",
     "request": "^2.53.0",
     "serializer": "^0.0.3"
+  },
+  "devDependencies": {
+    "camelize": "^1.0.0",
+    "relational-pouch": "^1.3.3"
   }
 }
