@@ -104,7 +104,10 @@ module.exports = {
     },
     
     find_user: function(userName, callback) {
-        var user_key = 'org.couchdb.user:'+userName;
+        var user_key = userName;
+        if (user_key.indexOf('org.couchdb.user:') !== 0) {
+            user_key = 'org.couchdb.user:' + user_key;
+        }      
         users.get(user_key, {}, function(err, body) {
             if (err) {
                 callback(err);
