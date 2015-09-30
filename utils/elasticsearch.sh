@@ -10,34 +10,34 @@ curl -XPUT 'localhost:9200/hrdb' -d' {
         "_default_": {        
             "date_detection": false,
             "properties" : {
-                "crossReference": {
+                "data.crossReference": {
                     "type" : "string"
                 },
-                "description": {
+                "data.description": {
                     "type" : "string"
                 },
-                "externalInvoiceNumber": {
+                "data.externalInvoiceNumber": {
                     "type" : "string"
                 },
-                "externalPatientId": {
+                "data.externalPatientId": {
                     "type" : "string"                
                 },
-                "firstName": {
+                "data.firstName": {
                     "type" : "string"
                 },                
-                "friendlyId": {
+                "data.friendlyId": {
                     "type" : "string"
                 },
-                "lastName": {
+                "data.lastName": {
                     "type" : "string"
                 },
-                "name": {
+                "data.name": {
                     "type" : "string"
                 },
-                "patientInfo": {
+                "data.patientInfo": {
                     "type" : "string"
                 },
-                "prescription": {
+                "data.prescription": {
                     "type" : "string"
                 }
             }
@@ -56,7 +56,7 @@ curl -XPUT 'localhost:9200/_river/hrdb/_meta' -d "{
         \"password\" : \"$2\",
         \"ignore_attachments\": true,
         \"script_type\": \"js\",
-        \"script\": \"var uidx = ctx.doc._id.indexOf(\\\"_\\\");if (ctx.doc._id && (uidx = ctx.doc._id.indexOf(\\\"_\\\")) > 0) {    ctx._type = ctx.doc._id.substring(0, uidx);} var fieldsToKeep = [];switch(ctx._type) {     case \\\"inventory\\\": {        fieldsToKeep = [\\\"crossReference\\\",\\\"description\\\",\\\"friendlyId\\\",\\\"name\\\"];                break;    }     case \\\"invoice\\\" : {         fieldsToKeep = [\\\"patientInfo\\\", \\\"externalInvoiceNumber\\\"];        break;    }    case \\\"patient\\\" : {         fieldsToKeep = [\\\"externalPatientId\\\",\\\"firstName\\\",\\\"friendlyId\\\",\\\"lastName\\\"];        break;    }     case \\\"pricing\\\" : {        fieldsToKeep = [\\\"name\\\"];                    break;    }     default: { ctx.ignore = true; }}\"
+        \"script\": \"var uidx = ctx.doc._id.indexOf(\\\"_\\\");if (ctx.doc._id && (uidx = ctx.doc._id.indexOf(\\\"_\\\")) > 0) {    ctx._type = ctx.doc._id.substring(0, uidx);} var fieldsToKeep = [];switch(ctx._type) {     case \\\"inventory\\\": {        fieldsToKeep = [\\\"data.crossReference\\\",\\\"data.description\\\",\\\"data.friendlyId\\\",\\\"data.name\\\"];                break;    }     case \\\"invoice\\\" : {         fieldsToKeep = [\\\"data.patientInfo\\\", \\\"data.externalInvoiceNumber\\\"];        break;    }    case \\\"patient\\\" : {         fieldsToKeep = [\\\"data.externalPatientId\\\",\\\"data.firstName\\\",\\\"data.friendlyId\\\",\\\"data.lastName\\\"];        break;    }     case \\\"pricing\\\" : {        fieldsToKeep = [\\\"data.name\\\"];                    break;    }     default: { ctx.ignore = true; }}\"
     },
     \"index\" : {
         \"index\" : \"hrdb\",
