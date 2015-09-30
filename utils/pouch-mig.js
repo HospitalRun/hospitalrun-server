@@ -14,6 +14,9 @@ if (process.argv.length < 4) {
     migrateRecords();
 }
 
+var existingKeys = {};
+var childKeys = [];
+
 function migrateRecords() {
   var newDocs = [];
   olddb.list({
@@ -27,119 +30,120 @@ function migrateRecords() {
         _id: newDocId,
         data: result.doc
       };
+      existingKeys[newDocId] = true;
       delete newDoc.data._rev;
       
       switch(parsedId.doctype) {
         case 'appointment': {
-          updateChildId(newDoc.data, 'patient');
+          updateChildId(newDoc, 'patient');
           break;
         }
         case 'billing-line-item': {
-          updateChildId(newDoc.data, 'details'); 
+          updateChildId(newDoc, 'details'); 
           break;
         }
         case 'imaging': {
-          updateChildId(newDoc.data, 'charges');
-          updateChildId(newDoc.data, 'imagingType');
-          updateChildId(newDoc.data, 'patient');
-          updateChildId(newDoc.data, 'visit');
+          updateChildId(newDoc, 'charges');
+          updateChildId(newDoc, 'imagingType');
+          updateChildId(newDoc, 'patient');
+          updateChildId(newDoc, 'visit');
           break;
         }
         case 'inventory': {
-          updateChildId(newDoc.data, 'locations');
-          updateChildId(newDoc.data, 'purchases');
+          updateChildId(newDoc, 'locations');
+          updateChildId(newDoc, 'purchases');
           newDoc.data.inventoryType = newDoc.data.type;
           delete newDoc.data.type;
           break;
         }
         case 'inv-purchase': {
-          updateChildId(newDoc.data, 'inventoryItem');
+          updateChildId(newDoc, 'inventoryItem');
           break;
         }
         case 'inv-request': {
-          updateChildId(newDoc.data, 'inventoryItem');
-          updateChildId(newDoc.data, 'patient');
-          updateChildId(newDoc.data, 'visit');
+          updateChildId(newDoc, 'inventoryItem');
+          updateChildId(newDoc, 'patient');
+          updateChildId(newDoc, 'visit');
           break;
         }
         case 'invoice': {
-          updateChildId(newDoc.data, 'lineItems');
-          updateChildId(newDoc.data, 'patient');
-          updateChildId(newDoc.data, 'paymentProfile');
-          updateChildId(newDoc.data, 'payments');
-          updateChildId(newDoc.data, 'visit');
+          updateChildId(newDoc, 'lineItems');
+          updateChildId(newDoc, 'patient');
+          updateChildId(newDoc, 'paymentProfile');
+          updateChildId(newDoc, 'payments');
+          updateChildId(newDoc, 'visit');
           break;
         }
         case 'lab': {
-          updateChildId(newDoc.data, 'charges');
-          updateChildId(newDoc.data, 'labType');
-          updateChildId(newDoc.data, 'patient');
-          updateChildId(newDoc.data, 'visit');
+          updateChildId(newDoc, 'charges');
+          updateChildId(newDoc, 'labType');
+          updateChildId(newDoc, 'patient');
+          updateChildId(newDoc, 'visit');
           break;
         }
           
         case 'line-item-detail': {
-          updateChildId(newDoc.data, 'pricingItem');
+          updateChildId(newDoc, 'pricingItem');
           break;
         }
         
         case 'medication': {
-          updateChildId(newDoc.data, 'inventoryItem');
-          updateChildId(newDoc.data, 'patient');
-          updateChildId(newDoc.data, 'visit');
+          updateChildId(newDoc, 'inventoryItem');
+          updateChildId(newDoc, 'patient');
+          updateChildId(newDoc, 'visit');
           break;
         }
         
         case 'override-price': {
-          updateChildId(newDoc.data, 'profile');
+          updateChildId(newDoc, 'profile');
           break;
         }
           
         case 'patient': {
-          updateChildId(newDoc.data, 'paymentProfile');
-          updateChildId(newDoc.data, 'payments');
+          updateChildId(newDoc, 'paymentProfile');
+          updateChildId(newDoc, 'payments');
           break;
         }          
           
         case 'payment': {
-          updateChildId(newDoc.data, 'invoice');
+          updateChildId(newDoc, 'invoice');
           newDoc.data.paymentType = newDoc.data.type;
           delete newDoc.data.type;
           break;          
         }
           
         case 'photo': {
-          updateChildId(newDoc.data, 'patient');
+          updateChildId(newDoc, 'patient');
           break;
         }
           
         case 'pricing': {
-          updateChildId(newDoc.data, 'pricingOverrides');
+          updateChildId(newDoc, 'pricingOverrides');
           newDoc.data.pricingType = newDoc.data.type;
           delete newDoc.data.type;
           break;
         }
           
         case 'proc-charge': {
-          updateChildId(newDoc.data, 'medication');
-          updateChildId(newDoc.data, 'pricingItem');          
+          updateChildId(newDoc, 'medication');
+          updateChildId(newDoc, 'pricingItem');          
           break;
         }
           
         case 'procedure': {
-          updateChildId(newDoc.data, 'charges');
-          updateChildId(newDoc.data, 'visit');
+          updateChildId(newDoc, 'charges');
+          updateChildId(newDoc, 'visit');
           break;
         }
         
         case 'visit': {
-          updateChildId(newDoc.data, 'charges');
-          updateChildId(newDoc.data, 'imaging');
-          updateChildId(newDoc.data, 'labs');
-          updateChildId(newDoc.data, 'medication');
-          updateChildId(newDoc.data, 'patient');
-          updateChildId(newDoc.data, 'procedures');
-          updateChildId(newDoc.data, 'vitals');
+          updateChildId(newDoc, 'charges');
+          updateChildId(newDoc, 'imaging');
+          updateChildId(newDoc, 'labs');
+          updateChildId(newDoc, 'medication');
+          updateChildId(newDoc, 'patient');
+          updateChildId(newDoc, 'procedures');
+          updateChildId(newDoc, 'vitals');
           break;
         }          
       }
@@ -148,11 +152,44 @@ function migrateRecords() {
     newdb.bulk({docs:newDocs}, function(err, body) {
       if(err) {
         console.log("ERROR ON INSERT:",err,body);
+      } else {
+        console.log("Successfully migrated documents");
+        deleteOrphanRecords();
       }
     });
   });
 }
-  
+
+function deleteOrphanRecords() {
+var recordsToDelete = {};
+  childKeys.forEach(function(keyInfo) {
+    keyInfo.keys.forEach(function(key) {
+      if (!existingKeys[key]) {
+        if (!recordsToDelete[keyInfo.id]) {
+          recordsToDelete[keyInfo.id] = true;
+        }
+      }
+    });
+  });
+  var deleteKeys = Object.keys(recordsToDelete);
+  deleteKeys.forEach(function(deleteKey) {
+    newdb.get(deleteKey, function (err, doc){
+      if (err) {
+        console.log("Err on get record to delete: ",err);
+      } else {
+        doc._deleted = true;
+        newdb.insert(doc, function(err, result) {
+          if (err) {
+            console.log("Error deleting unneeded record:",err);
+          } else {
+            console.log("Deleted unneeded record:"+result.id);
+          }
+        });      
+      }
+    });
+  });    
+}
+
 function getNewId(parsedId) {
   return relPouch.rel.makeDocID({
     id: parsedId.id,
@@ -170,15 +207,23 @@ function parseOldId(oldId) {
   return parsedId;
 }
 
-function updateChildId(data, field) {
+function updateChildId(doc, field) {
+  var data = doc.data,
+      childKeyValues = {
+        id: doc._id,
+        keys: []
+      };  
   if (data[field]) {
     if (Array.isArray(data[field])) {
       data[field] = data[field].map(function(key) {
+        childKeyValues.keys.push(getNewId(parseOldId(key)));
         return transformId(key);
       });
     } else {
+      childKeyValues.keys.push(getNewId(parseOldId(data[field])));
       data[field] = transformId(data[field]);
-    }    
+    }
+    childKeys.push(childKeyValues);
   }
 }
 
