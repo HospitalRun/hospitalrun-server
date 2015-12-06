@@ -1,4 +1,4 @@
-HosptialRun Server
+HospitalRun Server
 ======
 This is the Node.js backend for HospitalRun.  The intention is that this would be used in HospitalRun production deployments.
 Having a Node.js backend server allows us to do the following:
@@ -6,7 +6,7 @@ Having a Node.js backend server allows us to do the following:
 1. Use Google OAuth for user authentication.
 2. Provide a proxy for CouchDB.  
 3. Integrate with ElasticSearch for better search capability.
-4. The capabilty to define CouchDB database listeners that react to changes in the database.  At present, there are 3 database listeners, located in the dblisteners directory:
+4. The capability to define CouchDB database listeners that react to changes in the database.  At present, there are 3 database listeners, located in the dblisteners directory:
  * **file-upload** - Uploads patient images to the server
  * **lookup-import** - Utility to import lookup lists from the frontend.
  * **merge-conflicts** - Checks for couchdb conflicts and resolves using a strategy of accepting the last change at a field level.
