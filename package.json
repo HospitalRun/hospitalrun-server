@@ -1,6 +1,9 @@
 {
   "name": "hospitalrun-server",
   "version": "0.0.1",
+  "scripts": {
+    "start": "node app.js"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:HospitalRun/server"
