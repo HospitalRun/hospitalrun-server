@@ -1,17 +1,18 @@
-var config =  require('./config.js'), 
-    couch_auth = require('./couch-auth.js'), 
-    express = require('express'),     
+var config =  require('./config.js'),
+    couch_auth = require('./couch-auth.js'),
+    express = require('express'),
     follow = require('follow'),
     forward = require('./forward.js'),
     fs = require('fs'),
     https = require('https'),
-    http = require('http'),    
+    http = require('http'),
     nano = require('nano')(config.couch_auth_db_url),
     maindb = nano.use('main'),
     passport = require('passport'),
-    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy, 
+    GoogleStrategy = require('passport-google-oauth').OAuth2Strategy,
     globSync   = require('glob').sync,
-    dbListeners = globSync('./dblisteners/**/*.js', { cwd: __dirname }).map(require);
+    dbListeners = globSync('./dblisteners/**/*.js', { cwd: __dirname }).map(require),
+    server;
 
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
@@ -51,8 +52,8 @@ var couchFollowOpts = {
 };
 follow(couchFollowOpts, function(error, change) {
     if(!error) {
-        dbListeners.forEach(function(listener) { 
-            listener(change, maindb, config); 
+        dbListeners.forEach(function(listener) {
+            listener(change, maindb, config);
         });
     }
 });
@@ -100,7 +101,7 @@ app.get('/auth/google',
 //   request.  If authentication fails, the user will be redirected back to the
 //   login page.  Otherwise, the primary route function function will be called,
 //   which, in this example, will redirect the user to the home page.
-app.get('/auth/google/callback',        
+app.get('/auth/google/callback',
   passport.authenticate('google', { failureRedirect: '/#/login' }),
   function(req, res) {
       var user = req.user;
@@ -111,7 +112,7 @@ app.get('/auth/google/callback',
       redir_url += '/'+user.token_key;
       redir_url += '/'+user.name;
       redir_url += '/'+user.userPrefix;
-      res.redirect(redir_url);      
+      res.redirect(redir_url);
   }
 );
 
@@ -137,7 +138,7 @@ app.post('/chkuser', function(req, res){
                     prefix: user.userPrefix,
                     role: couch_auth.get_primary_role(user)
                 });
-            }            
+            }
         });
     }
 });
@@ -147,8 +148,8 @@ app.post('/allusers', function(req, res){
     if (req.isAuthenticated()) {
         user = req.user;
         couch_auth.get_users(user, res);
-    } else {                     
-        couch_auth.find_user(req.body.name, function(err, user) {            
+    } else {
+        couch_auth.find_user(req.body.name, function(err, user) {
             if (err) {
                 res.json({error:true, errorResult: err});
             } else {
@@ -163,8 +164,8 @@ app.post('/deleteuser', function(req, res){
     if (req.isAuthenticated()) {
         user = req.user;
         couch_auth.delete_user(user, req.body.id, req.body.rev, res);
-    } else {                     
-        couch_auth.find_user(req.body.name, function(err, user) {            
+    } else {
+        couch_auth.find_user(req.body.name, function(err, user) {
             if (err) {
                 res.json({error:true, errorResult: err});
             } else {
@@ -179,8 +180,8 @@ app.post('/getuser', function(req, res){
     if (req.isAuthenticated()) {
         user = req.user;
         couch_auth.get_user(user, req.body.id, res);
-    } else {                     
-        couch_auth.find_user(req.body.name, function(err, user) {            
+    } else {
+        couch_auth.find_user(req.body.name, function(err, user) {
             if (err) {
                 res.json({error:true, errorResult: err});
             } else {
@@ -195,8 +196,8 @@ app.post('/updateuser', function(req, res){
     if (req.isAuthenticated()) {
         user = req.user;
         couch_auth.update_user(user, req.body.data, req.body.updateParams, res);
-    } else {                     
-        couch_auth.find_user(req.body.name, function(err, user) {            
+    } else {
+        couch_auth.find_user(req.body.name, function(err, user) {
             if (err) {
                 res.json({error:true, errorResult: err});
             } else {
@@ -207,7 +208,7 @@ app.post('/updateuser', function(req, res){
 });
 
 
-if (config.use_ssl) { 
+if (config.use_ssl) {
     var options = {
         key: fs.readFileSync(config.ssl_key),
         cert: fs.readFileSync(config.ssl_cert)
@@ -218,7 +219,11 @@ if (config.use_ssl) {
             options.ca.push(fs.readFileSync(caFile));
         });
     }
-    https.createServer(options, app).listen(config.server_port);
+    server = https.createServer(options, app);
 } else {
-    http.createServer(app).listen(config.server_port);
+    server = http.createServer(app);
 }
+
+server.listen(config.server_port, function listening() {
+    console.log('HospitalRun server listening on %j', server.address());
+});
