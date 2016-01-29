@@ -1,42 +1,42 @@
-var config = {    
-    couch_db_server: 'localhost',
-    couch_db_port: '5984',
-    couch_db_use_ssl: false,
-    couch_db_changes_since: 'now',
-    couch_admin_user: 'COUCH ADMIN USER GOES HERE',
-    couch_admin_password: 'COUCH ADMIN PASSWORD GOES HERE',
-    google_client_id: 'FOR GOOGLE SSO; GOOGLE CLIENT ID GOES HERE',
-    google_client_secret: 'FOR GOOGLE SSO; GOOGLE CLIENT SECRET GOES HERE',
-    server_port: '3000',
-    server: 'localhost',
-    ssl_cert: 'file location of ssl cert if needed',
-    ssl_key: 'file location of ssl key if needed',    
-    ssl_ca: [], //Array of file locations of trusted certificates in PEM format if needed
-    use_ssl: false,
-    imagesdir: __dirname+'/patientimages',
-    log_requests: false,
-    log_format: 'default' //See http://www.senchalabs.org/connect/logger.html for log formats
+var config = {
+  couchDbServer: 'localhost',
+  couchDbPort: '5984',
+  couchDbUseSsl: false,
+  couchDbChangesSince: 'now',
+  couchAdminUser: 'COUCH ADMIN USER GOES HERE',
+  couchAdminPassword: 'COUCH ADMIN PASSWORD GOES HERE',
+  googleClientId: 'FOR GOOGLE SSO; GOOGLE CLIENT ID GOES HERE',
+  googleClientSecret: 'FOR GOOGLE SSO; GOOGLE CLIENT SECRET GOES HERE',
+  serverPort: '3000',
+  server: 'localhost',
+  sslCert: 'file location of ssl cert if needed',
+  sslKey: 'file location of ssl key if needed',
+  sslCA: [], // Array of file locations of trusted certificates in PEM format if needed
+  useSSL: false,
+  imagesdir: __dirname + '/patientimages',
+  logRequests: false,
+  logFormat: 'default' // See http://www.senchalabs.org/connect/logger.html for log formats
 };
 
-config.couch_credentials = function() {
-    if (config.couch_admin_user && config.couch_admin_password) {
-        return config.couch_admin_user + ":" + config.couch_admin_password + "@";
-    } else { 
-        return ''; 
-    }
-};
-    
-config.get_protocol = function(is_ssl) {
-    return "http" + (is_ssl ? 's' : '') + '://';
+config.couchCredentials = function() {
+  if (config.couchAdminUser && config.couchAdminPassword) {
+    return config.couchAdminUser + ':' + config.couchAdminPassword + '@';
+  } else {
+    return '';
+  }
 };
 
-config.server_url = config.get_protocol(config.use_ssl) + config.server;
-if (config.server_port) {
-    config.server_url += ":"+config.server_port;
+config.getProtocol = function(isSSL) {
+  return 'http' + (isSSL ? 's' : '') + '://';
+};
+
+config.serverURL = config.getProtocol(config.useSSL) + config.server;
+if (config.serverPort) {
+  config.serverURL += ':' + config.serverPort;
 }
 
-config.couch_db_url =  config.get_protocol(config.couch_db_use_ssl) + config.couch_db_server +":"+config.couch_db_port;
-config.couch_auth_db_url =  config.get_protocol(config.couch_db_use_ssl) + config.couch_credentials() + config.couch_db_server + ":"+config.couch_db_port;
-config.search_url = 'http://localhost:9200'; //ELASTIC SEARCH URL
-config.web_dir = __dirname+'/public';
+config.couchDbURL = config.getProtocol(config.couchDbUseSsl) + config.couchDbServer + ':' + config.couchDbPort;
+config.couchAuthDbURL = config.getProtocol(config.couchDbUseSsl) + config.couchCredentials() + config.couchDbServer + ':' + config.couchDbPort;
+config.searchURL = 'http://localhost:9200'; // ELASTIC SEARCH URL
+config.webDir = __dirname + '/public';
 module.exports = config;
