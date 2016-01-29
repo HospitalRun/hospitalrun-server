@@ -1,11 +1,11 @@
-    var config =  require('../config.js'), 
+    var config =  require('../config.js'),
         fs = require('fs'),
         nano = require('nano')(config.couch_auth_db_url),
         maindb = nano.use('main'),
         moment = require('moment'),
         parse = require('csv-parse'),
         uuid = require('node-uuid');
-    
+
     var inventoryMap = {
     };
 
@@ -14,12 +14,13 @@
 
     var aisleMap = {
     };
-    
+
     var types = {};
     var units = {};
     var inventoryToImport;
     var numItems = 0;
-    
+    var friendlyIdsUsed = {};
+    var importDateReceived;
 
     var parser = parse({columns:true, trim: true, auto_parse: true}, function(err, data){
         if (err) {
@@ -27,11 +28,12 @@
         } else {
             inventoryToImport = data;
             processItem(inventoryToImport.shift());
-        }    
+        }
     });
-    if (process.argv.length < 2) {
-        console.log('Usage: node inv-import.js file.csv');
+    if (process.argv.length < 4) {
+        console.log('Usage: node inv-import.js file.csv 2015-12-31');
     } else {
+        importDateReceived = moment(process.argv[3]).toDate();
         fs.createReadStream(process.argv[2]).pipe(parser);
     }
 
@@ -74,7 +76,7 @@
                 _id: purchaseId,
                 aisleLocation: csvItem.aisleLocation,
                 currentQuantity: convertToInt(csvItem.quantity),
-                dateReceived: moment('2015-03-30').toDate(),
+                dateReceived: importDateReceived,
                 inventoryItem: inventoryDetails.item._id,
                 originalQuantity: convertToInt(csvItem.quantity),
                 purchaseCost: convertToInt(csvItem.purchaseCost),
@@ -90,11 +92,11 @@
             newPurchase.giftInKind = true;
         }
         inventoryDetails.item.quantity += newPurchase.currentQuantity;
-        
+
         if (newPurchase.currentQuantity === 0 && inventoryDetails.item.purchases && inventoryDetails.item.purchases.length > 0) {
             //Don't save a purchase of zero quantity if the item already exists
             console.log("Skipping purchase because of zero quantity and it already exists: ",csvItem);
-            callback();           
+            callback();
         } else {
             //Insert purchase
             updateRecord(newPurchase, function(err) {
@@ -118,7 +120,7 @@
             });
         }
     }
-    
+
     function updateRecord(record, callback) {
         var updateParams = record._id;
             maindb.insert(record, updateParams, function(err, body) {
@@ -132,19 +134,19 @@
         });
     }
 
-    function addPurchaseToLocation(inventoryDetails, purchase, callback) {        
+    function addPurchaseToLocation(inventoryDetails, purchase, callback) {
         var locationToFind = formatLocationName(purchase.location, purchase.aisleLocation),
             locationRecord = inventoryDetails.locations[locationToFind];
         if (inventoryDetails.locations[locationToFind]) {
             locationRecord.quantity += purchase.originalQuantity;
-        } else {            
+        } else {
             var locationId = 'inv-location_'+uuid.v4();
             locationRecord = {
                 _id: locationId,
                 aisleLocation: purchase.aisleLocation,
                 location: purchase.location,
                 quantity: purchase.originalQuantity
-            };            
+            };
             if (!inventoryDetails.item.locations) {
                 inventoryDetails.item.locations = [];
             }
@@ -153,20 +155,20 @@
         }
         updateRecord(locationRecord, callback);
     }
-    
+
     function processItem(item) {
         if (item) {
             handleItem(item, function(err) {
                 if (err) {
                     console.log('Got error while processing item', item, err);
                 } else {
-				    if (!aisleMap[item.aisleLocation]) {
-				        aisleMap[item.aisleLocation] = true;
-				    }
-				    if (!locationMap[item.location]) {
-				        locationMap[item.location] = true;
-				    }
-				}
+            if (!aisleMap[item.aisleLocation]) {
+                aisleMap[item.aisleLocation] = true;
+            }
+            if (!locationMap[item.location]) {
+                locationMap[item.location] = true;
+            }
+        }
                 numItems++;
                 processItem(inventoryToImport.shift());
             });
@@ -186,11 +188,10 @@
         var inventoryDetails = inventoryMap[item.name];
         if (!inventoryDetails) {
             createInventoryItem(item, function(err, newInventoryItem) {
-                if (err) {                    
+                if (err) {
                     console.log('Error inserting inventory item:', err);
                     callback(err);
                 } else {
-                    //console.log('inserted item', newInventoryItem);
                     var inventoryDetails = {
                         item: newInventoryItem,
                         locations: {}
@@ -203,20 +204,21 @@
             addPurchase(item, inventoryDetails, callback);
         }
     }
-    
+
     function insertInventoryItem(item, callback) {
         getFriendlyId(item, function(err, id) {
             if (err) {
                 console.log('Error getting friendlyId: ', err);
                 callback(err);
             } else {
+                friendlyIdsUsed[id] = true;
                 item.friendlyId = id;
                 item._id = generateId();
                 updateRecord(item, callback);
             }
         });
     }
-    
+
     function getFriendlyId(item, callback) {
         maindb.get('sequence_inventory_'+item.type, function(err, sequence) {
             if (err) {
@@ -233,13 +235,21 @@
         });
     }
 
-    function generateFriendlyId(sequence, callback) {
+    function buildFriendlyId(sequence) {
         var friendlyId = sequence.prefix;
         sequence.value += 1;
         if (sequence.value < 100000) {
             friendlyId += String('00000' + sequence.value).slice(-5);
         } else {
             friendlyId += sequence.value;
+        }
+        return friendlyId;
+    }
+
+    function generateFriendlyId(sequence, callback) {
+        var friendlyId;
+        while (!friendlyId || friendlyIdsUsed[friendlyId]) {
+          friendlyId = buildFriendlyId(sequence);
         }
         updateRecord(sequence, function(err) {
             if(err) {
@@ -257,10 +267,10 @@
             part1 = new Date().getTime(),
             part2 = Math.floor(Math.random() * (max - min + 1)) + min;
         return 'inventory_'+part1.toString(36) +'_' + part2.toString(36);
-    }    
+    }
 
     function createInventoryItem(item, callback) {
-        var inventoryItem = {                
+        var inventoryItem = {
                 name: item.name,
                 distributionUnit: item.distributionUnit,
                 quantity: 0, //Quantity gets added via purchases
@@ -277,30 +287,30 @@
     }
 
     function findSequence(type, callback) {
-        checkNextSequence(type, 0, function(err, prefixChars) {            
+        checkNextSequence(type, 0, function(err, prefixChars) {
             var newSequence = {
                 _id: 'sequence_inventory_'+type,
                 prefix: type.toLowerCase().substr(0,prefixChars),
-                value: 0                
+                value: 0
             };
             callback(null, newSequence);
         });
     }
-    
+
     function findSequenceByPrefix(type, prefixChars, callback) {
         maindb.list({
             key: 'prefix',
             startskey: type.toLowerCase().substr(0,prefixChars)
         }, callback);
     }
-    
+
     function checkNextSequence(type, prefixChars, callback) {
         prefixChars++;
         findSequenceByPrefix(type, prefixChars, function(err, result) {
-            if (err) {                
+            if (err) {
                 console.log('error finding by prefix: '+prefixChars,err);
                 callback(err);
-            } else {                
+            } else {
                 if (result.rows.length > 0) {
                     checkNextSequence(type, prefixChars, callback);
                 } else {
@@ -308,7 +318,7 @@
                     callback(null, prefixChars);
                 }
             }
-        });        
+        });
     }
 
     function locationMatch(locations, location) {
@@ -357,3 +367,4 @@
             addNewLocations('lookup_aisle_location_list', aisleMap, callback);
         });
     }
+
