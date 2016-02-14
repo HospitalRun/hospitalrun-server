@@ -598,7 +598,6 @@ function processRow(row) {
       if (err) {
         console.log('Error writing csv file:' + err);
       } else {
-        //Var transporter = nodemailer.createTransport(sendmailTransport());
         console.log('Done writing file');
       }
     });
