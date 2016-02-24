@@ -9,8 +9,8 @@ var maindb = nano.use('main');
 var morgan = require('morgan');
 var globSync   = require('glob').sync;
 var dbListeners = globSync('./dblisteners/**/*.js', { cwd: __dirname }).map(require);
-var routes = globSync('./routes/**/*.js', { cwd: __dirname }).map(require);
-
+var serverRoutes = require('hospitalrun-server-routes');
+var setupAppDir = require('hospitalrun');
 var server;
 
 
@@ -32,10 +32,8 @@ follow(couchFollowOpts, function(error, change) {
 
 
 var app = express();
-routes.forEach(function(route) {
-  route(app, config);
-});
-app.use(express.static(__dirname + '/public'));
+serverRoutes(app, config);
+setupAppDir(app);
 if (config.logRequests) {
   app.use(morgan(config.logFormat));
 }
@@ -61,4 +59,4 @@ server.listen(config.serverPort, function listening() {
   console.log('HospitalRun server listening on %j', server.address());
 });
 
-module.exports = routes;
+
