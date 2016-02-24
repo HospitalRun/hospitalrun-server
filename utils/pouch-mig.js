@@ -102,6 +102,7 @@ function migrateRecords() {
         case 'patient': {
           updateChildId(newDoc, 'paymentProfile');
           updateChildId(newDoc, 'payments');
+          updateSex(newDoc);
           break;
         }
 
@@ -224,6 +225,16 @@ function updateChildId(doc, field) {
       data[field] = transformId(data[field]);
     }
     childKeys.push(childKeyValues);
+  }
+}
+
+// Move sex from gender field
+function updateSex(doc) {
+  var gender = doc.data.gender;
+  if (gender === 'M') {
+    doc.data.sex = 'Male';
+  } else if (gender === 'F') {
+    doc.data.sex = 'Female';
   }
 }
 
