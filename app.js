@@ -1,36 +1,15 @@
 var config =  require('./config.js');
+var dbListeners = require('hospitalrun-dblisteners');
 var express = require('express');
-var follow = require('follow');
 var fs = require('fs');
 var https = require('https');
 var http = require('http');
-var nano = require('nano')(config.couchAuthDbURL);
-var maindb = nano.use('main');
 var morgan = require('morgan');
-var globSync   = require('glob').sync;
-var dbListeners = globSync('./dblisteners/**/*.js', { cwd: __dirname }).map(require);
 var serverRoutes = require('hospitalrun-server-routes');
 var setupAppDir = require('hospitalrun');
 var server;
 
-
-var couchFollowOpts = {
-  db: config.couchAuthDbURL + '/main',
-  include_docs: true,
-  since: config.couchDbChangesSince,
-  query_params: {
-    conflicts: true,
-  },
-};
-follow(couchFollowOpts, function(error, change) {
-  if (!error) {
-    dbListeners.forEach(function(listener) {
-      listener(change, maindb, config);
-    });
-  }
-});
-
-
+dbListeners(config);
 var app = express();
 serverRoutes(app, config);
 setupAppDir(app);
