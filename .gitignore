@@ -24,3 +24,7 @@ restart.sh
 start.sh
 
 stop.sh
+
+newrelic_agent.log
+
+newrelic.js
