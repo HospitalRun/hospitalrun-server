@@ -15,7 +15,8 @@ var config = {
   useSSL: false,
   imagesdir: __dirname + '/patientimages',
   logRequests: false,
-  logFormat: 'default' // See http://www.senchalabs.org/connect/logger.html for log formats
+  logFormat: 'default', // See http://www.senchalabs.org/connect/logger.html for log formats
+  useGoogleAuth: false
 };
 
 config.couchCredentials = function() {
