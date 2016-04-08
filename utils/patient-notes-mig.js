@@ -15,8 +15,8 @@ maindb.list({startkey: 'visit_', endkey: 'visit_\uffff', include_docs: true}, fu
           _id: 'patientNote_2_' + noteUuid,
           data: {
             content: visitDoc.notes,
-            createdBy: 'system',
-            date: new Date(),
+            createdBy: visitDoc.examiner || '',
+            date: visitDoc.startDate,
             noteType: 'General',
             patient: visitDoc.patient,
             visit: visitId
