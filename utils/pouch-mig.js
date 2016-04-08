@@ -31,6 +31,7 @@ function migrateRecords() {
         data: result.doc
       };
       existingKeys[newDocId] = true;
+      delete newDoc.data._id;
       delete newDoc.data._rev;
 
       switch (parsedId.doctype) {
