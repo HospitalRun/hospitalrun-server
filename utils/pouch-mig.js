@@ -1,17 +1,17 @@
-var camelize = require('camelize'),    
-    config =  require('../config.js'),
-    nano = require('nano')(config.couch_auth_db_url),    
-    newdb,    
-    olddb,
-    relPouch =require('relational-pouch');
+var camelize = require('camelize');
+var config =  require('../config.js');
+var nano = require('nano')(config.couchAuthDbURL);
+var newdb;
+var olddb;
+var relPouch = require('relational-pouch');
 
 if (process.argv.length < 4) {
-    console.log('Usage: node pouch-mig.js olddb newdb');
+  console.log('Usage: node pouch-mig.js olddb newdb');
 } else {
-    olddb = nano.use(process.argv[2]);
-    newdb = nano.use(process.argv[3]);
-    relPouch.setSchema([]);
-    migrateRecords();
+  olddb = nano.use(process.argv[2]);
+  newdb = nano.use(process.argv[3]);
+  relPouch.setSchema([]);
+  migrateRecords();
 }
 
 var existingKeys = {};
@@ -21,7 +21,7 @@ function migrateRecords() {
   var newDocs = [];
   olddb.list({
     startkey: 'appointment',
-    include_docs:true,    
+    include_docs: true,
   }, function(err, results) {
     results.rows.forEach(function(result) {
       var parsedId = parseOldId(result.id);
@@ -32,14 +32,14 @@ function migrateRecords() {
       };
       existingKeys[newDocId] = true;
       delete newDoc.data._rev;
-      
-      switch(parsedId.doctype) {
+
+      switch (parsedId.doctype) {
         case 'appointment': {
           updateChildId(newDoc, 'patient');
           break;
         }
         case 'billing-line-item': {
-          updateChildId(newDoc, 'details'); 
+          updateChildId(newDoc, 'details');
           break;
         }
         case 'imaging': {
@@ -81,61 +81,62 @@ function migrateRecords() {
           updateChildId(newDoc, 'visit');
           break;
         }
-          
+
         case 'line-item-detail': {
           updateChildId(newDoc, 'pricingItem');
           break;
         }
-        
+
         case 'medication': {
           updateChildId(newDoc, 'inventoryItem');
           updateChildId(newDoc, 'patient');
           updateChildId(newDoc, 'visit');
           break;
         }
-        
+
         case 'override-price': {
           updateChildId(newDoc, 'profile');
           break;
         }
-          
+
         case 'patient': {
           updateChildId(newDoc, 'paymentProfile');
           updateChildId(newDoc, 'payments');
+          updateSex(newDoc);
           break;
-        }          
-          
+        }
+
         case 'payment': {
           updateChildId(newDoc, 'invoice');
           newDoc.data.paymentType = newDoc.data.type;
           delete newDoc.data.type;
-          break;          
+          break;
         }
-          
+
         case 'photo': {
           updateChildId(newDoc, 'patient');
           break;
         }
-          
+
         case 'pricing': {
           updateChildId(newDoc, 'pricingOverrides');
           newDoc.data.pricingType = newDoc.data.type;
           delete newDoc.data.type;
           break;
         }
-          
+
         case 'proc-charge': {
           updateChildId(newDoc, 'medication');
-          updateChildId(newDoc, 'pricingItem');          
+          updateChildId(newDoc, 'pricingItem');
           break;
         }
-          
+
         case 'procedure': {
           updateChildId(newDoc, 'charges');
           updateChildId(newDoc, 'visit');
           break;
         }
-        
+
         case 'visit': {
           updateChildId(newDoc, 'charges');
           updateChildId(newDoc, 'imaging');
@@ -145,15 +146,15 @@ function migrateRecords() {
           updateChildId(newDoc, 'procedures');
           updateChildId(newDoc, 'vitals');
           break;
-        }          
+        }
       }
       newDocs.push(newDoc);
     });
-    newdb.bulk({docs:newDocs}, function(err, body) {
-      if(err) {
-        console.log("ERROR ON INSERT:",err,body);
+    newdb.bulk({docs: newDocs}, function(err, body) {
+      if (err) {
+        console.log('ERROR ON INSERT:',err,body);
       } else {
-        console.log("Successfully migrated documents");
+        console.log('Successfully migrated documents');
         deleteOrphanRecords();
       }
     });
@@ -161,7 +162,7 @@ function migrateRecords() {
 }
 
 function deleteOrphanRecords() {
-var recordsToDelete = {};
+  var recordsToDelete = {};
   childKeys.forEach(function(keyInfo) {
     keyInfo.keys.forEach(function(key) {
       if (!existingKeys[key]) {
@@ -173,21 +174,21 @@ var recordsToDelete = {};
   });
   var deleteKeys = Object.keys(recordsToDelete);
   deleteKeys.forEach(function(deleteKey) {
-    newdb.get(deleteKey, function (err, doc){
+    newdb.get(deleteKey, function(err, doc) {
       if (err) {
-        console.log("Err on get record to delete: ",err);
+        console.log('Err on get record to delete: ',err);
       } else {
         doc._deleted = true;
         newdb.insert(doc, function(err, result) {
           if (err) {
-            console.log("Error deleting unneeded record:",err);
+            console.log('Error deleting unneeded record:',err);
           } else {
-            console.log("Deleted unneeded record:"+result.id);
+            console.log('Deleted unneeded record:' + result.id);
           }
-        });      
+        });
       }
     });
-  });    
+  });
 }
 
 function getNewId(parsedId) {
@@ -196,23 +197,23 @@ function getNewId(parsedId) {
     type: camelize(parsedId.doctype)
   });
 }
-  
+
 function parseOldId(oldId) {
-  var parsedId = {},
-      uidx;      
-  if ((uidx = oldId.indexOf("_")) > 0) {
+  var parsedId = {};
+  var uidx;
+  if ((uidx = oldId.indexOf('_')) > 0) {
     parsedId.doctype = oldId.substring(0, uidx);
-    parsedId.id = oldId.substring(uidx+1);
+    parsedId.id = oldId.substring(uidx + 1);
   }
   return parsedId;
 }
 
 function updateChildId(doc, field) {
-  var data = doc.data,
-      childKeyValues = {
+  var data = doc.data;
+  var childKeyValues = {
         id: doc._id,
         keys: []
-      };  
+      };
   if (data[field]) {
     if (Array.isArray(data[field])) {
       data[field] = data[field].map(function(key) {
@@ -227,10 +228,20 @@ function updateChildId(doc, field) {
   }
 }
 
+// Move sex from gender field
+function updateSex(doc) {
+  var gender = doc.data.gender;
+  if (gender === 'M') {
+    doc.data.sex = 'Male';
+  } else if (gender === 'F') {
+    doc.data.sex = 'Female';
+  }
+}
+
 function transformId(oldValue) {
   var parsedId = parseOldId(oldValue);
   if (!parsedId.id) {
-    console.log("ERROR PARSING ID:"+oldValue);
+    console.log('ERROR PARSING ID:' + oldValue);
   } else {
     return parsedId.id;
   }
