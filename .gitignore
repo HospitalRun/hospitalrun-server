@@ -23,6 +23,6 @@ start.sh
 
 stop.sh
 
-newrelic.js
-
 newrelic_agent.log
+
+newrelic.js
