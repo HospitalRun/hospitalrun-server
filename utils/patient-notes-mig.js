@@ -1,53 +1,42 @@
-var config =  require('../config.js'),
-    nano = require('nano')(config.couchAuthDbURL),
-    maindb = nano.use('main'),
-    userdb = nano.use('user'),
-    uuid = require('node-uuid');
+var config =  require('../config.js');
+var nano = require('nano')(config.couchAuthDbURL);
+var maindb = nano.use('main');
+var uuid = require('node-uuid');
+var recordsToUpdate = [];
 
-function updateRecord(record, callback) {
-  var updateParams = record._id;
-  maindb.insert(record, updateParams, function(err, body) {
-    if (err) {
-      callback(err);
-    } else {
-      record._id = body.id;
-      record._rev = body.rev;
-      callback(null, record);
-    }
-  });
-}
-
-maindb.list({startkey:'visit_', endkey:'visit_\uffff', include_docs: true}, function(err, results) {
-  console.log("start");
+maindb.list({startkey: 'visit_', endkey: 'visit_\uffff', include_docs: true}, function(err, results) {
   if (!err) {
     results.rows.forEach(function(result) {
       var visitDoc = result.doc.data;
-      if (visitDoc !== null && visitDoc.notes !== null && visitDoc.patientNotes === null) {
+      if (visitDoc !== null && visitDoc.notes && !visitDoc.patientNotes) {
+        var noteUuid = uuid.v4();
+        var visitId = result.doc._id.substr(8);
         var patientNote = {
-          _id: 'patientNote_2_'+ uuid.v4(),
-          content: visitDoc.notes,
-          createdBy: 'system',
-          date: new Date(),
-          noteType: 'General',
-          patient: visitDoc.patient,
-          visit: visitDoc._id
-        };
-        updateRecord(patientNote, function(error, result) {
-          if (error !== null) {
-            console.log("error");
-            console.dir(error);
-          } else {
-            visitDoc.patientNotes = [ patientNote._id ];
-            updateRecord(visitDoc, function() {
-              console.log("sucess");
-              console.log("added: " + result._id + " to " + visitDoc._id);
-            });
+          _id: 'patientNote_2_' + noteUuid,
+          data: {
+            content: visitDoc.notes,
+            createdBy: 'system',
+            date: new Date(),
+            noteType: 'General',
+            patient: visitDoc.patient,
+            visit: visitId
           }
-        });
+        };
+        recordsToUpdate.push(patientNote);
+        result.doc.data.patientNotes = [noteUuid];
+        recordsToUpdate.push(result.doc);
       }
     });
-    console.log("end loop");
+    if (recordsToUpdate.length > 0) {
+      maindb.bulk({ docs: recordsToUpdate}, function(err, results) {
+        if (err) {
+          console.log('Error updating patient notes records.', err);
+        } else {
+          console.log('Success updating patient notes records.', JSON.stringify(results, null, 2));
+        }
+      });
+    }
   } else {
-    console.log("ERROR fetching visit records", err);
+    console.log('ERROR fetching visit records', err);
   }
 });
