@@ -1,0 +1,11 @@
+patch:
+  'npm:request:20160119':
+    - hospitalrun-dblisteners > nano > follow > request:
+        patched: '2016-04-21T17:47:37.900Z'
+    - hospitalrun-dblisteners > follow > request:
+        patched: '2016-04-21T17:47:37.900Z'
+    - nano > follow > request:
+        patched: '2016-04-21T17:47:37.900Z'
+    - hospitalrun-server-routes > nano > follow > request:
+        patched: '2016-04-21T17:47:37.900Z'
+version: v1
