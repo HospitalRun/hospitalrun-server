@@ -45,3 +45,26 @@ script.disable_dynamic: false
 ```
 /server/utils/elasticsearch.sh hradmin password
 ```
+
+##Inventory Import
+There is a utility located under utils/inv-import.js that will allow you to import inventory from a CSV.  To use it, run the following command
+`node utils/inv-import.js file.csv YYYY-MM-DD`, eg `node utils/inv-import.js file.csv 2015-12-31`
+
+The date specified will be used as the date that the purchases were received. 
+
+The csv fields that are supported are as follows:
+
+-  **aisleLocation** (optional) - if item is in a particular aisle in a location, specify that name here.
+- **distributionUnit** (optional) - the unit type used when this item is distributed in the hospital.  You can see the valid values in the app at Admin/Lookup Lists/Unit Types.  If there is a distribution unit you use that is not in the list, you can add it on this screen.
+- **expirationDate** (optional) - format is `MM/DD/YYYY`
+- **giftInKind** (optional) - value should be `Yes` if item is gift in kind
+- **location**(optional) - Location of item
+- **lotNumber** (optional) - Lot number of item
+- **name** (required) - Display name of item
+- **purchaseCost** (required) - Total purchase cost for the items.  This would be the cost per unit x the quantity.  The purchase cost is used with the quantity to determine the cost per unit.
+- **quantity** (required) - Number of items.
+- **type** - use `Medication` for medicine; other types can be specified, but they should be added in the interface through Admin/Lookup Lists/Inventory Types
+- **vendor** (optional) - Name of vendor who supplied item 
+- **vendorItemNo** (optional) - Vendor item number
+
+The first row of the csv file needs to have the columnName as specified above so that the import tool knows which value is in which column.
