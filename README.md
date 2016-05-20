@@ -41,16 +41,16 @@ script.disable_dynamic: false
 ```
 
 7. Start elasticsearch.  On debian/ubuntu: ```service elasticsearch start```
-8. Run the setup script for linking couchdb to elasticsearch.  You will need to specify the username and password for the hosptialrun admin account you created with initcouch.sh in [HospitalRun/frontend](https://github.com/HospitalRun/frontend/blob/master/initcouch.sh):
+8. Run the setup script for linking couchdb to elasticsearch.  You will need to specify the username and password for the hospitalrun admin account you created with initcouch.sh in [HospitalRun/frontend](https://github.com/HospitalRun/frontend/blob/master/script/initcouch.sh):
 ```
-/server/utils/elasticsearch.sh hradmin password
+/utils/elasticsearch.sh hradmin password
 ```
 
 ##Inventory Import
 There is a utility located under utils/inv-import.js that will allow you to import inventory from a CSV.  To use it, run the following command
 `node utils/inv-import.js file.csv YYYY-MM-DD`, eg `node utils/inv-import.js file.csv 2015-12-31`
 
-The date specified will be used as the date that the purchases were received. 
+The date specified will be used as the date that the purchases were received.
 
 The csv fields that are supported are as follows:
 
@@ -64,7 +64,7 @@ The csv fields that are supported are as follows:
 - **purchaseCost** (required) - Total purchase cost for the items.  This would be the cost per unit x the quantity.  The purchase cost is used with the quantity to determine the cost per unit.
 - **quantity** (required) - Number of items.
 - **type** - use `Medication` for medicine; other types can be specified, but they should be added in the interface through Admin/Lookup Lists/Inventory Types
-- **vendor** (optional) - Name of vendor who supplied item 
+- **vendor** (optional) - Name of vendor who supplied item
 - **vendorItemNo** (optional) - Vendor item number
 
 The first row of the csv file needs to have the columnName as specified above so that the import tool knows which value is in which column.
