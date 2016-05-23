@@ -12,15 +12,9 @@ Having a Node.js backend server allows us to do the following:
  * **merge-conflicts** - Checks for couchdb conflicts and resolves using a strategy of accepting the last change at a field level.
 
 ##Installation
-1. The HospitalRun server expects that the [HospitalRun frontend](https://github.com/HospitalRun/frontend) is available in server/public and has been compiled using the command:
-```
-ember build --environment production --output-path ../server/public
-```
-This assumes that you have frontend and server in the same parent directory.  You could specify another directory as the output path in frontend and then use a symbolic link in server/public to point to your production build.
-
-2. Run ```npm install``` to install the HospitalRun dependencies
-3. In the server directory copy config-example.js to config.js and configure db passwords etc in config.js
-4. If you are on Linux distribution that uses Upstart, there is an upstart script in utils/hospitalrun.conf.  By default this script assumes the server is installed at /var/app/server. This script relies on [forever](https://github.com/foreverjs/forever) which you will need to install via npm: ```npm install -g forever```
+1. Run ```npm install``` to install the HospitalRun dependencies
+2. In the server directory copy config-example.js to config.js and configure db passwords etc in config.js
+3. If you are on Linux distribution that uses Upstart, there is an upstart script in utils/hospitalrun.conf.  By default this script assumes the server is installed at /var/app/server. This script relies on [forever](https://github.com/foreverjs/forever) which you will need to install via npm: ```npm install -g forever```
    * alternatively you can run server using npm's scripts `npm start` (this is not recommended for production usage).
 5. Search on the HospitalRun Server uses [elasticsearch](https://github.com/elastic/elasticsearch).  You will also need the [CouchDB River Plugin for Elasticsearch](https://github.com/elastic/elasticsearch-river-couchdb) and the [JavaScript language Plugin for elasticsearch](https://github.com/elastic/elasticsearch-lang-javascript).  If you are installing on a debian server you can use the following steps to setup elasticsearch and java (if needed):
   ```
