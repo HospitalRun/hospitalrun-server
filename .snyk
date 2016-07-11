@@ -12,5 +12,9 @@ patch:
         patched: '2016-07-08T12:39:29.312Z'
     - hospitalrun-server-routes > nano > follow > request:
         patched: '2016-07-08T12:39:29.312Z'
+    - hospitalrun-dblisteners > nano > follow > request:
+        patched: '2016-07-11T14:57:51.352Z'
+    - hospitalrun-server-routes > nano > follow > request:
+        patched: '2016-07-11T14:57:51.352Z'
 version: v1.5.0
 ignore: {}
