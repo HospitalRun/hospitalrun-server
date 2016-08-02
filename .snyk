@@ -22,6 +22,12 @@ patch:
         patched: '2016-07-24T17:06:57.850Z'
     - hospitalrun-dblisteners > follow > request:
         patched: '2016-07-24T17:06:57.850Z'
+    - hospitalrun-dblisteners > nano > follow > request:
+        patched: '2016-08-02T10:41:20.885Z'
+    - hospitalrun-server-routes > nano > follow > request:
+        patched: '2016-08-02T10:41:20.885Z'
+    - hospitalrun-dblisteners > follow > request:
+        patched: '2016-08-02T10:41:20.885Z'
   'npm:hawk:20160119':
     - hospitalrun-dblisteners > nano > follow > request > hawk:
         patched: '2016-07-24T17:06:57.850Z'
@@ -29,5 +35,11 @@ patch:
         patched: '2016-07-24T17:06:57.850Z'
     - hospitalrun-dblisteners > follow > request > hawk:
         patched: '2016-07-24T17:06:57.850Z'
+    - hospitalrun-dblisteners > nano > follow > request > hawk:
+        patched: '2016-08-02T10:41:20.885Z'
+    - hospitalrun-server-routes > nano > follow > request > hawk:
+        patched: '2016-08-02T10:41:20.885Z'
+    - hospitalrun-dblisteners > follow > request > hawk:
+        patched: '2016-08-02T10:41:20.885Z'
 version: v1.5.0
 ignore: {}
