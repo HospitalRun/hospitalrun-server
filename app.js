@@ -11,6 +11,10 @@ var server;
 
 dbListeners(config);
 var app = express();
+if (config.useSSL && config.useCertBot === true) {
+  app.use('/.well-known', express.static(__dirname + '/public/.well-known', {dotfiles: 'allow'}));
+  http.createServer(app).listen(80);
+}
 serverRoutes(app, config);
 setupAppDir(app);
 if (config.logRequests) {
