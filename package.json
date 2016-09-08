@@ -1,7 +1,7 @@
 {
   "name": "hospitalrun-server",
   "main": "app.js",
-  "version": "0.9.14",
+  "version": "0.9.15",
   "description": "HospitalRun production server",
   "homepage": "http://hospitalrun.io",
   "scripts": {
@@ -24,8 +24,8 @@
     "colors": "^1.1.2",
     "csv-parse": "0.0.6",
     "express": "^4.13.4",
-    "hospitalrun": "0.9.14",
-    "hospitalrun-dblisteners": "0.9.3",
+    "hospitalrun": "0.9.15",
+    "hospitalrun-dblisteners": "0.9.4",
     "hospitalrun-server-routes": "0.9.9",
     "moment": "^2.8.4",
     "morgan": "^1.6.1",
