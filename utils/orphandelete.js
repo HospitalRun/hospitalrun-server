@@ -191,7 +191,6 @@ function checkRecords() {
   if (haveDeletedItems) {
     ++passNumber;
     haveDeletedItems = false;
-    console.log('Update items length:' + idsToUpdate.length);
     console.log('Finished pass number ' + passNumber + ', scanning for cascading records affected.');
     allIds = [];
     for (var anId in objectMap) {
@@ -204,29 +203,39 @@ function checkRecords() {
     for (var locationId in invLocations) {
       var location = invLocations[locationId];
       if (!location.usedRecord) {
+        console.log('Deleting unused location:',locationId);
         location._deleted = true;
         deletedIds.push(locationId);
         addIdToUpdate(locationId);
       }
     }
     if (idsToUpdate.length > 0) {
-      console.log('Updating ids: ' + idsToUpdate.length);
       var objectsToUpdate = idsToUpdate.map(function(updateId) {
         return objectMap[updateId];
       });
       maindb.bulk({ docs: objectsToUpdate}, function(err, response) {
         if (err) {
           console.log('error updating records: ', JSON.stringify(err, null, 2));
+          process.exit();
         } else {
-          console.log('success updating records: ', JSON.stringify(response, null, 2));
+          var okResp = 0;
+          response.forEach(function(updateResp) {
+            if (updateResp.ok) {
+              okResp++;
+            } else {
+              console.log('Error updating record: ', JSON.stringify(updateResp, null, 2));
+            }
+          });
+          console.log('Successfully updated/deleted ' + okResp + ' out of ' + idsToUpdate.length + ' records.');
           console.log('Unknown types:' + JSON.stringify(unknownObjects));
           console.log('Done');
+          process.exit();
         }
       });
+    } else {
+      console.log('Done. No records to update.');
+      process.exit();
     }
-
-    process.exit();
-
   }
 }
 
@@ -245,11 +254,14 @@ function checkRecord(dbId) {
             var lookupId = getPouchId(refId, objType);
             if (objectMap[lookupId]) {
               refIds.push(refId);
-              if (objType === 'inventory' && relationship.key === 'locations') {
-                if (invLocations[lookupId]) {
-                  invLocations[lookupId].usedRecord = true;
+              if (parsedId.type === 'inventory' && relationship.key === 'locations') {
+                if (!invLocations[lookupId]) {
+                  invLocations[lookupId] = {};
                 }
+                invLocations[lookupId].usedRecord = true;
               }
+            } else {
+              console.log('Cannot find ' + lookupId + ' referenced by ' + dbId + ' so relationship will be removed.');
             }
           });
           if (refIds.length < value.length) {
@@ -260,6 +272,7 @@ function checkRecord(dbId) {
         } else {
           var lookupID = getPouchId(value, objType);
           if (!objectMap[lookupID]) {
+            console.log('Deleting ' + dbId + ' because ' + lookupID + ' does not exist');
             doc._deleted = true;
             haveDeletedItems = true;
             deletedIds.push(dbId);
@@ -270,10 +283,11 @@ function checkRecord(dbId) {
     });
   } else {
     if (parsedId.type === 'invLocation') {
-      invLocations[dbId] = doc;
+      if (!invLocations[dbId]) {
+        invLocations[dbId] = doc;
+      }
     } else {
       if (unknownObjects.indexOf(parsedId.type) === -1) {
-        console.log('Do not have modelRelationships for:' + parsedId.type);
         unknownObjects.push(parsedId.type);
       }
     }
