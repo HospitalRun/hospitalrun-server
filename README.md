@@ -30,26 +30,29 @@ Having a Node.js backend server allows us to do the following:
 6. If you are on Linux distribution that uses Upstart, there is an upstart script in utils/hospitalrun.conf.  By default this script assumes the server is installed at /var/app/server. This script relies on [forever](https://github.com/foreverjs/forever) which you will need to install via npm: ```npm install -g forever```
    * alternatively you can run server using npm's scripts `npm start` (this is not recommended for production usage).
 7. Search on the HospitalRun Server uses [elasticsearch](https://github.com/elastic/elasticsearch).  You will also need the [CouchDB River Plugin for Elasticsearch](https://github.com/elastic/elasticsearch-river-couchdb) and the [JavaScript language Plugin for elasticsearch](https://github.com/elastic/elasticsearch-lang-javascript).  If you are installing on a debian server you can use the following steps to setup elasticsearch and java (if needed):
-```
-wget -qO - https://packages.elasticsearch.org/GPG-KEY-elasticsearch | sudo apt-key add -
-echo "deb http://packages.elastic.co/elasticsearch/1.6/debian stable main" | sudo tee -a /etc/apt/sources.list
-sudo add-apt-repository ppa:webupd8team/java
-sudo apt-get update
-sudo apt-get install oracle-java8-installer elasticsearch
-sudo update-rc.d elasticsearch defaults 95 10
-cd /usr/share/elasticsearch/
-sudo bin/plugin install elasticsearch/elasticsearch-river-couchdb/2.6.0
-sudo bin/plugin -install elasticsearch/elasticsearch-lang-javascript/2.6.0
-```
+
+    ```
+    wget -qO - https://packages.elasticsearch.org/GPG-KEY-elasticsearch | sudo apt-key add -
+    echo "deb http://packages.elastic.co/elasticsearch/1.6/debian stable main" | sudo tee -a /etc/apt/sources.list
+    sudo add-apt-repository ppa:webupd8team/java
+    sudo apt-get update
+    sudo apt-get install oracle-java8-installer elasticsearch
+    sudo update-rc.d elasticsearch defaults 95 10
+    cd /usr/share/elasticsearch/
+    sudo bin/plugin install elasticsearch/elasticsearch-river-couchdb/2.6.0
+    sudo bin/plugin -install elasticsearch/elasticsearch-lang-javascript/2.6.0
+    ```
 8. Add the following line to /etc/elasticsearch/elasticsearch.yml (or wherever your elasticsearch configuration is located):
-```
-script.disable_dynamic: false
-```
+
+    ```
+    script.disable_dynamic: false
+    ```
 9. Start elasticsearch.  On debian/ubuntu: ```service elasticsearch start```
 10. Run the setup script for linking couchdb to elasticsearch.  You will need to specify the username and password for the hospitalrun admin account you created with initcouch.sh in [HospitalRun/frontend](https://github.com/HospitalRun/frontend/blob/master/script/initcouch.sh):
-```
-/utils/elasticsearch.sh hradmin password
-```
+    
+    ```
+    /utils/elasticsearch.sh hradmin password
+    ```
 
 ##Inventory Import
 There is a utility located under utils/inv-import.js that will allow you to import inventory from a CSV.  To use it, run the following command
