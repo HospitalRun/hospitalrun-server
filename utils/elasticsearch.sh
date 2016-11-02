@@ -34,6 +34,9 @@ curl -XPUT 'localhost:9200/hrdb' -d' {
                 "data.name": {
                     "type" : "string"
                 },
+                "data.phone": {
+                    "type" : "string"
+                },
                 "data.patientInfo": {
                     "type" : "string"
                 },
