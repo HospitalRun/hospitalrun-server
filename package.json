@@ -27,7 +27,7 @@
     "hospitalrun": "0.9.17",
     "hospitalrun-dblisteners": "0.9.5",
     "hospitalrun-server-routes": "0.9.9",
-    "moment": "^2.8.4",
+    "moment": "^2.15.2",
     "morgan": "^1.6.1",
     "nano": "^6.2.0",
     "node-uuid": "^1.4.2",
