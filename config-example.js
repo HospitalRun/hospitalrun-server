@@ -14,6 +14,7 @@ var config = {
   sslCA: [], // Array of file locations of trusted certificates in PEM format if needed
   useSSL: false,
   imagesdir: __dirname + '/patientimages',
+  attachmentsDir: __dirname + '/attachments',
   logRequests: false,
   logFormat: 'default', // See http://www.senchalabs.org/connect/logger.html for log formats
   useGoogleAuth: false,
