@@ -1,7 +1,7 @@
 {
   "name": "hospitalrun-server",
   "main": "app.js",
-  "version": "0.9.17",
+  "version": "0.9.18",
   "description": "HospitalRun production server",
   "homepage": "http://hospitalrun.io",
   "scripts": {
