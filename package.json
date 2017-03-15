@@ -6,9 +6,7 @@
   "homepage": "http://hospitalrun.io",
   "scripts": {
     "start": "node app.js",
-    "test": "snyk test && jscs *.js dblisteners/*.js",
-    "snyk-protect": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "test": "snyk test && jscs *.js dblisteners/*.js"
   },
   "repository": {
     "type": "git",
