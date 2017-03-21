@@ -11,7 +11,7 @@ Having a Node.js backend server allows us to do the following:
  * **lookup-import** - Utility to import lookup lists from the frontend.
  * **merge-conflicts** - Checks for couchdb conflicts and resolves using a strategy of accepting the last change at a field level.
 
-##Installation
+## Installation
 1. Make sure you have installed [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 2. Make sure you have installed [Node.js 4.x](https://nodejs.org/en/download/) https://nodejs.org/en/download/
 3. Clone this repo with `git clone https://github.com/HospitalRun/hospitalrun-server`
@@ -54,8 +54,7 @@ Having a Node.js backend server allows us to do the following:
     ```
     /utils/elasticsearch.sh hradmin password
     ```
-
-##Inventory Import
+## Inventory Import
 There is a utility located under utils/inv-import.js that will allow you to import inventory from a CSV.  To use it, run the following command
 `node utils/inv-import.js file.csv YYYY-MM-DD`, eg `node utils/inv-import.js file.csv 2015-12-31`
 
