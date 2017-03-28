@@ -1,10 +1,10 @@
 var config = {
-  couchDbServer: 'localhost',
+  couchDbServer: 'couchdb',
   couchDbPort: '5984',
   couchDbUseSsl: false,
   couchDbChangesSince: 'now',
-  couchAdminUser: 'COUCH ADMIN USER GOES HERE',
-  couchAdminPassword: 'COUCH ADMIN PASSWORD GOES HERE',
+  couchAdminUser: 'couchadmin',
+  couchAdminPassword: 'test',
   googleClientId: 'FOR GOOGLE SSO; GOOGLE CLIENT ID GOES HERE',
   googleClientSecret: 'FOR GOOGLE SSO; GOOGLE CLIENT SECRET GOES HERE',
   serverPort: '3000',
@@ -14,6 +14,7 @@ var config = {
   sslCA: [], // Array of file locations of trusted certificates in PEM format if needed
   useSSL: false,
   imagesdir: __dirname + '/patientimages',
+  attachmentsDir: __dirname + '/attachments',
   logRequests: false,
   logFormat: 'default', // See http://www.senchalabs.org/connect/logger.html for log formats
   useGoogleAuth: false,
@@ -39,7 +40,7 @@ if (config.serverPort) {
 
 config.couchDbURL = config.getProtocol(config.couchDbUseSsl) + config.couchDbServer + ':' + config.couchDbPort;
 config.couchAuthDbURL = config.getProtocol(config.couchDbUseSsl) + config.couchCredentials() + config.couchDbServer + ':' + config.couchDbPort;
-config.searchURL = 'http://localhost:9200'; // ELASTIC SEARCH URL
+config.searchURL = 'http://elastic:changeme@elasticsearch:9200'; // ELASTIC SEARCH URL
 config.webDir = __dirname + '/public';
 config.serverInfo = 'Server Information to display to users when viewing about HospitalRun';
 module.exports = config;

@@ -7,6 +7,11 @@ public
 
 rebuild.sh
 
+data/elasticsearch/*
+data/couchdb/*
+data/nginx/*
+
+
 hospitalrun.crt
 
 hospitalrun.key
@@ -19,10 +24,26 @@ certificate.pem
 
 restart.sh
 
+cloudformation
+
+Dockerrun.aws.json
+
 start.sh
+
+!conf/polyclinic/start.sh
 
 stop.sh
 
 newrelic_agent.log
 
 newrelic.js
+
+.idea
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/config.yml
+build/*
+*.old
+.DS_Store
