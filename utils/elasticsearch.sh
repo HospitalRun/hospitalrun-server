@@ -5,67 +5,45 @@ if [ -z "${1}" ] || [ -z "${2}" ]; then
 fi
 
 echo "Setting up mappings"
-curl -XPUT 'localhost:9200/hrdb' -d' {
+curl --user elastic:changeme -XPUT 'elasticsearch:9200/hrdb' -d' {
     "mappings": {
-        "_default_": {        
+        "_default_": {
             "date_detection": false,
             "properties" : {
                 "data.crossReference": {
-                    "type" : "string"
+                    "type" : "text"
                 },
                 "data.description": {
-                    "type" : "string"
+                    "type" : "text"
                 },
                 "data.externalInvoiceNumber": {
-                    "type" : "string"
+                    "type" : "text"
                 },
                 "data.externalPatientId": {
-                    "type" : "string"                
+                    "type" : "text"
                 },
                 "data.firstName": {
-                    "type" : "string"
-                },                
+                    "type" : "text"
+                },
                 "data.friendlyId": {
-                    "type" : "string"
+                    "type" : "text"
                 },
                 "data.lastName": {
-                    "type" : "string"
+                    "type" : "text"
                 },
                 "data.name": {
-                    "type" : "string"
+                    "type" : "text"
                 },
                 "data.phone": {
-                    "type" : "string"
+                    "type" : "text"
                 },
                 "data.patientInfo": {
-                    "type" : "string"
+                    "type" : "text"
                 },
                 "data.prescription": {
-                    "type" : "string"
+                    "type" : "text"
                 }
             }
-        }        
+        }
     }
  }'
-echo "Setting up couchdb river" 
-curl -XPUT 'localhost:9200/_river/hrdb/_meta' -d "{
-    \"type\" : \"couchdb\",
-    \"couchdb\" : {
-        \"host\" : \"localhost\",
-        \"port\" : 5984,
-        \"db\" : \"main\",
-        \"filter\" : null,
-        \"user\" : \"$1\",
-        \"password\" : \"$2\",
-        \"ignore_attachments\": true,
-        \"script_type\": \"js\",
-        \"script\": \"var uidx = ctx.doc._id.indexOf(\\\"_\\\");if (ctx.doc._id && (uidx = ctx.doc._id.indexOf(\\\"_\\\")) > 0) {    ctx._type = ctx.doc._id.substring(0, uidx);} var fieldsToKeep = [];switch(ctx._type) {     case \\\"inventory\\\": {        fieldsToKeep = [\\\"data.crossReference\\\",\\\"data.description\\\",\\\"data.friendlyId\\\",\\\"data.name\\\"];                break;    }     case \\\"invoice\\\" : {         fieldsToKeep = [\\\"data.patientInfo\\\", \\\"data.externalInvoiceNumber\\\"];        break;    }    case \\\"patient\\\" : {         fieldsToKeep = [\\\"data.externalPatientId\\\",\\\"data.firstName\\\",\\\"data.friendlyId\\\",\\\"data.lastName\\\"];        break;    }     case \\\"pricing\\\" : {        fieldsToKeep = [\\\"data.name\\\"];                    break;    }     default: { ctx.ignore = true; }}\"
-    },
-    \"index\" : {
-        \"index\" : \"hrdb\",
-        \"type\" : \"hrdb\",
-        \"bulk_size\" : \"100\",
-        \"bulk_timeout\" : \"10ms\"
-    }
-}"
-echo "Done"

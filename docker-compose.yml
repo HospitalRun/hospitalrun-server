@@ -1,0 +1,73 @@
+version: "2.0"
+services:
+  nginx:
+    build:
+      args:
+        DOMAIN_NAME: www.example.com
+      context: nginx/.
+      dockerfile: Dockerfile
+    links:
+      - hospitalrun
+    ports:
+      - "8055:80"
+      - "443:443"
+    image: hospitalrun_nginx
+    volumes:
+      - ./data/nginx/letsencrypt:/etc/letsencrypt
+
+  hospitalrun:
+    container_name: hospitalrun
+    build: .
+    image: hospitalrun
+    links:
+      - couchdb
+      - elasticsearch
+      - logstash
+    depends_on:
+      - couchdb
+      - elasticsearch
+      - logstash
+    container_name: hospitalrun
+
+  couchdb:
+    container_name: couchdb_hr
+    image: couchdb:1.6
+    volumes:
+      - ./data/couchdb:/usr/local/var/lib/couchdb
+    ports:
+      - "5985:5984"
+
+  elasticsearch:
+    container_name: elasticsearch_hr
+    image: docker.elastic.co/elasticsearch/elasticsearch:5.2.2
+    volumes:
+      - ./data/elasticsearch:/usr/share/elasticsearch/data
+    ports:
+      - "9201:9200"
+    environment:
+      - http.host=0.0.0.0
+      - transport.host=127.0.0.1
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    mem_limit: 1g
+    cap_add:
+      - IPC_LOCK
+
+  logstash:
+    container_name: logstash_hr
+    build: logstash/
+    image: hospitalrun_logstash
+    volumes:
+      - ./logstash/pipeline/:/usr/share/logstash/pipeline/
+      - ./logstash/config/:/usr/share/logstash/config/
+    links:
+      - couchdb
+      - elasticsearch

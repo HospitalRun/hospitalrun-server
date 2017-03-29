@@ -3,6 +3,8 @@ HospitalRun Server
 This is the Node.js backend for HospitalRun.  The intention is that this would be used in HospitalRun production deployments.
 Having a Node.js backend server allows us to do the following:
 
+Full deployment documentation is available at [HospitalRun Deployment](https://confluence.ehealthafrica.org/display/HD/)
+
 1. Use Google OAuth for user authentication.
 2. Provide a proxy for CouchDB.
 3. Integrate with ElasticSearch for better search capability.
@@ -11,7 +13,13 @@ Having a Node.js backend server allows us to do the following:
  * **lookup-import** - Utility to import lookup lists from the frontend.
  * **merge-conflicts** - Checks for couchdb conflicts and resolves using a strategy of accepting the last change at a field level.
 
-## Installation
+## Installation with Docker
+This is the preferred and advisable way of running `hospitalrun-server`
+1. Clone files into your server
+2. Edit the `docker-compose.yml` file and replace `www.example.com` in `DOMAIN_NAME: www.example.com` with your domain name
+3. Run `docker-compose up -d` and wait a couple of minutes depending on how much bandwidth you have. Visit your domain name to see `hospitalrun in action`
+
+## Alternative Installation
 1. Make sure you have installed [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 2. Make sure you have installed [Node.js 4.x](https://nodejs.org/en/download/) https://nodejs.org/en/download/
 3. Clone this repo with `git clone https://github.com/HospitalRun/hospitalrun-server`
@@ -27,7 +35,7 @@ Having a Node.js backend server allows us to do the following:
         1. Download https://github.com/HospitalRun/hospitalrun-frontend/blob/master/script/initcouch.sh
         2. If you have just installed CouchDB and have no admin user, simply run `initcouch.sh` with no arguements.  A user `hradmin` will be created with password: `test`.
         2. If you already have a CouchDB admin user, please run `initcouch.sh USER PASS`.  `USER` and `PASS` are the CouchDB admin user credentials.
-6. Copy the config-example.js to config.js in the folder you cloned the HospitalRun repo. If you already had a CouchDB admin user that you passed into the couch script (initcouch.sh USER PASS), then you will need to modify the couchAdminUser and couchAdminPassword values in config.js to reflect those credentials. 
+6. Copy the config-example.js to config.js in the folder you cloned the HospitalRun repo. If you already had a CouchDB admin user that you passed into the couch script (initcouch.sh USER PASS), then you will need to modify the couchAdminUser and couchAdminPassword values in config.js to reflect those credentials.
 7. If you are on Linux distribution that uses Upstart, there is an upstart script in utils/hospitalrun.conf.  By default this script assumes the server is installed at /var/app/server. This script relies on [forever](https://github.com/foreverjs/forever) which you will need to install via npm: ```npm install -g forever```
    * alternatively you can run server using npm's scripts `npm start` (this is not recommended for production usage).
 8. Search on the HospitalRun Server uses [elasticsearch](https://github.com/elastic/elasticsearch).  You will also need the [CouchDB River Plugin for Elasticsearch](https://github.com/elastic/elasticsearch-river-couchdb) and the [JavaScript language Plugin for elasticsearch](https://github.com/elastic/elasticsearch-lang-javascript).  If you are installing on a debian server you can use the following steps to setup elasticsearch and java (if needed):
@@ -50,7 +58,7 @@ Having a Node.js backend server allows us to do the following:
     ```
 10. Start elasticsearch.  On debian/ubuntu: ```service elasticsearch start```
 11. Run the setup script for linking couchdb to elasticsearch.  You will need to specify the username and password for the hospitalrun admin account you created with initcouch.sh in [HospitalRun/frontend](https://github.com/HospitalRun/frontend/blob/master/script/initcouch.sh):
-    
+
     ```
     /utils/elasticsearch.sh hradmin password
     ```

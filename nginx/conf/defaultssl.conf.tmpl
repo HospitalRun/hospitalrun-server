@@ -1,0 +1,73 @@
+server {
+    listen       80;
+    server_name  _;
+
+    #charset koi8-r;
+    access_log /dev/stdout;
+    error_log /dev/stderr warn;
+
+
+    location / {
+            rewrite ^(.*)$ https://$host$request_uri;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+    location ~ /\.ht {
+        deny  all;
+    }
+}
+
+server {
+    listen       80;
+    server_name  localhost;
+
+    #charset koi8-r;
+    access_log /dev/stdout;
+    error_log /dev/stderr debug;
+
+
+    location / {
+             proxy_pass http://hospitalrun:3000;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+    location ~ /\.ht {
+        deny  all;
+    }
+}
+
+server {
+    listen       443 ssl;
+    server_name  _;
+
+    #charset koi8-r;
+    access_log /dev/stdout;
+    error_log /dev/stderr warn;
+
+
+    location / {
+
+        proxy_pass http://hospitalrun:3000;
+
+        # Add HTTP Strict Transport Security for good measure.
+           add_header Strict-Transport-Security "max-age=31536000; includeSubDomains;";
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+    location ~ /\.ht {
+        deny  all;
+    }
+
+
+  ssl_certificate /etc/letsencrypt/live/${DOMAIN_NAME}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/${DOMAIN_NAME}/privkey.pem;
+}

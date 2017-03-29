@@ -1,0 +1,47 @@
+server {
+    listen       80;
+    server_name  _;
+
+    #charset koi8-r;
+    access_log /dev/stdout;
+    error_log /dev/stderr warn;
+
+
+    location / {
+            rewrite ^(.*)$ https://$host$request_uri;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+    location ~ /\.ht {
+        deny  all;
+    }
+}
+
+server {
+    listen       80;
+    server_name  localhost;
+
+    #charset koi8-r;
+    access_log /dev/stdout;
+    error_log /dev/stderr info;
+
+
+    location / {
+
+             proxy_pass http://hospitalrun:3000;
+
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+    location ~ /\.ht {
+        deny  all;
+    }
+
+
+}
