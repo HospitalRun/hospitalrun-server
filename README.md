@@ -21,7 +21,7 @@ This is the preferred and advisable way of running `hospitalrun-server`
 
 ## Alternative Installation
 1. Make sure you have installed [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
-2. Make sure you have installed [Node.js 4.x](https://nodejs.org/en/download/) https://nodejs.org/en/download/
+2. Make sure you have installed [Node.js 6.x](https://nodejs.org/en/download/) https://nodejs.org/en/download/
 3. Clone this repo with `git clone https://github.com/HospitalRun/hospitalrun-server`
 4. Run ```npm install``` in the newly clone directory to install the HospitalRun dependencies
 5. Install and configure [CouchDB 1.6.1](http://couchdb.apache.org/)
