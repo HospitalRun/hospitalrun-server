@@ -22,7 +22,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "colors": "^1.1.2",
-    "csv-parse": "1.1.7",
+    "csv-parse": "1.1.8",
     "express": "^4.13.4",
     "hospitalrun": "0.9.18",
     "hospitalrun-dblisteners": "0.9.6",
