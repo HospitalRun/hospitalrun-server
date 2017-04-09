@@ -6,7 +6,9 @@
   "homepage": "http://hospitalrun.io",
   "scripts": {
     "start": "node app.js",
-    "test": "snyk test && jscs *.js dblisteners/*.js"
+    "test": "snyk test && jscs *.js dblisteners/*.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -32,7 +34,7 @@
     "nano": "^6.2.0",
     "node-uuid": "^1.4.2",
     "prompt": "^1.0.0",
-    "snyk": "^1.17.5"
+    "snyk": "^1.25.2"
   },
   "devDependencies": {
     "camelize": "^1.0.0",
