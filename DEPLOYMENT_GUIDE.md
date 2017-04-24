@@ -63,7 +63,7 @@ Follow these five easy steps to get hospitalrun up and running
 
 2. Run ```cd hospitalrun-server```. This should take you into the hospitalrun-server root folder
 
-3. From this location, edit the docker-compose.yml file. Within the nginx service, edit the DOMAIN_NAME argument and replace[ www.example.com](http://www.example.com) as shown in the image below with the  publicly accessible domain name that hospitalrun will run on
+3. From this location, edit the ```docker-compose.yml``` file. Within the nginx service, edit the DOMAIN_NAME argument and replace[ www.example.com](http://www.example.com) as shown in the image below with the  publicly accessible domain name that hospitalrun will run on
 
 4. Save the file and run ```docker-compose up --build -d```. You should wait for some ten minutes or less for your environment to be up and running. Deployment speed will vary based on your internet connection speed and the quality of your infrastructure
 
