@@ -1,9 +1,6 @@
 HospitalRun Server
 ======
-This is the Node.js backend for HospitalRun.  The intention is that this would be used in HospitalRun production deployments.
-Having a Node.js backend server allows us to do the following:
-
-Full deployment documentation is available at [HospitalRun Deployment](https://confluence.ehealthafrica.org/display/HD/)
+This is the Node.js backend for HospitalRun.  The intention is that this would be used in HospitalRun production deployments. Having a Node.js backend server allows us to do the following:
 
 1. Use Google OAuth for user authentication.
 2. Provide a proxy for CouchDB.
@@ -15,9 +12,8 @@ Full deployment documentation is available at [HospitalRun Deployment](https://c
 
 ## Installation with Docker
 This is the preferred and advisable way of running `hospitalrun-server`
-1. Clone files into your server
-2. Edit the `docker-compose.yml` file and replace `www.example.com` in `DOMAIN_NAME: www.example.com` with your domain name
-3. Run `docker-compose up -d` and wait a couple of minutes depending on how much bandwidth you have. Visit your domain name to see `hospitalrun in action`
+
+Full deployment documentation is available [here](https://github.com/HospitalRun/hospitalrun-server/blob/master/DEPLOYMENT_GUIDE.md).
 
 ## Alternative Installation
 1. Make sure you have installed [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
@@ -62,6 +58,7 @@ This is the preferred and advisable way of running `hospitalrun-server`
     ```
     /utils/elasticsearch.sh hradmin password
     ```
+
 ## Inventory Import
 There is a utility located under utils/inv-import.js that will allow you to import inventory from a CSV.  To use it, run the following command
 `node utils/inv-import.js file.csv YYYY-MM-DD`, eg `node utils/inv-import.js file.csv 2015-12-31`
