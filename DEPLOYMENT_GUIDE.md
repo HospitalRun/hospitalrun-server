@@ -1,7 +1,7 @@
 **HospitalRun Deployment Guide**
 ==============================
 
-Welcome to HospitalRun Deployment Documentation. Please feel free to make comments or open issues on the public repository here [https://github.com/HospitalRun/hospitalrun-server](https://github.com/HospitalRun/hospitalrun-server)
+Welcome to HospitalRun Deployment Documentation. You can log issues, comments or contributions on the public repository [here](https://github.com/HospitalRun/hospitalrun-server).
 
 # **Overview**
 
