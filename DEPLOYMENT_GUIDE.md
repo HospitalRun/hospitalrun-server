@@ -68,6 +68,8 @@ Follow these five easy steps to get hospitalrun up and running
 
 4. Save the file and run ```docker-compose up --build -d```. You should wait for some ten minutes or less for your environment to be up and running. Deployment speed will vary based on your internet connection speed and the quality of your infrastructure
 
+5. Go to [http://localhost:8055/](http://localhost:8055/) in a browser and login with username ```hradmin``` and password ```test```
+
 ![screenshot](screenshot.png)
 
 # **The Data Folder**
