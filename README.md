@@ -81,3 +81,13 @@ The csv fields that are supported are as follows:
 - **vendorItemNo** (optional) - Vendor item number
 
 The first row of the csv file needs to have the columnName as specified above so that the import tool knows which value is in which column.
+
+## DB to CSV
+There is a utility located under utils/db-to-csv.js that will allow you to dump the database to CSV.  To use it, run the following command
+`node utils/db-dump.js <type> <filename> <dbname>`, eg `node utils/db-dump.js inventory`
+
+The following parameters are supported:
+
+-  **type** (required) - the type of object to dump from the database (eg inventory).  For a list of available types, run `node utils/db-to-csv.js --types`
+- **filename** (optional) - the name of the file to write to.  If not specifed, this will default to type.csv (eg inventory.csv for inventory type).
+- **dbname** (optional) - the name of the database to dump from.  If not specifed, this will default to the main database for HospitalRun.
