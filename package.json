@@ -6,7 +6,7 @@
   "homepage": "http://hospitalrun.io",
   "scripts": {
     "start": "node app.js",
-    "test": "snyk test && jscs *.js dblisteners/*.js"
+    "test": "snyk test && eslint *.js utils/*.js"
   },
   "repository": {
     "type": "git",
@@ -15,14 +15,13 @@
   "author": "John Kleinschmidt",
   "contributors": [
     "Joel Worrall",
-    "Joel Glovier",
-    "Mofesola Babalola",
-    "Adeola Badmus"
+    "Joel Glovier"
   ],
   "license": "GPL-3.0",
   "dependencies": {
     "colors": "^1.1.2",
     "csv-parse": "1.1.7",
+    "csv-stringify": "^1.0.4",
     "express": "^4.13.4",
     "hospitalrun": "0.9.18",
     "hospitalrun-dblisteners": "0.9.6",
