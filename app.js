@@ -1,4 +1,5 @@
-var config =  require('./config.js');
+#!/usr/bin/env node
+var config = require('./config.js');
 var dbListeners = require('hospitalrun-dblisteners');
 var express = require('express');
 var fs = require('fs');
