@@ -10,7 +10,7 @@ if [ -z "${1}" ] || [ -z "${2}" ]; then
 else
     SECUREHOST="http://$1:$2@$URL:$PORT"
 fi
-curl -X PUT $SECUREHOST/_users/_security -d '{ "admins": { "names": [], "roles": ["admin"]}, "members": { "names": [], "roles": [admin]}}'
+curl -X PUT $SECUREHOST/_users/_security -d '{ "admins": { "names": [], "roles": ["admin"]}, "members": { "names": [], "roles": ["admin"]}}'
 curl -X PUT $SECUREHOST/config
 curl -X PUT $SECUREHOST/config/_security -d '{ "admins": { "names": [], "roles": ["admin"]}, "members": { "names": [], "roles": []}}'
 curl -X PUT $SECUREHOST/config/_design/auth -d "{ \"validate_doc_update\": \"function(newDoc, oldDoc, userCtx) {if(userCtx.roles.indexOf('_admin')!== -1) {return;} else {throw({forbidden: 'This DB is read-only'});}}\"}"
