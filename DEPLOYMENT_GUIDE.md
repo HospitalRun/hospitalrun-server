@@ -6,21 +6,15 @@ Welcome to HospitalRun Deployment Documentation. You can log issues, comments or
 
 # **Overview**
 
-## **1. HospitalRun Technology Stack and Tools**
+## **1. Pre-requisites**
 
-* Docker
-
-* Node.js
-
-* CouchDB
-
-* ElasticSearch
-
-* Logstash
-
-* Bash
-
-* Nginx
+* [Docker](https://www.docker.com/)
+* [NodeJS](https://nodejs.org/en/)
+* [CouchDB](http://couchdb.apache.org/)
+* [ElasticSearch](https://www.elastic.co/products/elasticsearch)
+* [Logstash](https://www.elastic.co/products/logstash)
+* [Bash](https://www.gnu.org/software/bash/)
+* [Nginx](https://www.nginx.com/resources/wiki/)
 
 ## **2. Important Configuration Scripts**
 
@@ -52,21 +46,21 @@ Here are some configuration scripts that have been used in designing this applic
 
 * conf/entrypoint.sh
 
-# **Deploying HospitalRun to a production environment**
+# **Deploying HospitalRun to a Production Environment**
 
-**Assumptions:** You should have git, docker and docker-compose running on your machine before the steps above can work. The instructions also assume you will be running this on a linux machine, preferably Ubuntu >=14
+**Assumptions:** You should have `git`, `docker` and `docker-compose` running on your machine before the steps above can work. The instructions also assume you will be running this on a Linux machine, preferably Ubuntu LTS >=14.04
 
-## **Step-by-step guide**
+## **Step-by-Step Guide**
 
-Follow these five easy steps to get hospitalrun up and running
+Follow these five easy steps to get HospitalRun up and running
 
-1. Clone the repository  ```git clone git@github.com:HospitalRun/hospitalrun-server.git```.
+1. Clone the repository  `git clone git@github.com:HospitalRun/hospitalrun-server.git`.
 
-2. Run ```cd hospitalrun-server```. This should take you into the hospitalrun-server root folder
+2. Run `cd hospitalrun-server`. This should take you into the `hospitalrun-server` root folder
 
-3. From this location, edit the ```docker-compose.yml``` file. Within the nginx service, edit the DOMAIN_NAME argument and replace[ www.example.com](http://www.example.com) as shown in the image below with the  publicly accessible domain name that hospitalrun will run on
+3. From this location, edit the `docker-compose.yml` file. Within the nginx service, edit the `DOMAIN_NAME` argument and replace `www.example.com` as shown in the image below with the  publicly accessible domain name that HospitalRun will run on
 
-4. Save the file and run ```docker-compose up --build -d```. You should wait for some ten minutes or less for your environment to be up and running. Deployment speed will vary based on your internet connection speed and the quality of your infrastructure
+4. Save the file and run `docker-compose up --build -d`. You should wait for some ten minutes or less for your environment to be up and running. Deployment speed will vary based on your internet connection speed and the quality of your infrastructure
 
 5. Go to [http://localhost:8055/](http://localhost:8055/) in a browser and login with username ```hradmin``` and password ```test```
 
