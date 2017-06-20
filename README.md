@@ -43,11 +43,11 @@ Full deployment documentation is available [here](https://github.com/HospitalRun
     sudo add-apt-repository ppa:webupd8team/java
     sudo apt-get update
     sudo apt-get install oracle-java8-installer elasticsearch logstash
-    sudo logstash-plugin update --no-verify logstash-input-couchdb_changes
-    sudo cp logstash/pipeline/logstash.conf /usr/share/logstash/pipeline/
-    sudo cp logstash/config/* /usr/share/logstash/config/
+    sudo /usr/share/logstash/bin/logstash-plugin update --no-verify logstash-input-couchdb_changes
+    sudo cp -r logstash/pipeline /usr/share/logstash
+    sudo cp -r logstash/config /usr/share/logstash
     sudo service logstash restart
-    service elasticsearch restart
+    sudo service elasticsearch restart
     ```
 
 ## Inventory Import
