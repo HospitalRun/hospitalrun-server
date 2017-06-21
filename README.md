@@ -31,7 +31,16 @@ Full deployment documentation is available [here](https://github.com/HospitalRun
         1. Download `https://github.com/HospitalRun/hospitalrun-frontend/blob/master/script/initcouch.sh`
         2. If you have just installed CouchDB and have no admin user, simply run `initcouch.sh` with no arguements.  A user `hradmin` will be created with password: `test`.
         2. If you already have a CouchDB admin user, please run `initcouch.sh USER PASS`.  `USER` and `PASS` are the CouchDB admin user credentials.
-6. Copy the `config-example.js` to `config.js` in the folder you cloned the HospitalRun repository. If you already had a CouchDB admin user that you passed into the couch script (`initcouch.sh USER PASS`), then you will need to modify the `couchAdminUser` and `couchAdminPassword` values in `config.js` to reflect those credentials.
+6. Copy the `config-example.js` to `config.js` in the folder you cloned the HospitalRun repository. If you already had a CouchDB admin user that you passed into the couch script (`initcouch.sh USER PASS`), then you will need to modify the `couchAdminUser` and `couchAdminPassword` values in `config.js` to reflect those credentials.  Additionally the default network name for the CouchDB server is `couchdb`.  If you are runninig CouchDB on the same server as HospitalRun, change line 2 of `config.js` from: 
+```js
+var config = {
+  couchDbServer: 'couchdb',
+```
+to:
+```js
+var config = {
+  couchDbServer: 'localhost',
+```
 7. If you are on Linux distribution that uses **Upstart**, there is an upstart script in `utils/hospitalrun.conf`.  By default this script assumes the server is installed at `/var/app/server`. This script relies on [forever](https://github.com/foreverjs/forever) which you will need to install via npm: `npm install -g forever`
    * alternatively you can run server using npm's scripts `npm start` (this is not recommended for production usage).
 8. Search on the HospitalRun Server uses [Elasticsearch 5.x](https://www.elastic.co/products/elasticsearch) and [Logstash 5.x](https://www.elastic.co/products/logstash). If you are installing on a debian server you can use the following steps to setup elasticsearch and java (if needed):
