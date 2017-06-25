@@ -2,11 +2,11 @@ var config =  require('../config.js');
 var colors = require('colors/safe');
 var nano = require('nano')(config.couchAuthDbURL);
 var maindb = nano.use('main');
-var prompt = require("prompt");
+var prompt = require('prompt');
 var recordsToDelete = [];
 
 prompt.start();
-prompt.message = colors.red("WARNING!!!!");
+prompt.message = colors.red('WARNING!!!!');
 prompt.get({
   properties: {
     confirm: {
@@ -59,4 +59,3 @@ prompt.get({
       process.exit(1);
     }
   });
-
