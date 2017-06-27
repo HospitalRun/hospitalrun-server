@@ -159,4 +159,3 @@ function cleanupConflicts(currentDoc, conflicts, callback) {
     });
   }
 }
-

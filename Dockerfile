@@ -1,12 +1,10 @@
-FROM node:boron
+FROM node:boron-slim
 LABEL maintainer Mofesola Babalola <me@mofesola.com>
 
 #Get required applications
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && apt-get install -y  curl
 
 #Create App Directory
-RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 #Install Dependencies
