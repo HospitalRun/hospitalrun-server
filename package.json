@@ -31,7 +31,7 @@
     "nano": "^6.2.0",
     "node-uuid": "^1.4.2",
     "prompt": "^1.0.0",
-    "snyk": "^1.17.5"
+    "snyk": "^1.36.2"
   },
   "devDependencies": {
     "camelize": "^1.0.0",
