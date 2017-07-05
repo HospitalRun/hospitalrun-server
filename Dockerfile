@@ -9,7 +9,7 @@ WORKDIR /usr/src/app
 
 #Install Dependencies
 COPY package.json /usr/src/app
-RUN npm install --loglevel silent
+RUN npm install --production --loglevel silent
 
 COPY . /usr/src/app
 COPY conf/entrypoint.sh .
