@@ -20,7 +20,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "colors": "^1.1.2",
-    "csv-parse": "1.1.7",
+    "csv-parse": "1.2.1",
     "csv-stringify": "^1.0.4",
     "express": "^4.13.4",
     "hospitalrun": "1.0.0-beta",
