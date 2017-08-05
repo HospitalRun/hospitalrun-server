@@ -1,19 +1,15 @@
-var config =  require('../config.js');
+var config = require('../config.js');
 var fs = require('fs');
-var nano = require('nano')(config.couchAuthDbURL);
-var maindb = nano.use('main');
 var moment = require('moment');
+var nano = require('nano')(config.couchAuthDbURL);
 var parse = require('csv-parse');
+var relPouch = require('relational-pouch');
 var uuid = require('node-uuid');
-var inventoryMap = {
-};
 
-var locationMap = {
-};
-
-var aisleMap = {
-};
-
+var maindb = nano.use('main');
+var inventoryMap = {};
+var locationMap = {};
+var aisleMap = {};
 var types = {};
 var units = {};
 var inventoryToImport;
@@ -29,8 +25,9 @@ var parser = parse({columns: true, trim: true, auto_parse: true}, function(err, 
     processItem(inventoryToImport.shift());
   }
 });
+
 if (process.argv.length < 4) {
-  console.log('Usage: node inv-import.js file.csv 2015-12-31');
+  console.log('Usage: node inv-import.js file.csv YYYY-MM-DD');
 } else {
   importDateReceived = moment(process.argv[3]).toDate();
   fs.createReadStream(process.argv[2]).pipe(parser);
@@ -39,7 +36,7 @@ if (process.argv.length < 4) {
 function convertToInt(number) {
   if (number) {
     if (number.replace) {
-      number = number.replace(',','');
+      number = number.replace(',', '');
     }
     return parseInt(number);
   } else {
@@ -77,10 +74,10 @@ function addPurchase(csvItem, inventoryDetails, callback) {
     currentQuantity: convertToInt(csvItem.quantity),
     dateReceived: importDateReceived,
     inventoryItem: inventoryDetails.item._id,
+    location: csvItem.location,
+    lotNumber: csvItem.lotNumber,
     originalQuantity: convertToInt(csvItem.quantity),
     purchaseCost: convertToInt(csvItem.purchaseCost),
-    lotNumber: csvItem.lotNumber,
-    location: csvItem.location,
     vendor: csvItem.vendor,
     vendorItemNo: csvItem.vendorItemNo
   };
@@ -94,7 +91,7 @@ function addPurchase(csvItem, inventoryDetails, callback) {
 
   if (newPurchase.currentQuantity === 0 && inventoryDetails.item.purchases && inventoryDetails.item.purchases.length > 0) {
     // Don't save a purchase of zero quantity if the item already exists
-    console.log('Skipping purchase because of zero quantity and it already exists: ',csvItem);
+    console.log('Skipping purchase because of zero quantity and it already exists: ', csvItem);
     callback();
   } else {
     // Insert purchase
@@ -252,7 +249,7 @@ function generateFriendlyId(sequence, callback) {
   }
   updateRecord(sequence, function(err) {
     if (err) {
-      console.log('ERROR INSERTING SEQUENCE',err);
+      console.log('ERROR INSERTING SEQUENCE', err);
       callback(err);
     } else {
       callback(null, friendlyId);
@@ -289,7 +286,7 @@ function findSequence(type, callback) {
   checkNextSequence(type, 0, function(err, prefixChars) {
     var newSequence = {
       _id: 'sequence_inventory_' + type,
-      prefix: type.toLowerCase().substr(0,prefixChars),
+      prefix: type.toLowerCase().substr(0, prefixChars),
       value: 0
     };
     callback(null, newSequence);
@@ -299,7 +296,7 @@ function findSequence(type, callback) {
 function findSequenceByPrefix(type, prefixChars, callback) {
   maindb.list({
     key: 'prefix',
-    startskey: type.toLowerCase().substr(0,prefixChars)
+    startskey: type.toLowerCase().substr(0, prefixChars)
   }, callback);
 }
 
@@ -307,7 +304,7 @@ function checkNextSequence(type, prefixChars, callback) {
   prefixChars++;
   findSequenceByPrefix(type, prefixChars, function(err, result) {
     if (err) {
-      console.log('error finding by prefix: ' + prefixChars,err);
+      console.log('error finding by prefix: ' + prefixChars, err);
       callback(err);
     } else {
       if (result.rows.length > 0) {
@@ -344,7 +341,7 @@ function addNewLocations(listname, locationMap, callback) {
       if (location && location !== '') {
         var existingLocation = locationMatch(list.value, location);
         if (!existingLocation) {
-          console.log('location doesn\'t exist adding: ',location);
+          console.log('location doesn\'t exist adding: ', location);
           list.value.push(location);
           updateList = true;
         }
@@ -366,4 +363,3 @@ function updateLocations(callback) {
     addNewLocations('lookup_aisle_location_list', aisleMap, callback);
   });
 }
-
