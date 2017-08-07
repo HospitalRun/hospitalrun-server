@@ -1,19 +1,16 @@
-var config =  require('../config.js');
+var camelize = require('camelize');
+var config = require('../config.js');
 var fs = require('fs');
-var nano = require('nano')(config.couchAuthDbURL);
-var maindb = nano.use('main');
 var moment = require('moment');
+var nano = require('nano')(config.couchAuthDbURL);
 var parse = require('csv-parse');
+var relPouch = require('relational-pouch');
 var uuid = require('node-uuid');
-var inventoryMap = {
-};
 
-var locationMap = {
-};
-
-var aisleMap = {
-};
-
+var maindb = nano.use('main');
+var inventoryMap = {};
+var locationMap = {};
+var aisleMap = {};
 var types = {};
 var units = {};
 var inventoryToImport;
@@ -26,11 +23,13 @@ var parser = parse({columns: true, trim: true, auto_parse: true}, function(err, 
     console.log('Error parsing csv file:', err);
   } else {
     inventoryToImport = data;
+    relPouch.setSchema([]);
     processItem(inventoryToImport.shift());
   }
 });
+
 if (process.argv.length < 4) {
-  console.log('Usage: node inv-import.js file.csv 2015-12-31');
+  console.log('Usage: node inv-import.js file.csv YYYY-MM-DD');
 } else {
   importDateReceived = moment(process.argv[3]).toDate();
   fs.createReadStream(process.argv[2]).pipe(parser);
@@ -39,7 +38,7 @@ if (process.argv.length < 4) {
 function convertToInt(number) {
   if (number) {
     if (number.replace) {
-      number = number.replace(',','');
+      number = number.replace(',', '');
     }
     return parseInt(number);
   } else {
@@ -70,31 +69,37 @@ function formatLocationName(location, aisleLocation) {
 }
 
 function addPurchase(csvItem, inventoryDetails, callback) {
-  var purchaseId = 'inv-purchase_' + uuid.v4();
+  var purchaseId = getNewId('inv-purchase');
   var newPurchase = {
     _id: purchaseId,
-    aisleLocation: csvItem.aisleLocation,
-    currentQuantity: convertToInt(csvItem.quantity),
-    dateReceived: importDateReceived,
-    inventoryItem: inventoryDetails.item._id,
-    originalQuantity: convertToInt(csvItem.quantity),
-    purchaseCost: convertToInt(csvItem.purchaseCost),
-    lotNumber: csvItem.lotNumber,
-    location: csvItem.location,
-    vendor: csvItem.vendor,
-    vendorItemNo: csvItem.vendorItemNo
+    data: {
+      aisleLocation: csvItem.aisleLocation,
+      currentQuantity: convertToInt(csvItem.quantity),
+      dateReceived: importDateReceived,
+      inventoryItem: inventoryDetails.item._id,
+      location: csvItem.location,
+      lotNumber: csvItem.lotNumber,
+      originalQuantity: convertToInt(csvItem.quantity),
+      purchaseCost: convertToInt(csvItem.purchaseCost),
+      vendor: csvItem.vendor,
+      vendorItemNo: csvItem.vendorItemNo
+    }
   };
   if (!isEmpty(csvItem.expirationDate)) {
-    newPurchase.expirationDate = moment(csvItem.expirationDate, 'MM/DD/YY').toDate();
+    newPurchase.data.expirationDate = moment(csvItem.expirationDate, 'MM/DD/YY').toDate();
   }
   if (csvItem.giftInKind === 'Yes') {
-    newPurchase.giftInKind = true;
+    newPurchase.data.giftInKind = true;
   }
-  inventoryDetails.item.quantity += newPurchase.currentQuantity;
+  inventoryDetails.item.data.quantity += newPurchase.data.currentQuantity;
 
-  if (newPurchase.currentQuantity === 0 && inventoryDetails.item.purchases && inventoryDetails.item.purchases.length > 0) {
+  if (
+    newPurchase.data.currentQuantity === 0 &&
+    inventoryDetails.item.data.purchases &&
+    inventoryDetails.item.data.purchases.length > 0
+  ) {
     // Don't save a purchase of zero quantity if the item already exists
-    console.log('Skipping purchase because of zero quantity and it already exists: ',csvItem);
+    console.log('Skipping purchase because of zero quantity and it already exists: ', csvItem);
     callback();
   } else {
     // Insert purchase
@@ -102,10 +107,11 @@ function addPurchase(csvItem, inventoryDetails, callback) {
       if (err) {
         callback(err);
       } else {
-        if (!inventoryDetails.item.purchases) {
-          inventoryDetails.item.purchases = [];
+        if (!inventoryDetails.item.data.purchases) {
+          inventoryDetails.item.data.purchases = [];
         }
-        inventoryDetails.item.purchases.push(purchaseId);
+        var parsedId = relPouch.rel.parseDocID(purchaseId).id;
+        inventoryDetails.item.data.purchases.push(parsedId);
         // Update insert location
         addPurchaseToLocation(inventoryDetails, newPurchase, function(err) {
           // Update inventory item
@@ -134,22 +140,25 @@ function updateRecord(record, callback) {
 }
 
 function addPurchaseToLocation(inventoryDetails, purchase, callback) {
-  var locationToFind = formatLocationName(purchase.location, purchase.aisleLocation);
+  var locationToFind = formatLocationName(purchase.data.location, purchase.data.aisleLocation);
   var locationRecord = inventoryDetails.locations[locationToFind];
   if (inventoryDetails.locations[locationToFind]) {
-    locationRecord.quantity += purchase.originalQuantity;
+    locationRecord.data.quantity += purchase.data.originalQuantity;
   } else {
-    var locationId = 'inv-location_' + uuid.v4();
+    var locationId = getNewId('inv-location');
     locationRecord = {
       _id: locationId,
-      aisleLocation: purchase.aisleLocation,
-      location: purchase.location,
-      quantity: purchase.originalQuantity
+      data: {
+        aisleLocation: purchase.data.aisleLocation,
+        location: purchase.data.location,
+        quantity: purchase.data.originalQuantity
+      }
     };
-    if (!inventoryDetails.item.locations) {
-      inventoryDetails.item.locations = [];
+    if (!inventoryDetails.item.data.locations) {
+      inventoryDetails.item.data.locations = [];
     }
-    inventoryDetails.item.locations.push(locationId);
+    var parsedId = relPouch.rel.parseDocID(locationId).id;
+    inventoryDetails.item.data.locations.push(parsedId);
     inventoryDetails.locations[locationToFind] = locationRecord;
   }
   updateRecord(locationRecord, callback);
@@ -211,7 +220,7 @@ function insertInventoryItem(item, callback) {
       callback(err);
     } else {
       friendlyIdsUsed[id] = true;
-      item.friendlyId = id;
+      item.data.friendlyId = id;
       item._id = generateId();
       updateRecord(item, callback);
     }
@@ -219,9 +228,10 @@ function insertInventoryItem(item, callback) {
 }
 
 function getFriendlyId(item, callback) {
-  maindb.get('sequence_inventory_' + item.type, function(err, sequence) {
+  sequence_id = getNewId('sequence', 'inventory_' + item.data.inventoryType);
+  maindb.get(sequence_id, function(err, sequence) {
     if (err) {
-      findSequence(item.type, function(err, sequence) {
+      findSequence(item.data.inventoryType, function(err, sequence) {
         if (err) {
           callback(err);
         } else {
@@ -235,12 +245,12 @@ function getFriendlyId(item, callback) {
 }
 
 function buildFriendlyId(sequence) {
-  var friendlyId = sequence.prefix;
-  sequence.value += 1;
-  if (sequence.value < 100000) {
-    friendlyId += String('00000' + sequence.value).slice(-5);
+  var friendlyId = sequence.data.prefix;
+  sequence.data.value += 1;
+  if (sequence.data.value < 100000) {
+    friendlyId += String('00000' + sequence.data.value).slice(-5);
   } else {
-    friendlyId += sequence.value;
+    friendlyId += sequence.data.value;
   }
   return friendlyId;
 }
@@ -252,7 +262,7 @@ function generateFriendlyId(sequence, callback) {
   }
   updateRecord(sequence, function(err) {
     if (err) {
-      console.log('ERROR INSERTING SEQUENCE',err);
+      console.log('ERROR INSERTING SEQUENCE', err);
       callback(err);
     } else {
       callback(null, friendlyId);
@@ -265,19 +275,21 @@ function generateId() {
   var max = 999;
   var part1 = new Date().getTime();
   var part2 = Math.floor(Math.random() * (max - min + 1)) + min;
-  return 'inventory_' + part1.toString(36) + '_' + part2.toString(36);
+  return getNewId('inventory', part1.toString(36) + '_' + part2.toString(36));
 }
 
 function createInventoryItem(item, callback) {
   var inventoryItem = {
-    name: item.name,
-    distributionUnit: item.distributionUnit,
-    quantity: 0, // Quantity gets added via purchases
-    type: item.type,
-    crossReference: item.crossReference
+    data: {
+      name: item.name,
+      distributionUnit: item.distributionUnit,
+      quantity: 0, // Quantity gets added via purchases
+      inventoryType: item.type,
+      crossReference: item.crossReference
+    }
   };
-  if (!types[item.type]) {
-    types[item.type] = true;
+  if (!types[item.inventoryType]) {
+    types[item.inventoryType] = true;
   }
   if (!units[item.distributionUnit]) {
     units[item.distributionUnit] = true;
@@ -288,9 +300,11 @@ function createInventoryItem(item, callback) {
 function findSequence(type, callback) {
   checkNextSequence(type, 0, function(err, prefixChars) {
     var newSequence = {
-      _id: 'sequence_inventory_' + type,
-      prefix: type.toLowerCase().substr(0,prefixChars),
-      value: 0
+      _id: getNewId('sequence', 'inventory_' + type),
+      data: {
+        prefix: type.toLowerCase().substr(0, prefixChars),
+        value: 0
+      }
     };
     callback(null, newSequence);
   });
@@ -298,8 +312,8 @@ function findSequence(type, callback) {
 
 function findSequenceByPrefix(type, prefixChars, callback) {
   maindb.list({
-    key: 'prefix',
-    startskey: type.toLowerCase().substr(0,prefixChars)
+    key: 'data.prefix',
+    startskey: type.toLowerCase().substr(0, prefixChars)
   }, callback);
 }
 
@@ -307,7 +321,7 @@ function checkNextSequence(type, prefixChars, callback) {
   prefixChars++;
   findSequenceByPrefix(type, prefixChars, function(err, result) {
     if (err) {
-      console.log('error finding by prefix: ' + prefixChars,err);
+      console.log('error finding by prefix: ' + prefixChars, err);
       callback(err);
     } else {
       if (result.rows.length > 0) {
@@ -336,16 +350,18 @@ function addNewLocations(listname, locationMap, callback) {
     if (err) {
       list = {
         _id: listname,
-        value: []
+        data: {
+          value: []
+        }
       };
     }
     var updateList = false;
     for (var location in locationMap) {
       if (location && location !== '') {
-        var existingLocation = locationMatch(list.value, location);
+        var existingLocation = locationMatch(list.data.value, location);
         if (!existingLocation) {
-          console.log('location doesn\'t exist adding: ',location);
-          list.value.push(location);
+          console.log('location doesn\'t exist adding: ', location);
+          list.data.value.push(location);
           updateList = true;
         }
       }
@@ -359,11 +375,30 @@ function addNewLocations(listname, locationMap, callback) {
 }
 
 function updateLocations(callback) {
-  addNewLocations('lookup_warehouse_list', locationMap, function(err) {
+  var warehouse_list_id = getNewId('lookup', 'lookup_warehouse_list');
+  addNewLocations(warehouse_list_id, locationMap, function(err) {
     if (err) {
       callback(err);
     }
-    addNewLocations('lookup_aisle_location_list', aisleMap, callback);
+    var aisle_location_list_id = getNewId('lookup', 'aisle_location_list');
+    addNewLocations(aisle_location_list_id, aisleMap, callback);
   });
+}
+
+/**
+ * Returns a valid _id for use with ember-pouch using a doc's type and id
+ * properties.
+ *
+ * The format is <type>_<id type>_<id>. The <id type> depends on the id. If the
+ * id is undefined the value is 0. If the id is a number, the value is 1, if
+ * the id is a string the value is 2, and if the id is an object the value is
+ * 3.
+ *
+ * @param {*} type the document type
+ * @param {*} id defaults to uuid.v4()
+ */
+function getNewId(type, id = uuid.v4().toUpperCase()) {
+  // ember-pouch convention; uppercase uuid and camelize type
+  return relPouch.rel.makeDocID({id, type: camelize(type)});
 }
 
