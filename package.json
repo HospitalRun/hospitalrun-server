@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "camelize": "^1.0.0",
-    "relational-pouch": "^1.3.3"
+    "relational-pouch": "^2.0.0"
   },
   "snyk": true
 }
