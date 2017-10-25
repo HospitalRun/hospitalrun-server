@@ -38,6 +38,9 @@ if (config.useSSL) {
   server = http.createServer(app);
 }
 
+let mainRouter = require('./api/router/routes');
+app.use('/api', mainRouter);
+
 server.listen(config.serverPort, function listening() {
   console.log('HospitalRun server listening on %j', server.address());
 });
