@@ -17,7 +17,7 @@ router.get('/root', patientsController.notroot);
 // })
 
 module.exports = router;
-    // var patients = require('../controllers/patients_controller.js');
+// var patients = require('../controllers/patients_controller.js');
 
-    // router.get('/', (r, q) => q.send(200));
-    // router.get('/:patId', patients.show);
+// router.get('/', (r, q) => q.send(200));
+// router.get('/:patId', patients.show);

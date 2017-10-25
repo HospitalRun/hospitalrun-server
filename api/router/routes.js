@@ -4,8 +4,8 @@ var router = require('express').Router();
 var patientsRouter = require('./patients');
 
 router.use((request, response, next) => {
-    console.log(request.method, request.originalUrl, request.body);
-    next();
+  console.log(request.method, request.originalUrl, request.body);
+  next();
 });
 
 // when pats, pats sub root
