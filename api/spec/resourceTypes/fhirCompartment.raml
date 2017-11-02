@@ -1,0 +1,12 @@
+#%RAML 1.0 ResourceType
+
+#This file is located at resourceTypes/fhirCompartment.raml
+
+get:
+  is: [search]
+  responses:
+    200:
+      body:
+        application/json:
+          type: <<resourcePathName>>Bundle
+          example: <<example>>

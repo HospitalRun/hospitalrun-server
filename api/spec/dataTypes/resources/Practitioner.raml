@@ -1,0 +1,47 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/resources/Practitioner.raml
+
+type: DomainResource
+properties:
+  identifier?: Identifier[]
+  active?:
+    description: Whether this practitioner's record is in active use
+    type: boolean
+  name?: HumanName[]
+  telecom?: ContactPoint[]
+  address?: Address[]
+  gender?: gender
+  birthDate?: date
+  photo?: Attachment[]
+  practitionerRole?:
+    description: |
+      Roles/organizations the practitioner is associated with
+    type: array
+    items:
+      type: BackboneElement
+      properties:
+        managingOrganization?: Reference
+        role?: CodeableConcept
+        specialty?: CodeableConcept[]
+        period?:
+          description: |
+            The period during which the practitioner is authorized to perform in these role(s)
+          type: Period
+        location?: Reference[]
+        healthcareService?: Reference[]
+  qualification?:
+    description: |
+      Qualifications obtained by training and certification
+    type: array
+    items:
+      type: BackboneElement
+      properties:
+        identifier?: Identifier[]
+        code: CodeableConcept
+        period?:
+          description: |
+            Period during which the qualification is valid
+          type: Period
+        issuer?: Reference
+  communication?: CodeableConcept[]

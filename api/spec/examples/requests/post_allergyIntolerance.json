@@ -1,0 +1,18 @@
+{
+	"resourceType": "AllergyIntolerance",
+	"patient": {
+		"reference": "Patient/9"
+	},
+	"reporter": {
+		"reference": "Patient/9"
+	},
+	"substance": {
+		"coding": [
+			{
+				"display": "Peanuts"
+			}
+		]
+	},
+	"recordedDate": "2016-05-11",
+	"status": "confirmed"
+}

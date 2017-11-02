@@ -1,0 +1,36 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/resources/Condition.raml
+
+type: DomainResource
+properties:
+  identifier?: Identifier[]
+  patient: Reference
+  encounter?: Reference
+  asserter?: Reference
+  dateRecorded?: date
+  code: CodeableConcept
+  category?: CodeableConcept
+  clinicalStatus?:
+    type: code
+    enum: [active, relapse, remission, resolved]
+  verificationStatus:
+    type: code
+    enum: [provisional, differential, confirmed, refuted, entered-in-error, unknown]
+  severity?: CodeableConcept
+  /^onset(DateTime|Period|Range|String)$/?: dateTime | Age | Period | Range | string
+  /^abatement(DateTime|Quantity|Boolean|Range|String)$/?: dateTime | Age | boolean | Range | string
+  stage?:
+    type: BackboneElement
+    properties:
+      summary?: CodeableConcept
+      asessment?: Reference[]
+  evidence?:
+    type: array
+    items:
+      type: BackboneElement
+      properties:
+        code?: CodeableConcept
+        detail?: Reference[]
+  bodySite?: CodeableConcept[]
+  notes?:

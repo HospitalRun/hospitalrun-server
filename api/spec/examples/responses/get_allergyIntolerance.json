@@ -1,0 +1,148 @@
+{
+  "resourceType": "Bundle",
+  "type": "searchset",
+  "link": [
+    {
+      "relation": "self",
+      "url": "http://localhost:8081/api/AllergyIntolerance?patient=Patient%2F9"
+    }
+  ],
+  "meta": {
+    "lastUpdated": "2016-09-20T12:25:15.712Z"
+  },
+  "total": 6,
+  "entry": [
+    {
+      "fullUrl": "http://localhost:8081/api/AllergyIntolerance/1",
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "1",
+        "patient": {
+          "reference": "Patient/9"
+        },
+        "reporter": {
+          "reference": "Patient/9"
+        },
+        "substance": {
+          "coding": [
+            {
+              "display": "Peanuts"
+            }
+          ]
+        },
+        "recordedDate": "2016-05-11",
+        "status": "confirmed"
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8081/api/AllergyIntolerance/2",
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "2",
+        "patient": {
+          "reference": "Patient/9"
+        },
+        "reporter": {
+          "reference": "Patient/9"
+        },
+        "substance": {
+          "coding": [
+            {
+              "display": "Aspirin"
+            }
+          ]
+        },
+        "recordedDate": "2016-05-11",
+        "status": "refuted"
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8081/api/AllergyIntolerance/3",
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "3",
+        "patient": {
+          "reference": "Patient/9"
+        },
+        "reporter": {
+          "reference": "Patient/9"
+        },
+        "substance": {
+          "coding": [
+            {
+              "display": "Penicillin"
+            }
+          ]
+        },
+        "recordedDate": "2016-05-11",
+        "status": "unconfirmed"
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8081/api/AllergyIntolerance/4",
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "4",
+        "patient": {
+          "reference": "Patient/9"
+        },
+        "reporter": {
+          "reference": "Patient/9"
+        },
+        "substance": {
+          "coding": [
+            {
+              "display": "Gluten"
+            }
+          ]
+        },
+        "recordedDate": "2016-05-11",
+        "status": "unconfirmed"
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8081/api/AllergyIntolerance/5",
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "5",
+        "patient": {
+          "reference": "Patient/9"
+        },
+        "reporter": {
+          "reference": "Patient/9"
+        },
+        "substance": {
+          "coding": [
+            {
+              "display": "Dairy products"
+            }
+          ]
+        },
+        "recordedDate": "2016-05-11",
+        "status": "unconfirmed"
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8081/api/AllergyIntolerance/6",
+      "resource": {
+        "resourceType": "AllergyIntolerance",
+        "id": "6",
+        "patient": {
+          "reference": "Patient/9"
+        },
+        "reporter": {
+          "reference": "Patient/9"
+        },
+        "substance": {
+          "coding": [
+            {
+              "display": "Morphine"
+            }
+          ]
+        },
+        "recordedDate": "2016-05-11",
+        "status": "unconfirmed"
+      }
+    }
+  ]
+}

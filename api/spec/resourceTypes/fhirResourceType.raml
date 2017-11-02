@@ -1,0 +1,48 @@
+#%RAML 1.0 ResourceType
+
+#This file is located at resourceTypes/fhirResourceType.raml
+
+post:
+  description: |
+    The create interaction creates a new resource in a server-assigned location. 
+    If the client wishes to have control over the id of a newly submitted resource, it should use the update interaction instead.
+  is: [create]
+  headers:
+    If-None-Exist:
+      required: false
+      description: name=value selective criteria
+  body:
+    application/json:
+      type: <<resourcePathName>>
+      example: <<postExample>>
+  responses:
+    200:
+      description: No match, resource created.
+    412:
+      description: Precondition Failed error indicating the client's criteria were not selective enough.
+get:
+  description: This interaction searches a set of resources based on some filter criteria.
+  is: [search]
+  responses:
+    200:
+      body:
+        application/json:
+          type: <<resourcePathName>>Bundle
+          example: <<getExample>>
+put:
+  description: The conditional update interaction allows a client to update an existing resource based on some identification criteria, rather than by logical id.
+  is: [update, conditionalOperation]
+  queryParameters:
+  responses:
+    412:
+      description: |
+        Precondition Failed error indicating the client's criteria were not selective enough
+delete:
+  description: The conditional delete interaction allows a client to delete an existing resource based on some selection criteria, rather than by a specific logical id.
+  is: [delete, conditionalOperation]
+  queryParameters:
+  responses:
+    404:
+      description: Not found
+    412:
+      description: Precondition Failed error indicating the client's criteria were not selective enough.

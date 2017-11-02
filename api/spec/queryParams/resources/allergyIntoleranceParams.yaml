@@ -1,0 +1,46 @@
+category:
+  required: false
+  description: food | medication | environment | other - Category of Substance
+criticality:
+  required: false
+  description: CRITL | CRITH | CRITU
+date:
+  required: false
+  description: When recorded
+identifier:
+  type: string|integer
+  required: false
+  description: External ids for this item
+last-date:
+  required: false
+  description: Date(/time) of last known occurrence of a reaction
+manifestation:
+  required: false
+  description: Clinical symptoms/signs associated with the Event
+onset:
+  required: false
+  description: Date(/time) when manifestations showed
+patient:
+  required: false
+  description: Who the sensitivity is for
+recorder:
+  required: false
+  description: Who recorded the sensitivity
+reporter:
+  required: false
+  description: Source of the information about the allergy
+route:
+  required: false
+  description: How the subject was exposed to the substance
+severity:
+  required: false
+  description: mild | moderate | severe (of event as a whole)
+status:
+  required: false
+  description: active | unconfirmed | confirmed | inactive | resolved | refuted | entered-in-error
+substance:
+  required: false
+  description: Substance, (or class) considered to be responsible for risk
+type:
+  required: false
+  description: allergy | intolerance - Underlying mechanism (if known)

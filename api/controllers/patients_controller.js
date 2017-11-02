@@ -1,7 +1,7 @@
 exports.root = (request, response) => {
-  return response.status(501).send('root unimplemented');
+  return response.status(501).send('patients / unimplemented');
 };
 
 exports.notroot = (request, response) => {
-  return response.status(501).send('not root unimplemented');
+  return response.status(501).send('patients /root unimplemented');
 };

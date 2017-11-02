@@ -1,0 +1,20 @@
+#%RAML 1.0 Trait
+
+#This file is located at traits/read.raml
+
+queryParameters:
+  _format:
+    required: false
+    enum: [application/json, application/xml]
+  _summary:
+    required: false
+    enum: ['true', 'false', text, data]
+headers:
+  If-Modified-Since:
+    type: instant
+    required: false
+  If-None-Match:
+    required: false
+responses:
+  304:
+    description: Not Modified

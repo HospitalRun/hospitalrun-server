@@ -1,0 +1,53 @@
+{
+  "resourceType": "Bundle",
+  "type": "searchset",
+  "link": [
+    {
+      "relation": "self",
+      "url": "http://localhost:8081/api/MedicationOrder"
+    }
+  ],
+  "meta": {
+    "lastUpdated": "2016-09-20T12:39:31.578Z"
+  },
+  "total": 1,
+  "entry": [
+    {
+	    "resourceType": "MedicationOrder",
+	    "id": "5245",
+	    "status": "active",
+	    "patient": {
+	      "reference": "Patient/1164365"
+	    },
+	    "prescriber": {
+	      "reference": "Practitioner/3656"
+	    },
+	    "dosageInstruction": [
+	      {
+	        "text": "Take 3 mg by mouth Daily."
+	      },
+	      {
+	        "doseQuantity": {
+	          "value": "3",
+	          "unit": "mg",
+	          "system": "http://unitsofmeasure.org",
+	          "code": "mg"
+	        }
+	      }
+	    ],
+	    "medicationCodeableConcept": {
+	      "coding": [
+	        {
+	          "system": "Internal",
+	          "code": "78064"
+	        },
+	        {
+	          "system": "RxNorm",
+	          "code": "679314"
+	        }
+	      ],
+	      "text": "PALIPERIDONE ER 3 MG TABLET,EXTENDED RELEASE 24 HR"
+	    }
+	  }
+  ]
+}

@@ -1,0 +1,18 @@
+#%RAML 1.0 Trait
+
+#This file is located at traits/vread.raml
+
+queryParameters:
+  _format:
+    required: false
+    enum: [application/json, application/xml]
+responses:
+  200:
+    headers:
+      ETag:
+      Last-Modified: instant
+    body:
+      application/json:
+        type: <<resourceName>>
+
+

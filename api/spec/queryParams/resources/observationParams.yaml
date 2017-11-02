@@ -1,0 +1,75 @@
+category:
+  required: false
+  description: The classification of the type of observation
+code:
+  required: false
+  description: The code of the observation type
+
+component-code:
+  required: false
+  description: The component code of the observation type
+
+component-data-absent-reason:
+  required: false
+  description: The reason why the expected value in the element Observation.component.value[x] is missing.
+component-value-concept:
+  required: false
+  description: The value of the component observation, if the value is a CodeableConcept
+component-value-quantity:
+  required: false
+  description: The value of the component observation, if the value is a Quantity, or a SampledData (just search on the bounds of the values in sampled data)
+component-value-string:
+  required: false
+  description: The value of the component observation, if the value is a string, and also searches in CodeableConcept.text
+data-absent-reason:
+  required: false
+  description: The reason why the expected value in the element Observation.value[x] is missing.
+date:
+  required: false
+  description: Obtained date/time. If the obtained element is a period, a date that falls in the period
+device:
+  required: false
+  description: The Device that generated the observation data.
+encounter:
+  required: false
+  description: Healthcare event related to the observation
+identifier:
+  type: string|integer
+  required: false
+  description: The unique id for a particular observation
+patient:
+  required: false
+  description: The subject that the observation is about (if patient)
+performer:
+  required: false
+  description: Who performed the observation
+related:
+  required: false
+  description: Related Observations - search on related-type and related-target together
+related-target:
+  required: false
+  description: Resource that is related to this one
+related-type:
+  required: false
+  description: has-member | derived-from | sequel-to | replaces | qualified-by | interfered-by
+specimen:
+  required: false
+  description: Specimen used for this observation
+status:
+  required: false
+  description: The status of the observation
+subject:
+  required: false
+  description: The subject that the observation is about
+value-concept:
+  required: false
+  description: The value of the observation, if the value is a CodeableConcept
+value-date:
+  required: false
+  description: The value of the observation, if the value is a date or period of time
+value-quantity:
+  required: false
+  description: The value of the observation, if the value is a Quantity, or a SampledData (just search on the bounds of the values in sampled data)
+value-string:
+  required: false
+  description: The value of the observation, if the value is a string, and also searches in CodeableConcept.text

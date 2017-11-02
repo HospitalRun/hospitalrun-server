@@ -1,0 +1,197 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/resources/Conformance.raml
+
+type: DomainResource
+properties:
+  url?: uri
+  version?:
+  name?:
+  status?:
+    type: code
+    enum: [draft, active, retired]
+  experimental?: boolean
+  publisher?:
+  contact?:
+    type: array
+    items:
+      type: BackboneElement
+      properties:
+        name?:
+        telecom?: ContactPoint[]
+  date: dateTime
+  description?:
+  requirements?:
+  copyright?:
+  kind:
+    type: code
+    enum: [instance, capability, requirements]
+  software?:
+    type: BackboneElement
+    properties:
+      name:
+      version?:
+      releaseDate?: dateTime
+  implementation?:
+    type: BackboneElement
+    properties:
+      description:
+      url?: uri
+  fhirVersion: id
+  acceptUnknown:
+    type: code
+    enum: [no, extensions, elements, both ]
+  format:
+    type: array
+    items:
+      type: code
+      enum: [xml, json, application/xml, application/json]
+  profile?: Reference[]
+  rest?:
+    type: array
+    items:
+      type: BackboneElement
+      properties:
+        mode:
+          type: code
+          enum: [client, server]
+        documentation?:
+        security?:
+          type: BackboneElement
+          properties:
+            cors?: boolean
+            service?: CodeableConcept[]
+            description?:
+            certificate?:
+              type: array
+              items:
+                type: BackboneElement
+                properties:
+                  type?: code
+                  blob?: base64Binary
+        resource:
+          type: array
+          items:
+            type: BackboneElement
+            properties:
+              type:
+                type: code
+                enum: [] # Resource Type list TODO:
+              profile?: Reference
+              interaction:
+                type: array
+                items:
+                  type: BackboneElement
+                  properties:
+                    code:
+                      type: code
+                      enum: [read, vread, update, delete, history-instance, validate, history-type, create, search-type]
+                    documentation?:
+              versioning?:
+                type: code
+                enum: [no-version, versioned, versioned-update]
+              readHistory?: boolean
+              updateCreate?: boolean
+              conditionalCreate?: boolean
+              conditionalUpdate?: boolean
+              coditionalDelete?:
+                type: code
+                enum: [not-supported, single, multiple]
+              searchInclude?:
+              searchRevInclude?:
+              searchParam?:
+                type: array
+                items:
+                  type: BackboneElement
+                  properties:
+                    name:
+                    definition?:
+                    type:
+                      type: code
+                      enum: [number, date, string, token, reference, composite, quantity, uri]
+                    documentation?:
+                    target?:
+                      type: array
+                      items:
+                        type: code
+                        enum: [missing, exact, contains, not, text, in, not-in, below, above, type]
+                    chain?: string[]
+        interaction?:
+          type: array
+          items:
+            type: BackboneElement
+            properties:
+              code:
+                type: code
+                enum: [transaction, search-system, history-system]
+              documentation?:
+        transactionMode?:
+          type: code
+          enum: [not-supported, batch, transaction, both]
+        searchParam?:
+          type: array
+          items:
+            type: BackboneElement
+            properties:
+              name:
+              definition?:
+              type:
+                type: code
+                enum: [number, date, string, token, reference, composite, quantity, uri]
+              documentation?:
+              target?:
+                type: array
+                items:
+                  type: code
+                  enum: [missing, exact, contains, not, text, in, not-in, below, above, type]
+              chain?: string[]
+        operation?:
+          type: array
+          items:
+            type: BackboneElement
+            properties:
+              name:
+              definition:
+        compartment?: uri[]
+  messaging?:
+    type: array
+    items:
+      type: BackboneElement
+      properties:
+        endpoint?:
+          type: array
+          items:
+            type: BackboneElement
+            properties:
+              protocol: Coding
+              address: uri
+        reliableCache?: unsignedInt
+        documentation: string
+        event:
+          type: array
+          items:
+            type: BackboneElement
+            properties:
+              code: Coding
+              category?:
+                type: code
+                enum: [Consequence, Currency, Notification]
+              mode:
+                type: code
+                enum: [sender, receiver]
+              focus:
+                type: code
+                enum: [] #TODO: Resource Type
+              request: Reference
+              response: Reference
+              documentation?:
+  document?:
+    type: array
+    items:
+      type: BackboneElement
+      properties:
+        mode:
+          type: code
+          enum: [producer, consumer]
+        docuemntation?:
+        profile:

@@ -1,0 +1,20 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/elements/Address.raml
+
+type: Element
+properties:
+  use?:
+    type: code
+    enum: [home, work, temp, old]
+  type?:
+    type: code
+    enum: [postal, physical, both]
+  text?: string
+  line?: string[]
+  city?: string
+  district?: string
+  state?: string
+  postalCode?: string
+  country?: string
+  period?: Period

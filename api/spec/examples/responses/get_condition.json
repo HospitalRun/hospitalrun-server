@@ -1,0 +1,141 @@
+{
+  "resourceType": "Bundle",
+  "type": "searchset",
+  "link": [
+    {
+      "relation": "self",
+      "url": "http://localhost:8081/api/Condition?patient=Patient%2F9"
+    }
+  ],
+  "meta": {
+    "lastUpdated": "2016-09-21T13:46:17.878Z"
+  },
+  "total": 5,
+  "entry": [
+    {
+      "fullUrl": "http://localhost:8081/api/Condition/1",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "1",
+        "patient": {
+          "reference": "Patient/9"
+        },
+        "asserter": {
+          "reference": "Patient/9",
+          "display": ""
+        },
+        "code": {
+          "coding": [
+            {
+              "code": "195967001",
+              "display": "Asthma",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "verificationStatus": "confirmed",
+        "onsetDateTime": "2016-05-10"
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8081/api/Condition/2",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "2",
+        "patient": {
+          "reference": "Patient/9"
+        },
+        "asserter": {
+          "reference": "Patient/9",
+          "display": ""
+        },
+        "code": {
+          "coding": [
+            {
+              "code": "73211009",
+              "display": "Diabetes mellitus",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "verificationStatus": "confirmed",
+        "onsetDateTime": "2016-05-11"
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8081/api/Condition/3",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "3",
+        "patient": {
+          "reference": "Patient/9"
+        },
+        "asserter": {
+          "reference": "Patient/9",
+          "display": ""
+        },
+        "code": {
+          "coding": [
+            {
+              "code": "38341003",
+              "display": "High Blood Pressure",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "verificationStatus": "refuted",
+        "onsetDateTime": "2016-05-11"
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8081/api/Condition/4",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "4",
+        "patient": {
+          "reference": "Patient/9"
+        },
+        "asserter": {
+          "reference": "Patient/9",
+          "display": ""
+        },
+        "code": {
+          "coding": [
+            {
+              "code": "13644009",
+              "display": "High Cholesterol",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "verificationStatus": "unknown",
+        "onsetDateTime": "2016-05-11"
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8081/api/Condition/5",
+      "resource": {
+        "resourceType": "Condition",
+        "id": "5",
+        "patient": {
+          "reference": "Patient/9"
+        },
+        "asserter": {
+          "reference": "Patient/9",
+          "display": ""
+        },
+        "code": {
+          "coding": [
+            {
+              "code": "22298006",
+              "display": "Heart Attack",
+              "system": "http://snomed.info/sct"
+            }
+          ]
+        },
+        "verificationStatus": "unknown",
+        "onsetDateTime": "2016-05-11"
+      }
+    }
+  ]
+}

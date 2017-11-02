@@ -1,0 +1,24 @@
+code:
+  required: false
+  description: Return administrations of this medication code
+datewritten:
+  required: false
+  description: Return prescriptions written on this date
+encounter:
+  required: false
+  description: Return prescriptions with this encounter identifier
+identifier:
+  type: string|integer
+  required: false
+  description: Return prescriptions with this external identifier
+medication:
+  required: false
+  description: Return administrations of this medication reference
+patient:
+  required: false
+  description: The identity of a patient to list orders for
+prescriber:
+  required: false
+  description: Who ordered the medication(s)
+status:
+  required: false

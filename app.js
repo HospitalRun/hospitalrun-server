@@ -1,13 +1,15 @@
-var config =  require('./config.js');
-var dbListeners = require('hospitalrun-dblisteners');
-var express = require('express');
-var fs = require('fs');
-var https = require('https');
-var http = require('http');
-var morgan = require('morgan');
+let bodyParser   = require('body-parser');
+var config       = require('./config.js');  // require('./config-remote-couchdb.js');
+var dbListeners  = require('hospitalrun-dblisteners');
+var express      = require('express');
+var fs           = require('fs');
+var http         = require('http');
+var https        = require('https');
+var join         = require('path').join
+var morgan       = require('morgan');
+var osprey       = require('osprey');
 var serverRoutes = require('hospitalrun-server-routes');
-var setupAppDir = require('hospitalrun');
-var server;
+var setupAppDir  = require('hospitalrun');
 
 dbListeners(config);
 var app = express();
@@ -22,6 +24,7 @@ if (config.logRequests) {
 }
 app.use('/patientimages', express.static(config.imagesdir));
 
+var server;
 if (config.useSSL) {
   var options = {
     key: fs.readFileSync(config.sslKey),
@@ -38,11 +41,14 @@ if (config.useSSL) {
   server = http.createServer(app);
 }
 
-let mainRouter = require('./api/router/routes');
-app.use('/api', mainRouter);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+osprey.loadFile(join(__dirname, 'api/spec/hr-fhir-api.raml'))
+.then(middleware => {
+  app.use('/v1', middleware, osprey.Router(), require('./api/router/routes'));
 
-server.listen(config.serverPort, function listening() {
-  console.log('HospitalRun server listening on %j', server.address());
-});
-
-
+  server.listen(config.serverPort, function listening() {
+    console.log('HospitalRun server listening on %j', server.address());
+  });
+})
+.catch(e => console.error(e));

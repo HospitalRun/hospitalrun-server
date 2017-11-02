@@ -1,0 +1,7 @@
+#%RAML 1.0 ResourceType
+
+#This file is located at resourceTypes/fhirVersionedResource.raml
+
+get:
+  description: The vread interaction preforms a version specific read of the resource.
+  is: [vread: { resourceName: <<resourceName>> }]

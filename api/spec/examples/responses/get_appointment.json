@@ -1,0 +1,240 @@
+{
+  "resourceType": "Bundle",
+  "type": "searchset",
+  "link": [
+    {
+      "relation": "self",
+      "url": "http://localhost:8081/api/Appointment?patient=Patient%2F9"
+    }
+  ],
+  "meta": {
+    "lastUpdated": "2016-09-20T12:28:41.776Z"
+  },
+  "total": 7,
+  "entry": [
+    {
+      "fullUrl": "http://localhost:8081/api/Appointment/3",
+      "resource": {
+        "resourceType": "Appointment",
+        "id": "3",
+        "description": "",
+        "start": "2016-10-28T14:30:00+00:00",
+        "end": "2016-10-28T15:00:00+00:00",
+        "participant": [
+          {
+            "status": "accepted",
+            "actor": {
+              "reference": "Patient/9",
+              "display": "Andreas Anderson"
+            }
+          },
+          {
+            "status": "accepted",
+            "actor": {
+              "reference": "Practitioner/1",
+              "display": "Jamie Fletcher, MD"
+            }
+          }
+        ],
+        "status": "booked",
+        "slot": [
+          {
+            "reference": "Slot/15"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8081/api/Appointment/4",
+      "resource": {
+        "resourceType": "Appointment",
+        "id": "4",
+        "description": "",
+        "start": "2016-10-28T15:00:00+00:00",
+        "end": "2016-10-28T15:30:00+00:00",
+        "participant": [
+          {
+            "status": "accepted",
+            "actor": {
+              "reference": "Patient/9",
+              "display": "Andreas Anderson"
+            }
+          },
+          {
+            "status": "accepted",
+            "actor": {
+              "reference": "Practitioner/1",
+              "display": "Jamie Fletcher, MD"
+            }
+          }
+        ],
+        "status": "booked",
+        "slot": [
+          {
+            "reference": "Slot/16"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8081/api/Appointment/5",
+      "resource": {
+        "resourceType": "Appointment",
+        "id": "5",
+        "description": "",
+        "start": "2016-10-28T14:00:00+00:00",
+        "end": "2016-10-28T14:30:00+00:00",
+        "participant": [
+          {
+            "status": "accepted",
+            "actor": {
+              "reference": "Patient/9",
+              "display": "Andreas Anderson"
+            }
+          },
+          {
+            "status": "accepted",
+            "actor": {
+              "reference": "Practitioner/1",
+              "display": "Jamie Fletcher, MD"
+            }
+          }
+        ],
+        "status": "booked",
+        "slot": [
+          {
+            "reference": "Slot/14"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8081/api/Appointment/9",
+      "resource": {
+        "resourceType": "Appointment",
+        "id": "9",
+        "description": "",
+        "start": "2016-09-12T16:30:00+00:00",
+        "end": "2016-09-12T17:00:00+00:00",
+        "participant": [
+          {
+            "status": "accepted",
+            "actor": {
+              "reference": "Patient/9",
+              "display": "Veera Radonctest"
+            }
+          },
+          {
+            "status": "accepted",
+            "actor": {
+              "reference": "Practitioner/1",
+              "display": "Jamie Fletcher, MD"
+            }
+          }
+        ],
+        "status": "booked",
+        "slot": [
+          {
+            "reference": "Slot/25"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8081/api/Appointment/10",
+      "resource": {
+        "resourceType": "Appointment",
+        "id": "10",
+        "description": "",
+        "start": "2016-09-16T16:30:00+00:00",
+        "end": "2016-09-16T17:00:00+00:00",
+        "participant": [
+          {
+            "status": "accepted",
+            "actor": {
+              "reference": "Patient/9",
+              "display": "Veera Radonctest"
+            }
+          },
+          {
+            "status": "accepted",
+            "actor": {
+              "reference": "Practitioner/1",
+              "display": "Jamie Fletcher, MD"
+            }
+          }
+        ],
+        "status": "booked",
+        "slot": [
+          {
+            "reference": "Slot/23"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8081/api/Appointment/11",
+      "resource": {
+        "resourceType": "Appointment",
+        "id": "11",
+        "description": "",
+        "start": "2016-09-14T16:30:00+00:00",
+        "end": "2016-09-14T17:00:00+00:00",
+        "participant": [
+          {
+            "status": "accepted",
+            "actor": {
+              "reference": "Patient/9",
+              "display": "Veera Radonctest"
+            }
+          },
+          {
+            "status": "accepted",
+            "actor": {
+              "reference": "Practitioner/1",
+              "display": "Jamie Fletcher, MD"
+            }
+          }
+        ],
+        "status": "booked",
+        "slot": [
+          {
+            "reference": "Slot/24"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8081/api/Appointment/14",
+      "resource": {
+        "resourceType": "Appointment",
+        "id": "14",
+        "description": "",
+        "start": "2016-09-15T15:30:00+00:00",
+        "end": "2016-09-15T16:00:00+00:00",
+        "participant": [
+          {
+            "status": "accepted",
+            "actor": {
+              "reference": "Patient/9",
+              "display": "Veera Radonctest"
+            }
+          },
+          {
+            "status": "accepted",
+            "actor": {
+              "reference": "Practitioner/1",
+              "display": "Jamie Fletcher, MD"
+            }
+          }
+        ],
+        "status": "booked",
+        "slot": [
+          {
+            "reference": "Slot/21"
+          }
+        ]
+      }
+    }
+  ]
+}

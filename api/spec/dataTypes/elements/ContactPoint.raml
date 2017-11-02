@@ -1,0 +1,13 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/elements/ContactPoint.raml
+
+type: Element
+properties:
+  system?:
+    enum: [phone,fax,email,pager,other]
+  value?: string
+  use?: string
+  rank?:
+    type: positiveInt
+  period?: Period

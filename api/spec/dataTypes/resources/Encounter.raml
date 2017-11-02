@@ -1,0 +1,62 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/resources/Encounter.raml
+
+type: DomainResource
+properties:
+  identifier?: Identifier[]
+  status: EncounterState
+  statusHistory?:
+    type: array
+    items:
+      type: BackboneElement
+      properties:
+        status: EncounterState
+        period: Period
+  class:
+    type: code
+    enum: [inpatient, outpatient, ambulatory, emergency]
+  type?: CodeableConcept[]
+  priority?: CodeableConcept
+  patient?: Reference
+  episodeOfCare?: Reference[]
+  incomingReferral?: Reference[]
+  participant?:
+    type: array
+    items:
+      type: BackboneElement
+      properties:
+        type?: CodeableConcept
+        period?: Period
+        individual?: Reference
+  appointment?: Reference
+  period?: Period
+  length?: Duration
+  reason?: CodeableConcept[]
+  indication?: Reference[]
+  hospitalization?:
+    type: BackboneElement
+    properties:
+      preAdmissionIdentifier?: Identifier
+      origin?: Reference
+      admitSource?: CodeableConcept
+      admittingDiagnosis?: Reference[]
+      reAdmission?: CodeableConcept
+      dietPreference?: CodeableConcept[]
+      specialCourtesy?: CodeableConcept[]
+      specialArrangement?: CodeableConcept[]
+      destination?: Reference
+      dischargeDisposition?: CodeableConcept
+      dischargeDiagnosis?: Reference[]
+  location?:
+    type: array
+    items:
+      type: BackboneElement
+      properties:
+        location: Reference
+        status?:
+          type: code
+          enum: [planned, active, reserved, completed]
+        period?: Period
+  serviceProvider?: Reference
+  partOf?: Reference
