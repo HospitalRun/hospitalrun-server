@@ -1,5 +1,5 @@
 var config = {
-  couchDbServer: 'b8c01fb4.ngrok.io',
+  couchDbServer: '7e724ce2.ngrok.io',
   couchDbPort: '443',
   couchDbUseSsl: true,
   couchDbChangesSince: 'now',

@@ -1,0 +1,14 @@
+{
+  "resourceType": "Bundle",
+  "type": "searchset",
+  "total": 2,
+  "entry": [
+    {
+      "status": "unknown"
+    },
+    {
+      "status": "active",
+      "optional": "i think"
+    }
+  ]
+}

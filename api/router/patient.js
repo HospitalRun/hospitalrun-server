@@ -1,7 +1,7 @@
-var router = require('express').Router();
+const router = require('express').Router();
 
 // Pats controller
-var patientsController = require('../controllers/patients_controller.js');
+const patientsController = require('../controllers/patients_controller.js');
 
 
 router.get('/', patientsController.root);

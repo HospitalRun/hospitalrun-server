@@ -1,0 +1,10 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/resources/Test.raml
+
+type: DomainResource
+properties:
+  status:
+    type: code
+    enum: [draft, active, retired, unknown]
+  optional?: string

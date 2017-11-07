@@ -5,7 +5,6 @@ var express      = require('express');
 var fs           = require('fs');
 var http         = require('http');
 var https        = require('https');
-var join         = require('path').join
 var morgan       = require('morgan');
 var osprey       = require('osprey');
 var serverRoutes = require('hospitalrun-server-routes');
@@ -14,7 +13,7 @@ var setupAppDir  = require('hospitalrun');
 dbListeners(config);
 var app = express();
 if (config.useSSL && config.useCertBot === true) {
-  app.use('/.well-known', express.static(__dirname + '/public/.well-known', {dotfiles: 'allow'}));
+  app.use('/.well-known', express.static(__dirname + '/public/.well-known', { dotfiles: 'allow' }));
   http.createServer(app).listen(80);
 }
 serverRoutes(app, config);
@@ -41,14 +40,19 @@ if (config.useSSL) {
   server = http.createServer(app);
 }
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-osprey.loadFile(join(__dirname, 'api/spec/hr-fhir-api.raml'))
+const apiConfig = require('./api/config.js');
+
+osprey.loadFile(apiConfig.spec, apiConfig.ospreyConfig)
 .then(middleware => {
-  app.use('/v1', middleware, osprey.Router(), require('./api/router/routes'));
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
+
+  app.use(apiConfig.mountpoint, middleware, osprey.Router(), require('./api/router/routes'));
+  app.use(apiConfig.ramlOnNotFound);
+  app.use(apiConfig.ramlOnError);
 
   server.listen(config.serverPort, function listening() {
     console.log('HospitalRun server listening on %j', server.address());
   });
 })
-.catch(e => console.error(e));
+.catch(e => apiConfig.log(e));

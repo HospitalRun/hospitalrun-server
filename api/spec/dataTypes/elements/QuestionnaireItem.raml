@@ -1,0 +1,36 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/elements/QuestionnaireItem.raml
+
+properties:
+  linkId: string                             # R!  Unique id for item in questionnaire
+  type:                                      # R!  group | display | boolean | decimal | integer | date | dateTime +
+    type: code
+    enum: [attachment, boolean, choice, date, dateTime, decimal, display, group, integer, open-choice, quantity, question, reference, string, text, time, url]
+  /^initial(Boolean|Decimal|Integer|Date|DateTime|Time|String|Uri|Attachment|Coding|Quantity|Reference)$/?: boolean | decimal | integer | date | dateTime | time | string | uri | Attachment | Coding | Quantity | Reference
+  code?: Coding[]                            # C? Corresponding concept for this item in a terminology
+  definition?: uri                           # ElementDefinition - details for the item
+  enableWhen?:                               # Only allow data when
+    type: array
+    items:
+      type: object
+      properties:
+        # /^answer(Boolean|Decimal|Integer|Date|DateTime|Time|String|Uri|Attachment|Coding|Quantity|Reference)$/: boolean | decimal | integer | date | dateTime | time | string | uri | Attachment | Coding | Quantity | Reference
+        question: string                     # R!  Question that determines whether item is enabled
+        hasAnswer?: boolean                  # C? Enable when answered or not
+  item?:                                     # C? Nested questionnaire items
+    type: array
+    items: QuestionnaireItem
+  maxLength?: integer                        # C? No more than this many characters
+  option?:                                   # C? Permitted answer
+    type: array
+    items:
+      type: object
+      properties:
+        # /^value(Integer|Date|Time|String|Coding)$/?: integer | date | time | string | Coding
+  options?: Reference                        # C? Valueset containing permitted answers
+  prefix?: string                            # E.g. 1(a) 2.5.3
+  readOnly?: boolean                         # C? Don't allow human editing
+  repeats?: boolean                          # C? Whether the item may repeat
+  required?: boolean                         # C? Whether the item must be included in data results
+  text?: string                              # Primary text for the item
