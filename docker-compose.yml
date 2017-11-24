@@ -31,7 +31,7 @@ services:
 
   couchdb:
     container_name: couchdb_hr
-    image: couchdb:1.6
+    image: couchdb:1.7.1
     volumes:
       - ./data/couchdb:/usr/local/var/lib/couchdb
     ports:
