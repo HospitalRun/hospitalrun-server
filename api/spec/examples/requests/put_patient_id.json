@@ -1,6 +1,5 @@
 {
   "resourceType": "Patient",
-  "id": "9",
   "address": [
     {
       "city": "San Francisco",

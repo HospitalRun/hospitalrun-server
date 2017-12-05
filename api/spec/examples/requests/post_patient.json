@@ -34,6 +34,21 @@
       "system": "phone",
       "use": "home",
       "value": "608-999-9005"
+    },
+    {
+      "system": "phone",
+      "use": "home",
+      "value": "000-000-0000"
+    },
+    {
+      "system": "email",
+      "use": "home",
+      "value": "email2@example.com"
+    },
+    {
+      "system": "email",
+      "use": "home",
+      "value": "email@example.com"
     }
   ]
 }

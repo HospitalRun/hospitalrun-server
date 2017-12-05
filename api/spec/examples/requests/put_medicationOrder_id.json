@@ -1,6 +1,5 @@
 {
   "resourceType": "MedicationOrder",
-  "id": "5245",
   "status": "active",
   "patient": {
     "reference": "Patient/1164365"

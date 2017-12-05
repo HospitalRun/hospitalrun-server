@@ -1,6 +1,5 @@
 {
   "resourceType": "Observation",
-  "id": "455454",
   "status": "final",
   "category": {
     "coding": [

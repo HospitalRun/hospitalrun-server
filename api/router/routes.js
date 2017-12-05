@@ -1,23 +1,23 @@
-const router = require('express').Router();
+const router    = require('express').Router();
 const apiConfig = require('../config.js');
 
 router.use((request, response, next) => {
-  console.log(request.method, request.originalUrl, request.body);
-  if (Object.keys(request.body).length) {
-    apiConfig.flog(request.body);
+  if (process.env.NODE_ENV !== 'production') {
+    console.log(request.method, request.originalUrl, JSON.stringify(request.body));
   }
+  apiConfig.log({ path: `${request.method} ${request.originalUrl}`, params: request.body });
   next();
 });
 
-router.use('/test', (request, response) => {
-  return response.status(200).json({ blahbidyblah: 'stringy stringy string string' });
-});
-
-router.use('/patient', require('./patient'));
-router.use('/questionnaire', require('./questionnaire'));
+router.use('/patients',               require('./patients'));
+router.use('/questionnaires',         require('./questionnaires'));
+router.use('/questionnaireResponses', require('./questionnaire_responses'));
 
 router.use((error, request, response, next) => {
-  console.trace(error);
+  if (process.env.NODE_ENV !== 'production') {
+    console.trace(error);
+  }
+  apiConfig.log({ error, path: `${request.method} ${request.originalUrl}`, params: request.body });
   if (!response.headerSent) {
     response.status(500).json({ error: 'Internal server error' });
   }

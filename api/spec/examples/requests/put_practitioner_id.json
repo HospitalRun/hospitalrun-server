@@ -1,6 +1,5 @@
 {
   "resourceType": "Practitioner",
-  "id": "1",
   "address": [
     {
       "city": "San Francisco",

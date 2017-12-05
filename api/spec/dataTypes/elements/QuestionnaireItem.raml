@@ -7,7 +7,18 @@ properties:
   type:                                      # R!  group | display | boolean | decimal | integer | date | dateTime +
     type: code
     enum: [attachment, boolean, choice, date, dateTime, decimal, display, group, integer, open-choice, quantity, question, reference, string, text, time, url]
-  /^initial(Boolean|Decimal|Integer|Date|DateTime|Time|String|Uri|Attachment|Coding|Quantity|Reference)$/?: boolean | decimal | integer | date | dateTime | time | string | uri | Attachment | Coding | Quantity | Reference
+  valueBoolean?: boolean
+  valueDecimal?: decimal
+  valueInteger?: integer
+  valueDate?: date
+  valueDateTime?: dateTime
+  valueTime?: time
+  valueString?: string
+  valueUri?: uri
+  valueAttachment?: Attachment
+  valueCoding?: Coding
+  valueQuantity?: Quantity
+  valueReference?: Reference
   code?: Coding[]                            # C? Corresponding concept for this item in a terminology
   definition?: uri                           # ElementDefinition - details for the item
   enableWhen?:                               # Only allow data when
@@ -15,9 +26,20 @@ properties:
     items:
       type: object
       properties:
-        # /^answer(Boolean|Decimal|Integer|Date|DateTime|Time|String|Uri|Attachment|Coding|Quantity|Reference)$/: boolean | decimal | integer | date | dateTime | time | string | uri | Attachment | Coding | Quantity | Reference
         question: string                     # R!  Question that determines whether item is enabled
         hasAnswer?: boolean                  # C? Enable when answered or not
+        answerBoolean?: boolean
+        answerDecimal?: decimal
+        answerInteger?: integer
+        answerDate?: date
+        answerDateTime?: dateTime
+        answerTime?: time
+        answerString?: string
+        answerUri?: uri
+        answerAttachment?: Attachment
+        answerCoding?: Coding
+        answerQuantity?: Quantity
+        answerReference?: Reference
   item?:                                     # C? Nested questionnaire items
     type: array
     items: QuestionnaireItem
@@ -27,7 +49,11 @@ properties:
     items:
       type: object
       properties:
-        # /^value(Integer|Date|Time|String|Coding)$/?: integer | date | time | string | Coding
+        valueInteger?: integer
+        valueDate?: date
+        valueTime?: time
+        valueString?: string
+        valueCoding?: Coding
   options?: Reference                        # C? Valueset containing permitted answers
   prefix?: string                            # E.g. 1(a) 2.5.3
   readOnly?: boolean                         # C? Don't allow human editing

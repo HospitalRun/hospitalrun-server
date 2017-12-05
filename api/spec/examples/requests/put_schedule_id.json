@@ -1,6 +1,5 @@
 {
   "resourceType": "Schedule",
-  "id": "1",
   "comment": "Consultations",
   "planningHorizon": {
     "start": "2016-08-01T08:00:00-08:00",

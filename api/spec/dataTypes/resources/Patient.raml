@@ -13,10 +13,12 @@ properties:
   telecom?: ContactPoint[]
   gender?: gender
   birthDate?: date
-  /^deceased(Boolean|DateTime)$/?: boolean | dateTime
+  deceasedBoolean?: boolean
+  deceasedDateTime?: dateTime
   address?: Address[]
   maritalStatus?: CodeableConcept
-  /^multipleBirth(Boolean|Integer)$/?: boolean | integer
+  multipleBirthBoolean?: boolean
+  multipleBirthInteger?: integer
   photo?: Attachment[]
   contact?:
     description: |

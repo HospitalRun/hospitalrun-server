@@ -1,17 +1,18 @@
-let bodyParser   = require('body-parser');
-var config       = require('./config.js');  // require('./config-remote-couchdb.js');
-var dbListeners  = require('hospitalrun-dblisteners');
-var express      = require('express');
-var fs           = require('fs');
-var http         = require('http');
-var https        = require('https');
-var morgan       = require('morgan');
-var osprey       = require('osprey');
-var serverRoutes = require('hospitalrun-server-routes');
-var setupAppDir  = require('hospitalrun');
+const bodyParser   = require('body-parser');
+const dbListeners  = require('hospitalrun-dblisteners');
+const config       = require('./config.js');
+const express      = require('express');
+const fs           = require('fs');
+const http         = require('http');
+const https        = require('https');
+const morgan       = require('morgan');
+const osprey       = require('osprey');
+const serverRoutes = require('hospitalrun-server-routes');
+const setupAppDir  = require('hospitalrun');
+const apiConfig    = require('./api/config.js');
 
 dbListeners(config);
-var app = express();
+const app = express();
 if (config.useSSL && config.useCertBot === true) {
   app.use('/.well-known', express.static(__dirname + '/public/.well-known', { dotfiles: 'allow' }));
   http.createServer(app).listen(80);
@@ -23,11 +24,11 @@ if (config.logRequests) {
 }
 app.use('/patientimages', express.static(config.imagesdir));
 
-var server;
+let server;
 if (config.useSSL) {
-  var options = {
-    key: fs.readFileSync(config.sslKey),
-    cert: fs.readFileSync(config.sslCert),
+  const options = {
+    key  : fs.readFileSync(config.sslKey),
+    cert : fs.readFileSync(config.sslCert),
   };
   if (config.sslCA) {
     options.ca = [];
@@ -40,8 +41,7 @@ if (config.useSSL) {
   server = http.createServer(app);
 }
 
-const apiConfig = require('./api/config.js');
-
+console.log('Loading raml proxy - this may take a while...');
 osprey.loadFile(apiConfig.spec, apiConfig.ospreyConfig)
 .then(middleware => {
   app.use(bodyParser.urlencoded({ extended: false }));
@@ -50,6 +50,7 @@ osprey.loadFile(apiConfig.spec, apiConfig.ospreyConfig)
   app.use(apiConfig.mountpoint, middleware, osprey.Router(), require('./api/router/routes'));
   app.use(apiConfig.ramlOnNotFound);
   app.use(apiConfig.ramlOnError);
+
 
   server.listen(config.serverPort, function listening() {
     console.log('HospitalRun server listening on %j', server.address());

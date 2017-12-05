@@ -1,6 +1,5 @@
 {
   "resourceType": "Slot",
-  "id": "27",
   "schedule": {
     "reference": "Schedule/1"
   },

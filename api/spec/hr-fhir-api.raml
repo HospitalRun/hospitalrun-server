@@ -3,7 +3,6 @@ title: HospitalRun FHIR API
 version: v1
 mediaType: [application/xml+fhir, application/json+fhir]
 
-
 types:
   #Primitives
   base64Binary:                 string
@@ -43,9 +42,11 @@ types:
   Identifier:                   !include dataTypes/elements/Identifier.raml
   Meta:                         !include dataTypes/elements/Meta.raml
   Narrative:                    !include dataTypes/elements/Narrative.raml
-  Period:                       !include dataTypes/elements/Reference.raml
+  # Period:                       !include dataTypes/elements/Reference.raml  # typo?
+  Period:                       !include dataTypes/elements/Period.raml
   Quantity:                     !include dataTypes/elements/Quantity.raml
   QuestionnaireItem:            !include dataTypes/elements/QuestionnaireItem.raml
+  QuestionnaireResponseItem:    !include dataTypes/elements/QuestionnaireResponseItem.raml
   Range:                        !include dataTypes/elements/Range.raml
   Ratio:                        !include dataTypes/elements/Ratio.raml
   Reference:                    !include dataTypes/elements/Reference.raml
@@ -69,10 +70,10 @@ types:
   Patient:                      !include dataTypes/resources/Patient.raml
   Practitioner:                 !include dataTypes/resources/Practitioner.raml
   Questionnaire:                !include dataTypes/resources/Questionnaire.raml
+  QuestionnaireResponse:        !include dataTypes/resources/QuestionnaireResponse.raml
   Resource:                     !include dataTypes/resources/Resource.raml
   Schedule:                     !include dataTypes/resources/Schedule.raml
   Slot:                         !include dataTypes/resources/Slot.raml
-  Test:                         !include dataTypes/resources/Test.raml
 
   #Entries
   AllergyIntoleranceEntry:      !include dataTypes/entries/AllergyIntoleranceEntry.raml
@@ -87,9 +88,9 @@ types:
   PatientEntry:                 !include dataTypes/entries/PatientEntry.raml
   PractitionerEntry:            !include dataTypes/entries/PractitionerEntry.raml
   QuestionnaireEntry:           !include dataTypes/entries/QuestionnaireEntry.raml
+  QuestionnaireResponseEntry:   !include dataTypes/entries/QuestionnaireResponseEntry.raml
   ScheduleEntry:                !include dataTypes/entries/ScheduleEntry.raml
   SlotEntry:                    !include dataTypes/entries/SlotEntry.raml
-  TestEntry:                    !include dataTypes/entries/TestEntry.raml
 
   #Bundles
   AllergyIntoleranceBundle:     !include dataTypes/bundles/AllergyIntoleranceBundle.raml
@@ -105,9 +106,9 @@ types:
   PatientBundle:                !include dataTypes/bundles/PatientBundle.raml
   PractitionerBundle:           !include dataTypes/bundles/PractitionerBundle.raml
   QuestionnaireBundle:          !include dataTypes/bundles/QuestionnaireBundle.raml
+  QuestionnaireResponseBundle:  !include dataTypes/bundles/QuestionnaireResponseBundle.raml
   ScheduleBundle:               !include dataTypes/bundles/ScheduleBundle.raml
   SlotBundle:                   !include dataTypes/bundles/SlotBundle.raml
-  TestBundle:                   !include dataTypes/bundles/TestBundle.raml
 
 
 resourceTypes:
@@ -151,6 +152,8 @@ traits:
     queryParameters: !include queryParams/resources/patientParams.yaml
   practitionerSearch:
     queryParameters: !include queryParams/resources/practitionerParams.yaml
+  questionnaireResponseSearch:
+    queryParameters: !include queryParams/resources/questionnaireResponseParams.yaml
   questionnaireSearch:
     queryParameters: !include queryParams/resources/questionnaireParams.yaml
   scheduleSearch:
@@ -203,6 +206,10 @@ traits:
     body:
       application/json:
         properties: !include queryParams/resources/questionnaireParams.yaml
+  questionnaireResponsePOSTSearch:
+    body:
+      application/json:
+        properties: !include queryParams/resources/questionnaireResponseParams.yaml
   schedulePOSTSearch:
     body:
       application/json:
@@ -212,10 +219,40 @@ traits:
       application/json:
         properties: !include queryParams/resources/slotParams.yaml
 
+securitySchemes:
+  oauth_1_0:
+    type: x-oauth-1-0
+    description: |
+      A custom security scheme for authenticating requests.
+    describedBy:
+      headers:
+        x-oauth-consumer-key:
+          type: string
+          description: |
+            OAuth consumer key
+        x-oauth-consumer-secret:
+          type: string
+          description: |
+            OAuth consumer secret
+        x-oauth-token:
+          type: string
+          description: |
+            OAuth token
+        x-oauth-token-secret:
+          type: string
+          description: |
+            OAuth token secret
+      responses:
+        401:
+          description: |
+            Invalid header(s)
+        403:  # implicit unauthorized
+
+securedBy: oauth_1_0
 
 ### API definition ###
 
-# /AllergyIntolerance:
+# /AllergyIntolerances:
 #   type: {
 #     fhirResourceType: {
 #       postExample: !include examples/requests/post_allergyIntolerance.json,
@@ -249,7 +286,7 @@ traits:
 #     post:
 #       is: [ allergyIntolerancePOSTSearch ]
 
-# /Appointment:
+# /Appointments:
 #   type: {
 #     fhirResourceType: {
 #       postExample: !include examples/requests/post_appointment.json,
@@ -283,7 +320,7 @@ traits:
 #     post:
 #       is: [ appointmentPOSTSearch ]
 
-# /Condition:
+# /Conditions:
 #   type: {
 #     fhirResourceType: {
 #       postExample: !include examples/requests/post_condition.json,
@@ -317,7 +354,7 @@ traits:
 #     post:
 #       is: [ conditionPOSTSearch ]
 
-# /Device:
+# /Devices:
 #   type: {
 #     fhirResourceType: {
 #       postExample: !include examples/requests/post_device.json,
@@ -351,7 +388,7 @@ traits:
 #     post:
 #       is: [ devicePOSTSearch ]
 
-# /Encounter:
+# /Encounters:
 #   type: {
 #     fhirResourceType: {
 #       postExample: !include examples/requests/post_encounter.json,
@@ -385,7 +422,7 @@ traits:
 #     post:
 #       is: [ encounterPOSTSearch ]
 
-# /Medication:
+# /Medications:
 #   type: {
 #     fhirResourceType: {
 #       postExample: !include examples/requests/post_medication.json,
@@ -419,7 +456,7 @@ traits:
 #     post:
 #       is: [ medicationPOSTSearch ]
 
-# /MedicationOrder:
+# /MedicationOrders:
 #   type: {
 #     fhirResourceType: {
 #       postExample: !include examples/requests/post_medicationOrder.json,
@@ -453,7 +490,7 @@ traits:
 #     post:
 #       is: [ medicationOrderPOSTSearch ]
 
-# /Observation:
+# /Observations:
 #   type: {
 #     fhirResourceType: {
 #       postExample: !include examples/requests/post_observation.json,
@@ -487,56 +524,56 @@ traits:
 #     post:
 #       is: [ observationPOSTSearch ]
 
-# /Patient:
-#   type: {
-#     fhirResourceType: {
-#       postExample: !include examples/requests/post_patient.json,
-#       getExample:  !include examples/responses/get_patient.json,
-#     }
-#   }
-#   get:
-#     is: [ patientSearch ]
-#   put:
-#     is: [ patientSearch ]
-#   delete:
-#     is: [ patientSearch ]
-#   /_history:
-#     type: { fhirHistory: { bundleName: PatientBundle } }
-#     is: [ patientSearch ]
-#   /{id}:
-#     type: {
-#       fhirResource: {
-#         getSingleExample: !include examples/responses/get_patient_id.json,
-#         putExample: !include examples/requests/put_patient_id.json
-#       }
-#     }
-#     /_history:
-#       type: { fhirHistory: { bundleName: PatientBundle } }
-#       /{vid}:
-#         type: { fhirVersionedResource: { resourceName: Patient } }
-#     /Condition:
-#       type:  { fhirCompartment: { example: !include examples/responses/get_condition.json} }
-#       is: [ conditionSearch ]
-#     /Observation:
-#       type: { fhirCompartment: { example: !include examples/responses/get_observation.json} }
-#       is: [ observationSearch ]
-#     /MedicationOrder:
-#       type: { fhirCompartment: { example: !include examples/responses/get_medicationOrder.json} }
-#       is: [ medicationOrderSearch ]
-#     /Appointment:
-#       type: { fhirCompartment: { example: !include examples/responses/get_appointment.json} }
-#       is: [ appointmentSearch ]
-#     /AllergyIntolerance:
-#       type: { fhirCompartment: { example: !include examples/responses/get_allergyIntolerance.json} }
-#       is: [ allergyIntoleranceSearch ]
-#   /_search:
-#     type: { fhirSearch: { bundleName: PatientBundle } }
-#     get:
-#       is: [ patientSearch ]
-#     post:
-#       is: [ patientPOSTSearch ]
+/Patients:
+  type: {
+    fhirResourceType: {
+      postExample: !include examples/requests/post_patient.json,
+      getExample:  !include examples/responses/get_patient.json,
+    }
+  }
+  get:
+    is: [ patientSearch ]
+  put:
+    is: [ patientSearch ]
+  delete:
+    is: [ patientSearch ]
+  /_history:
+    type: { fhirHistory: { bundleName: PatientBundle } }
+    is: [ patientSearch ]
+  /{id}:
+    type: {
+      fhirResource: {
+        getSingleExample: !include examples/responses/get_patient_id.json,
+        putExample: !include examples/requests/put_patient_id.json
+      }
+    }
+    /_history:
+      type: { fhirHistory: { bundleName: PatientBundle } }
+      /{vid}:
+        type: { fhirVersionedResource: { resourceName: Patient } }
+    /Conditions:
+      type:  { fhirCompartment: { example: !include examples/responses/get_condition.json} }
+      is: [ conditionSearch ]
+    /Observations:
+      type: { fhirCompartment: { example: !include examples/responses/get_observation.json} }
+      is: [ observationSearch ]
+    /MedicationOrders:
+      type: { fhirCompartment: { example: !include examples/responses/get_medicationOrder.json} }
+      is: [ medicationOrderSearch ]
+    /Appointments:
+      type: { fhirCompartment: { example: !include examples/responses/get_appointment.json} }
+      is: [ appointmentSearch ]
+    /AllergyIntolerances:
+      type: { fhirCompartment: { example: !include examples/responses/get_allergyIntolerance.json} }
+      is: [ allergyIntoleranceSearch ]
+  /_search:
+    type: { fhirSearch: { bundleName: PatientBundle } }
+    get:
+      is: [ patientSearch ]
+    post:
+      is: [ patientPOSTSearch ]
 
-# /Practitioner:
+# /Practitioners:
 #   type: {
 #     fhirResourceType: {
 #       postExample: !include examples/requests/post_practitioner.json,
@@ -576,7 +613,7 @@ traits:
 #     post:
 #       is: [ practitionerPOSTSearch ]
 
-/Questionnaire:
+/Questionnaires:
   type: {
     fhirResourceType: {
       postExample: !include examples/requests/post_questionnaire.json,
@@ -610,7 +647,41 @@ traits:
     post:
       is: [ questionnairePOSTSearch ]
 
-# /Schedule:
+/QuestionnaireResponses:
+  type: {
+    fhirResourceType: {
+      postExample: !include examples/requests/post_questionnaireResponse.json,
+      getExample:  !include examples/responses/get_questionnaireResponse.json,
+    }
+  }
+  get:
+    is: [ questionnaireResponseSearch ]
+  put:
+    is: [ questionnaireResponseSearch ]
+  delete:
+    is: [ questionnaireResponseSearch ]
+  /_history:
+    type: { fhirHistory: { bundleName: QuestionnaireResponseBundle } }
+    is: [ questionnaireResponseSearch ]
+  /{id}:
+    type: {
+      fhirResource: {
+        getSingleExample: !include examples/responses/get_questionnaireResponse_id.json,
+        putExample:       !include examples/requests/put_questionnaireResponse_id.json
+      }
+    }
+    /_history:
+      type: { fhirHistory: { bundleName: QuestionnaireResponseBundle } }
+      /{vid}:
+        type: { fhirVersionedResource: { resourceName: QuestionnaireResponse } }
+  /_search:
+    type: { fhirSearch: { bundleName: QuestionnaireResponseBundle } }
+    get:
+      is: [ questionnaireResponseSearch ]
+    post:
+      is: [ questionnaireResponsePOSTSearch ]
+
+# /Schedules:
 #   type: {
 #     fhirResourceType: {
 #       postExample: !include examples/requests/post_schedule.json,
@@ -644,7 +715,7 @@ traits:
 #     post:
 #       is: [ schedulePOSTSearch ]
 
-# /Slot:
+# /Slots:
 #   type: {
 #     fhirResourceType: {
 #       postExample: !include examples/requests/post_slot.json,
@@ -677,12 +748,3 @@ traits:
 #       is: [ slotSearch ]
 #     post:
 #       is: [ slotPOSTSearch ]
-
-# TODO: remove in production
-/Test:
-  type: {
-    fhirResourceType: {
-      postExample: !include examples/requests/post_test.json,
-      getExample:  !include examples/responses/get_test.json,
-    }
-  }

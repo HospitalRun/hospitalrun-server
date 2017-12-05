@@ -1,6 +1,5 @@
 {
   "resourceType": "Encounter",
-  "id": "465888",
   "identifier": [
     {
       "use": "temp",

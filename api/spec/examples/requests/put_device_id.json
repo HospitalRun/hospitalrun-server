@@ -1,6 +1,5 @@
 {
   "resourceType": "Device",
-  "id": "1",
   "identifier": [
     {
       "system": "http://goodcare.org/devices/id",

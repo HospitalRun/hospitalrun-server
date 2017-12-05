@@ -4,7 +4,7 @@
 
 post:
   description: |
-    The create interaction creates a new resource in a server-assigned location. 
+    The create interaction creates a new resource in a server-assigned location.
     If the client wishes to have control over the id of a newly submitted resource, it should use the update interaction instead.
   is: [create]
   headers:
@@ -13,7 +13,7 @@ post:
       description: name=value selective criteria
   body:
     application/json:
-      type: <<resourcePathName>>
+      type: <<resourcePathName|!singularize>>
       example: <<postExample>>
   responses:
     200:
@@ -27,7 +27,7 @@ get:
     200:
       body:
         application/json:
-          type: <<resourcePathName>>Bundle
+          type: <<resourcePathName|!singularize>>Bundle
           example: <<getExample>>
 put:
   description: The conditional update interaction allows a client to update an existing resource based on some identification criteria, rather than by logical id.

@@ -1,0 +1,32 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/elements/QuestionnaireResponseItem.raml
+
+properties:
+  linkId: string                            # R!  Pointer to specific item from Questionnaire
+  answer?:                                  # The response(s) to the question
+    type: array
+    items:                                  # value[x]: Single-valued answer to the question. One of these 12:
+      type: object
+      properties:
+        valueAttachment?: Attachment
+        valueBoolean?: boolean
+        valueCoding?: Coding
+        valueDate?: date
+        valueDateTime?: dateTime
+        valueDecimal?: decimal
+        valueInteger?: integer
+        valueQuantity?: Quantity
+        valueReference?: Reference
+        valueString?: string
+        valueTime?: time
+        valueUri?: uri
+        item?:
+          type: array
+          items: QuestionnaireResponseItem  # Nested groups and questions
+  definition?: uri                          # ElementDefinition - details for the item
+  item?:
+    type: array
+    items: QuestionnaireResponseItem        # Nested questionnaire response items
+  subject?: Reference                       # The subject this group's answers are about
+  text?: string                             # Name for group or question text
