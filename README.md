@@ -1,5 +1,8 @@
 HospitalRun Server
 ======
+
+[![Help Contribute to Open Source](https://www.codetriage.com/hospitalrun/hospitalrun-server/badges/users.svg)](https://www.codetriage.com/hospitalrun/hospitalrun-server)
+
 This is the Node.js backend for HospitalRun.  The intention is that this would be used in HospitalRun production deployments. Having a Node.js backend server allows us to do the following:
 
 1. Use Google OAuth for user authentication.
@@ -31,7 +34,7 @@ Full deployment documentation is available [here](https://github.com/HospitalRun
         1. Download `https://github.com/HospitalRun/hospitalrun-frontend/blob/master/script/initcouch.sh`
         2. If you have just installed CouchDB and have no admin user, simply run `initcouch.sh` with no arguements.  A user `hradmin` will be created with password: `test`.
         2. If you already have a CouchDB admin user, please run `initcouch.sh USER PASS`.  `USER` and `PASS` are the CouchDB admin user credentials.
-6. Copy the `config-example.js` to `config.js` in the folder you cloned the HospitalRun repository. If you already had a CouchDB admin user that you passed into the couch script (`initcouch.sh USER PASS`), then you will need to modify the `couchAdminUser` and `couchAdminPassword` values in `config.js` to reflect those credentials.  Additionally the default network name for the CouchDB server is `couchdb`.  If you are runninig CouchDB on the same server as HospitalRun, change line 2 of `config.js` from: 
+6. Copy the `config-example.js` to `config.js` in the folder you cloned the HospitalRun repository. If you already had a CouchDB admin user that you passed into the couch script (`initcouch.sh USER PASS`), then you will need to modify the `couchAdminUser` and `couchAdminPassword` values in `config.js` to reflect those credentials.  Additionally the default network name for the CouchDB server is `couchdb`.  If you are runninig CouchDB on the same server as HospitalRun, change line 2 of `config.js` from:
 ```js
 var config = {
   couchDbServer: 'couchdb',
