@@ -1,0 +1,46 @@
+{
+  "resourceType": "Practitioner",
+  "address": [
+    {
+      "city": "San Francisco",
+      "country": "United States of America",
+      "line": [
+        "Main Street 19"
+      ],
+      "postalCode": "09554"
+    }
+  ],
+  "birthDate": "1969-07-25",
+  "gender": "male",
+  "name": [
+    {
+      "use": "official",
+      "family": [
+        "Fletcher"
+      ],
+      "given": [
+        "Jamie"
+      ],
+      "suffix": [
+        "MD"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "system": "phone",
+      "use": "work",
+      "value": "987-777-025"
+    },
+    {
+      "system": "fax",
+      "use": "work",
+      "value": "746-9935"
+    },
+    {
+      "system": "email",
+      "use": "work",
+      "value": "fletcher.jamie@doctor.org"
+    }
+  ]
+}

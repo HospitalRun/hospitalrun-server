@@ -1,0 +1,22 @@
+{
+  "resourceType" : "QuestionnaireResponse",
+  "questionnaire" : {
+    "reference": "questionnaires/questionnaire_2_db19d3f7-3533-4516-a5d5-fd879481b92e"
+  },
+  "status" : "completed",
+  "authored" : "2016-08-01T10:00:00-08:00",
+  "item" : [
+    {
+      "linkId" : "1",
+      "text" : "Do you have allergies?",
+      "subject" : {
+        "reference": "patients/patient_2_fa3e5823-4288-4105-8e43-9b072e707687"
+      },
+      "answer" : [
+        {
+          "valueBoolean" : true
+        }
+      ]
+    }
+  ]
+}

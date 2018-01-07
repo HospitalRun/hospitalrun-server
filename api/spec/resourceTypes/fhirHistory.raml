@@ -1,0 +1,7 @@
+#%RAML 1.0 ResourceType
+
+#This file is located at resourceTypes/fhirHistory.raml
+
+get:
+  description: The history interaction retrieves the history of either a particular resource or all resources of a given type.
+  is: [{history: { bundleName: <<bundleName>>}}]

@@ -1,0 +1,39 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/entries/Entry.raml
+
+type: BackboneElement
+properties:
+  link?:
+    type: array
+    items:
+      type: BackboneElement
+      properties:
+        relation: string
+        url: uri
+  fullUrl?: uri
+  search?:
+    type: BackboneElement
+    properties:
+      mode?:
+        type: code
+        enum: [match, include, outcome]
+      score?: decimal
+  request?:
+    type: BackboneElement
+    properties:
+      method:
+        type: code
+        enum: [GET, PUT, POST, DELETE]
+      url: uri
+      ifNoneMatch?: string
+      ifModifiedSince?: instant
+      ifMatch: string
+      ifNoneExist: string
+  response?:
+    type: object
+    properties:
+      status: string
+      location?: uri
+      etag?: string
+      lastModified?: instant

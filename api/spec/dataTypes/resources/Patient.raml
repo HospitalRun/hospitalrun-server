@@ -1,0 +1,68 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/resources/Patient.raml
+
+description: Information about an individual or animal receiving health care services
+type: DomainResource
+properties:
+  identifier?: Identifier[]
+  active?:
+    type: boolean
+    description: Whether this patient's record is in active use
+  name?: HumanName[]
+  telecom?: ContactPoint[]
+  gender?: gender
+  birthDate?: date
+  deceasedBoolean?: boolean
+  deceasedDateTime?: dateTime
+  address?: Address[]
+  maritalStatus?: CodeableConcept
+  multipleBirthBoolean?: boolean
+  multipleBirthInteger?: integer
+  photo?: Attachment[]
+  contact?:
+    description: |
+      A contact party (e.g. guardian, partner, friend) for the patient
+      SHALL at least contain a contact's details or a reference to an organization
+    type: array
+    items:
+      type: BackboneElement
+      properties:
+        relationship?: CodeableConcept[]
+        name?: HumanName
+        telecom?: ContactPoint[]
+        address?: Address
+        gender?: gender
+        organization?: Reference
+        period?:
+          description: |
+            The period during which this contact person or organization is valid to be contacted relating to this patient
+          type: Period
+  animal?:
+    description: This patient is known to be an animal (non-human)
+    type: BackboneElement
+    properties:
+      species: CodeableConcept
+      breed?: CodeableConcept
+      genderStatus?: CodeableConcept
+  communication?:
+    description: |
+      A list of Languages which may be used to communicate with the patient about his or her health
+    type: array
+    items:
+      type: BackboneElement
+      properties:
+        language: CodeableConcept
+        preferred?: boolean
+  careProvider?: Reference[]
+  managingOrganization?:
+    description: Organization that is the custodian of the patient record
+    type: Reference
+  link?:
+    description: Link to another patient resource that concerns the same actual person
+    type: BackboneElement
+    properties:
+      other: Reference
+      type:
+        type: code
+        enum: [replace, refer, seealso]

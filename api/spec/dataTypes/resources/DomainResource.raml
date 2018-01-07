@@ -1,0 +1,13 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/resources/DomainResource.raml
+
+type: Resource
+properties:
+  # where is resourceType defined in the spec?
+  resourceType: string
+  text?:
+    type: Narrative
+  contained?: Resource[]
+  extension?: Extension[]
+  modifierExtension?: Extension[]

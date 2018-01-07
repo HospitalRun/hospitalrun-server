@@ -1,0 +1,156 @@
+{
+  "resourceType": "Bundle",
+  "type": "searchset",
+  "total": 3,
+  "meta": {
+    "lastUpdated": "2016-09-20T12:42:43.351Z"
+  },
+  "link": [
+    {
+      "relation": "self",
+      "url": "http://localhost:8081/api/Practitioner"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "http://localhost:8081/api/Practitioner/1",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "1",
+        "address": [
+          {
+            "city": "San Francisco",
+            "country": "United States of America",
+            "line": [
+              "Main Street 19"
+            ],
+            "postalCode": "09554"
+          }
+        ],
+        "birthDate": "1969-07-25",
+        "gender": "male",
+        "name": [
+          {
+            "use": "official",
+            "family": [
+              "Fletcher"
+            ],
+            "given": [
+              "Jamie"
+            ],
+            "suffix": [
+              "MD"
+            ]
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "use": "work",
+            "value": "987-777-025"
+          },
+          {
+            "system": "fax",
+            "use": "work",
+            "value": "746-9935"
+          },
+          {
+            "system": "email",
+            "use": "work",
+            "value": "fletcher.jamie@doctor.org"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8081/api/Practitioner/2",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "2",
+        "address": [
+          {
+            "city": "San Francisco",
+            "country": "United States",
+            "line": [
+              "1 California Street"
+            ],
+            "postalCode": "94111"
+          }
+        ],
+        "birthDate": "1985-01-01",
+        "gender": "male",
+        "name": [
+          {
+            "use": "official",
+            "family": [
+              "Chao"
+            ],
+            "given": [
+              "David"
+            ],
+            "suffix": [
+              "MD"
+            ]
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "use": "Work",
+            "value": "4158112323"
+          },
+          {
+            "system": "email",
+            "use": "Work",
+            "value": "david.chao@clinic.org"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8081/api/Practitioner/3",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "3",
+        "address": [
+          {
+            "city": "San Francisco",
+            "country": "United States",
+            "line": [
+              "1 California Street"
+            ],
+            "postalCode": "94111"
+          }
+        ],
+        "birthDate": "1979-05-23",
+        "gender": "male",
+        "name": [
+          {
+            "use": "official",
+            "family": [
+              "Morison"
+            ],
+            "given": [
+              "Christian"
+            ],
+            "suffix": [
+              "MD"
+            ]
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "use": "Work",
+            "value": "4151238923"
+          },
+          {
+            "system": "email",
+            "use": "Work",
+            "value": "chris.morison@clinic.org"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "resourceType": "Bundle",
+  "type": "searchset",
+  "link": [
+    {
+      "relation": "self",
+      "url": "http://localhost:8081/api/Patient"
+    }
+  ],
+  "meta": {
+    "lastUpdated": "2016-09-20T12:39:31.578Z"
+  },
+  "total": 2,
+  "entry": [
+    {
+      "fullUrl": "http://localhost:8081/api/Patient/13556258",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "13556258",
+        "address": [
+          {
+            "city": "San Francisco",
+            "country": "United States",
+            "line": [
+              "651 Bush Street"
+            ],
+            "postalCode": "94105",
+            "state": "California"
+          }
+        ],
+        "birthDate": "1970-02-12",
+        "careProvider": [
+          {
+            "reference": "Practitioner/1"
+          }
+        ],
+        "gender": "female",
+        "name": [
+          {
+            "use": "official",
+            "family": [
+              "Smith"
+            ],
+            "given": [
+              "Anna"
+            ]
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "use": "home",
+            "value": "4152292009"
+          }
+        ]
+      }
+    },
+    {
+      "fullUrl": "http://localhost:8081/api/Patient/2",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "2",
+        "address": [
+          {
+            "city": "San Francisco",
+            "country": "United States of America",
+            "line": [
+              "1855 Folsom Street"
+            ],
+            "postalCode": "53703",
+            "state": "Wisconsin"
+          }
+        ],
+        "birthDate": "1979-04-13",
+        "careProvider": [
+          {
+            "reference": "Practitioner/1"
+          }
+        ],
+        "gender": "female",
+        "name": [
+          {
+            "use": "official",
+            "family": [
+              "Radonctest"
+            ],
+            "given": [
+              "Veera"
+            ]
+          }
+        ],
+        "telecom": [
+          {
+            "system": "phone",
+            "use": "home",
+            "value": "608-999-9654"
+          }
+        ]
+      }
+    }
+  ]
+}

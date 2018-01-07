@@ -1,0 +1,67 @@
+{
+  "resourceType": "Bundle",
+  "type": "searchset",
+  "link": [
+    {
+      "relation": "self",
+      "url": "http://localhost:8081/api/Encounter"
+    }
+  ],
+  "meta": {
+    "lastUpdated": "2016-09-20T12:39:31.578Z"
+  },
+  "total": 1,
+  "entry": [
+  	{
+	  "resourceType": "Encounter",
+	  "id": "465888",
+	  "identifier": [
+	    {
+	      "use": "temp",
+	      "value": "Encounter_Roel_20130404"
+	    }
+	  ],
+	  "status": "finished",
+	  "class": "outpatient",
+	  "type": [
+	    {
+	      "coding": [
+	        {
+	          "system": "http://snomed.info/sct",
+	          "code": "11429006",
+	          "display": "Consultation"
+	        }
+	      ]
+	    }
+	  ],
+	  "priority": {
+	    "coding": [
+	      {
+	        "system": "http://snomed.info/sct",
+	        "code": "17621005",
+	        "display": "Normal"
+	      }
+	    ]
+	  },
+	  "patient": {
+	    "reference": "Patient/2345443",
+	    "display": "Roel"
+	  },
+	  "participant": [
+	    {
+	      "individual": {
+	        "reference": "Practitioner/6546"
+	      }
+	    }
+	  ],
+	  "reason": [
+	    {
+	      "text": "The patient had fever peaks over the last couple of days. He is worried about these peaks."
+	    }
+	  ],
+	  "serviceProvider": {
+	    "reference": "Organization/f201"
+	  }
+	}
+  ]
+}

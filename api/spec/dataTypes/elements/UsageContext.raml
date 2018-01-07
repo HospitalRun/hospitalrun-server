@@ -1,0 +1,11 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/elements/UsageContext.raml
+
+type: Element
+properties:
+  code: Coding # R!  Type of context being specified
+  # value[x]: Value that defines the context. One of these 3:
+  valueCodeableConcept?: CodeableConcept
+  valueQuantity?: Quantity
+  valueRange?: Range

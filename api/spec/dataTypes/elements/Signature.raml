@@ -1,0 +1,10 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/elements/Signature.raml
+
+properties:
+  type: Coding[]
+  when: instant
+  /^who(Uri|Reference)$/: uri | Reference
+  contentType: code
+  blob: base64Binary

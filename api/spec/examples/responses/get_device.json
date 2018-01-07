@@ -1,0 +1,67 @@
+{
+  "resourceType": "Bundle",
+  "type": "searchset",
+  "link": [
+    {
+      "relation": "self",
+      "url": "http://localhost:8081/api/Device"
+    }
+  ],
+  "meta": {
+    "lastUpdated": "2016-09-20T12:39:31.578Z"
+  },
+  "total": 1,
+  "entry": [
+  	{
+	  "resourceType": "Device",
+	  "id": "1",
+	  "identifier": [
+	    {
+	      "system": "http://goodcare.org/devices/id",
+	      "value": "345675"
+	    },
+	    {
+	      "type": {
+	        "coding": [
+	          {
+	            "system": "http://hl7.org/fhir/identifier-type",
+	            "code": "SNO"
+	          }
+	        ],
+	        "text": "Serial Number"
+	      },
+	      "value": "AMID-342135-8464"
+	    }
+	  ],
+	  "type": {
+	    "coding": [
+	      {
+	        "system": "http://snomed.info/sct",
+	        "code": "86184003",
+	        "display": "Electrocardiographic monitor and recorder"
+	      }
+	    ],
+	    "text": "ECG"
+	  },
+	  "note": [
+	    {
+	      "authorReference": {
+	        "reference": "Practitioner/xcda-author"
+	      },
+	      "time": "2015-06-28T14:03:32+10:00",
+	      "text": "QA Checked"
+	    }
+	  ],
+	  "status": "available",
+	  "manufacturer": "Acme Devices, Inc",
+	  "model": "AB 45-J",
+	  "lotNumber": "43453424",
+	  "contact": [
+	    {
+	      "system": "phone",
+	      "value": "ext 4352"
+	    }
+	  ]
+	}
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "resourceType": "Patient",
+  "address": [
+    {
+      "city": "San Francisco",
+      "country": "United States of America",
+      "line": [
+        "499 Folsom Street"
+      ],
+      "postalCode": "90354",
+      "state": "California"
+    }
+  ],
+  "birthDate": "1970-02-12",
+  "careProvider": [
+    {
+      "reference": "Practitioner/1"
+    }
+  ],
+  "gender": "male",
+  "name": [
+    {
+      "use": "official",
+      "family": [
+        "Radonctest"
+      ],
+      "given": [
+        "Veera"
+      ]
+    }
+  ],
+  "telecom": [
+    {
+      "system": "phone",
+      "use": "home",
+      "value": "608-999-9005"
+    }
+  ]
+}

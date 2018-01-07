@@ -1,0 +1,18 @@
+code:
+  required: false
+  description: Codes that identify this medication
+container:
+  required: false
+  description: E.g. box, vial, blister-pack
+content:
+  required: false
+  description: A product in the package
+form:
+  required: false
+  description: powder | tablets | carton +
+ingredient:
+  required: false
+  description: The product contained
+manufacturer:
+  required: false
+  description: Manufacturer of the item

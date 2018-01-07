@@ -1,0 +1,33 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/elements/Extension.raml
+
+properties:
+  url: uri
+  # Regex key below causes errors
+  # /^value(Integer|Decimal|DateTime|Date|Instant|String|Uri|Boolean|Code|Markdown|Base64Binary|Coding|CodeableConcept|Attachment|Identifier|Quantity|Range|Period|Ratio|HumanName|Address|ContactPoint|Timing|Signature|Reference)$/: integer | decimal | dateTime | date | instant | string | uri | boolean | code | markdown | base64Binary | Coding | CodeableConcept | Attachment | Identifier | Quantity | Range | Period | Ratio | HumanName | Address | ContactPoint | Timing | Signature | Reference
+  # valueInteger?: integer
+  # valueDecimal?: decimal
+  # valueDateTime?: dateTime
+  # valueDate?: date
+  # valueInstant?: instant
+  # valueString?: string
+  # valueUri?: uri
+  # valueBoolean?: boolean
+  # valueCode?: code
+  # valueMarkdown?: markdown
+  # valueBase64Binary?: base64Binary
+  # valueCoding?: Coding
+  # valueCodeableConcept?: CodeableConcept  #fails - Error: No method in multimethod 'datatype-expansion.canonical-form/canonical-form' for dispatch value: fixpoint
+  # valueAttachment?: Attachment            #fails - Error: No method in multimethod 'datatype-expansion.canonical-form/canonical-form' for dispatch value: fixpoint
+  # valueIdentifier?: Identifier            #fails - Error: No method in multimethod 'datatype-expansion.canonical-form/canonical-form' for dispatch value: fixpoint
+  # valueQuantity?: Quantity                #fails - Error: No method in multimethod 'datatype-expansion.canonical-form/canonical-form' for dispatch value: fixpoint
+  # valueRange?: Range                      #fails - Error: No method in multimethod 'datatype-expansion.canonical-form/canonical-form' for dispatch value: fixpoint
+  # valuePeriod?: Period                    #fails - Error: No method in multimethod 'datatype-expansion.canonical-form/canonical-form' for dispatch value: fixpoint
+  # valueRatio?: Ratio                      #fails - Error: No method in multimethod 'datatype-expansion.canonical-form/canonical-form' for dispatch value: fixpoint
+  # valueHumanName?: HumanName              #fails - Error: No method in multimethod 'datatype-expansion.canonical-form/canonical-form' for dispatch value: fixpoint
+  # valueAddress?: Address                  #fails - TypeError: Cannot read property 'name' of null
+  # valueContactPoint?: ContactPoint        #fails - Error: No method in multimethod 'datatype-expansion.canonical-form/canonical-form' for dispatch value: fixpoint
+  # valueTiming?: Timing                    #fails - Error: No method in multimethod 'datatype-expansion.canonical-form/canonical-form' for dispatch value: fixpoint
+  # valueSignature?: Signature              #fails - Error: No method in multimethod 'datatype-expansion.canonical-form/canonical-form' for dispatch value: fixpoint
+  # valueReference?: Reference              #fails - Error: No method in multimethod 'datatype-expansion.canonical-form/canonical-form' for dispatch value: fixpoint

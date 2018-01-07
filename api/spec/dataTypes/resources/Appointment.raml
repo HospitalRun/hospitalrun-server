@@ -1,0 +1,37 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/resources/Appointment.raml
+
+description: |
+  A booking of a healthcare event among patient(s), practitioner(s), related person(s) and/or device(s) for a specific date/time. This may result in one or more Encounter(s)
+  Only proposed or cancelled appointments can be missing start/end dates
+  Either start and end are specified, or neither
+type: DomainResource
+properties:
+  identifier?: Identifier[]
+  status:
+    type: code
+    enum: [proposed, pending, booked, arrived, fulfilled, cancelled, noshow]
+  type?: CodeableConcept
+  reason?: CodeableConcept
+  priority?: unsignedInt
+  description?: string
+  start?: instant
+  end?: instant
+  minutesDuration?: positiveInt
+  slot?: Reference[]
+  comment?: string
+  participant:
+    type: array
+    minItems: 1
+    items:
+      type: BackboneElement
+      properties:
+        type?: CodeableConcept
+        actor?: Reference
+        required?:
+          type: code
+          enum: [required, optional, information-only]
+        status:
+          type: code
+          enum: [accepted, declined, tentative, needs-action]

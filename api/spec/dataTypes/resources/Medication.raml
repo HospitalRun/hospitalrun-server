@@ -1,0 +1,36 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/resources/Medication.raml
+
+type: DomainResource
+properties:
+  code?: CodeableConcept
+  isBrand?: boolean
+  manufacturer?: Reference
+  product?:
+    type: BackboneElement
+    properties:
+      form?: CodeableConcept
+      ingredient?:
+        type: array
+        items:
+          type: BackboneElement
+          properties:
+            item: Reference
+            amount?: Ratio
+      batch?:
+        type: array
+        items:
+          type: BackboneElement
+          properties:
+            lotNumber?: string
+            expirationDate?: dateTime
+  package?:
+    type: BackboneElement
+    properties:
+      container?: CodeableConcept
+      content?:
+        type: BackboneElement
+        properties:
+          item: Reference
+          amount?: SimpleQuantity

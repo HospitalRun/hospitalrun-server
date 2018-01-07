@@ -1,0 +1,27 @@
+{
+  "resourceType": "Bundle",
+  "type": "searchset",
+  "link": [
+    {
+      "relation": "self",
+      "url": "http://localhost:8081/api/Schedule?actor=Practitioner%2F1"
+    }
+  ],
+  "meta": {
+    "lastUpdated": "2016-09-21T14:03:07.515Z"
+  },
+  "total": 1,
+  "entry": [
+    {
+      "fullUrl": "http://localhost:8081/api/Schedule/1",
+      "resource": {
+        "resourceType": "Schedule",
+        "id": "1",
+        "actor": {
+          "display": "Jamie Fletcher, MD",
+          "reference": "Practitioner/1"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/elements/Annotation.raml
+
+type: Element
+properties:
+  /^author(Reference|String)$/?: Reference | string
+  time?: dateTime
+  text?: string

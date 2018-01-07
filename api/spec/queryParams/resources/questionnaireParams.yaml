@@ -1,0 +1,84 @@
+status:
+  required: false
+  type: code
+  description: draft | active | retired | unknown
+url:
+  required: false
+  type: uri
+  description: Logical URI to reference this questionnaire (globally unique)
+identifier:
+  required: false
+  type: Identifier
+  description: Additional identifier for the questionnaire
+version:
+  required: false
+  type: string
+  description: Business version of the questionnaire
+name:
+  required: false
+  type: string
+  description: Name for this questionnaire (computer friendly)
+title:
+  required: false
+  type: string
+  description: Name for this questionnaire (human friendly)
+experimental:
+  required: false
+  type: boolean
+  description: For testing purposes not real usage
+date:
+  required: false
+  type: dateTime
+  description: Date this was last changed
+publisher:
+  required: false
+  type: string
+  description: Name of the publisher (organization or individual)
+description:
+  required: false
+  type: markdown
+  description: Natural language description of the questionnaire
+purpose:
+  required: false
+  type: markdown
+  description: Why this questionnaire is defined
+approvalDate:
+  required: false
+  type: date
+  description: When the questionnaire was approved by publisher
+lastReviewDate:
+  required: false
+  type: date
+  description: When the questionnaire was last reviewed
+effectivePeriod:
+  required: false
+  type: Period
+  description: When the questionnaire is expected to be used
+useContext:
+  required: false
+  type: UsageContext
+  description: Context the content is intended to support
+jurisdiction:
+  required: false
+  type: CodeableConcept
+  description: Intended jurisdiction for questionnaire (if applicable)
+contact:
+  required: false
+  type: ContactDetail
+  description: Contact details for the publisher
+copyright:
+  required: false
+  type: markdown
+  description: Use and/or publishing restrictions
+code:
+  required: false
+  type: Coding
+  description: Concept that represents the overall questionnaire
+subjectType:
+  required: false
+  type: code
+  description: Resource that can be subject of QuestionnaireResponse
+item:
+  required: false
+  type: QuestionnaireItem[]
+  description: uestions and sections within the Questionnaire

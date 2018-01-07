@@ -1,0 +1,29 @@
+{
+  "resourceType": "Appointment",
+  "id": "3",
+  "description": "",
+  "start": "2016-10-28T14:30:00+00:00",
+  "end": "2016-10-28T15:00:00+00:00",
+  "participant": [
+    {
+      "status": "accepted",
+      "actor": {
+        "reference": "Patient/9",
+        "display": "Andreas Anderson"
+      }
+    },
+    {
+      "status": "accepted",
+      "actor": {
+        "reference": "Practitioner/1",
+        "display": "Jamie Fletcher, MD"
+      }
+    }
+  ],
+  "status": "booked",
+  "slot": [
+    {
+      "reference": "Slot/15"
+    }
+  ]
+}

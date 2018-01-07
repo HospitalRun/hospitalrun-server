@@ -1,0 +1,45 @@
+{
+  "resourceType": "Observation",
+  "id": "455454",
+  "status": "final",
+  "category": {
+    "coding": [
+      {
+        "system": "http://hl7.org/fhir/observation-category",
+        "code": "vital-signs",
+        "display": "Vital Signs"
+      }
+    ]
+  },
+  "code": {
+    "coding": [
+      {
+        "system": "http://loinc.org",
+        "code": "3141-9",
+        "display": "Weight Measured"
+      },
+      {
+        "system": "http://snomed.info/sct",
+        "code": "27113001",
+        "display": "Body weight"
+      },
+      {
+        "system": "http://acme.org/devices/clinical-codes",
+        "code": "body-weight",
+        "display": "Body Weight"
+      }
+    ]
+  },
+  "subject": {
+    "reference": "Patient/5646546"
+  },
+  "encounter": {
+    "reference": "Encounter/654654"
+  },
+  "valueQuantity": {
+    "value": 185,
+    "unit": "lbs",
+    "system": "http://unitsofmeasure.org",
+    "code": "[lb_av]"
+  }
+}

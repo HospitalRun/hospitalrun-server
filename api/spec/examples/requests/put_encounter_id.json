@@ -1,0 +1,50 @@
+{
+  "resourceType": "Encounter",
+  "identifier": [
+    {
+      "use": "temp",
+      "value": "Encounter_Roel_20130404"
+    }
+  ],
+  "status": "finished",
+  "class": "outpatient",
+  "type": [
+    {
+      "coding": [
+        {
+          "system": "http://snomed.info/sct",
+          "code": "11429006",
+          "display": "Consultation"
+        }
+      ]
+    }
+  ],
+  "priority": {
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": "17621005",
+        "display": "Normal"
+      }
+    ]
+  },
+  "patient": {
+    "reference": "Patient/2345443",
+    "display": "Roel"
+  },
+  "participant": [
+    {
+      "individual": {
+        "reference": "Practitioner/6546"
+      }
+    }
+  ],
+  "reason": [
+    {
+      "text": "The patient had fever peaks over the last couple of days. He is worried about these peaks."
+    }
+  ],
+  "serviceProvider": {
+    "reference": "Organization/f201"
+  }
+}

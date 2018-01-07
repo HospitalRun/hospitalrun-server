@@ -1,0 +1,18 @@
+#%RAML 1.0 DataType
+
+#This file is located at dataTypes/elements/Attachment.raml
+
+type: Element
+properties:
+  contentType?:
+    type: code
+    description: Mime type of the content, with charset etc.
+  language?:
+    type: code
+    description: Human language of the content (BCP-47)
+  data?: base64Binary
+  url?: uri
+  size?: unsignedInt
+  hash?: base64Binary
+  title?: string
+  creation?: dateTime

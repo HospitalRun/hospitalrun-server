@@ -1,0 +1,23 @@
+actor:
+  required: false
+  description: Any one of the individuals participating in the appointment
+date:
+  required: false
+  description: Appointment date/time
+identifier:
+  type: string|integer
+  required: false
+  description: An Identifier of the Appointment
+location:
+  required: false
+  description: |
+    The Participation status of the subject, or other participant on the appointment. Can be used to locate participants that have not responded to meeting requests.
+patient:
+  required: false
+  description: One of the individuals of the appointment is this patient
+practitioner:
+  required: false
+  description: One of the individuals of the appointment is this practitioner
+status:
+  required: false
+  description: The overall status of the appointment
