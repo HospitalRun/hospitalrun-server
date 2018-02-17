@@ -1,4 +1,4 @@
-FROM node:boron-slim
+FROM node:boron
 LABEL maintainer Mofesola Babalola <me@mofesola.com>
 
 #Get required applications
