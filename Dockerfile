@@ -1,4 +1,4 @@
-FROM node:boron
+FROM node:boron-slim
 LABEL maintainer Mofesola Babalola <me@mofesola.com>
 
 #Get required applications
@@ -9,6 +9,7 @@ WORKDIR /usr/src/app
 
 #Install Dependencies
 COPY package.json /usr/src/app
+RUN apt-get update && apt-get install -y git
 RUN npm install --loglevel silent
 
 COPY . /usr/src/app
