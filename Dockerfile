@@ -4,12 +4,13 @@ LABEL maintainer Mofesola Babalola <me@mofesola.com>
 #Get required applications
 ENV DEBIAN_FRONTEND noninteractive
 
+RUN apt-get update && apt-get install -y git
+
 #Create App Directory
 WORKDIR /usr/src/app
 
 #Install Dependencies
 COPY package.json /usr/src/app
-RUN apt-get update && apt-get install -y git
 RUN npm install --loglevel silent
 
 COPY . /usr/src/app
