@@ -20,8 +20,8 @@
   "license": "GPL-3.0",
   "dependencies": {
     "colors": "^1.1.2",
-    "csv-parse": "2.2.0",
-    "csv-stringify": "^3.0.0",
+    "csv-parse": "2.0.2",
+    "csv-stringify": "^2.0.0",
     "express": "^4.13.4",
     "hospitalrun": "1.0.0-beta",
     "hospitalrun-dblisteners": "1.0.0-beta",
@@ -30,7 +30,7 @@
     "morgan": "^1.6.1",
     "nano": "^6.2.0",
     "node-uuid": "^1.4.2",
-    "osprey": "^0.5.0",
+    "osprey": "^0.4.1",
     "prompt": "^1.0.0",
     "snyk": "^1.17.5"
   },
