@@ -17,7 +17,7 @@ COPY conf/defaultssl.conf.tmpl /etc/nginx/conf.d/defaultssl.conf.tmpl
 COPY conf/entrypoint.sh entrypoint.sh
 RUN chmod +x entrypoint.sh
 RUN envsubst < /etc/nginx/conf.d/default.conf.tmpl > /etc/nginx/conf.d/default.conf \
-        && envsubst < /etc/nginx/conf.d/defaultssl.conf.tmpl > /etc/nginx/conf.d/defaultssl.conf
+        && envsubst < /etc/nginx/conf.d/defaultssl.conf.tmpl > /etc/nginx/conf.d/defaultssl
 
 ENTRYPOINT /etc/nginx/entrypoint.sh
 EXPOSE 80 443
