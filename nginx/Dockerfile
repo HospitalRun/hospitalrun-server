@@ -2,7 +2,7 @@ FROM nginx:1.11.10
 LABEL Maintainer Mofesola Babalola <me@mofesola.com>
 
 ARG DOMAIN_NAME
-ARG ENCRYPTION_TYPE
+ARG SSL_TYPE
 
 RUN apt-get -y update && apt-get install -y cron
 
@@ -10,7 +10,7 @@ COPY conf/certbot-auto /usr/bin/
 RUN  certbot-auto --os-packages-only --non-interactive
 
 ENV DOMAIN_NAME $DOMAIN_NAME
-ENV ENCRYPTION_TYPE $ENCRYPTION_TYPE
+ENV SSL_TYPE $SSL_TYPE
 
 WORKDIR /etc/nginx
 COPY conf/nginx.conf /etc/nginx/nginx.conf

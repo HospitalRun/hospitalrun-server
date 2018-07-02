@@ -4,7 +4,7 @@ services:
     build:
       args:
         DOMAIN_NAME: www.example.com
-        ENCRYPTION_TYPE: auto
+        SSL_TYPE: auto
       context: nginx/.
       dockerfile: Dockerfile
     links:

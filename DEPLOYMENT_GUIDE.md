@@ -62,9 +62,9 @@ Follow these five easy steps to get HospitalRun up and running
 
    To use automatic SSL cert generation, edit the `DOMAIN_NAME` argument and replace `www.example.com` as shown in the image below with the publicly accessible domain name that HospitalRun will run on.
 
-   To instead use your own SSL cert, change the `ENCRYPTION_TYPE` argument to `self` and place your certificate files at `data/nginx/cert/ssl.crt` and `data/nginx/cert/ssl.key`. You will need to create a `data/nginx/cert` path from the root folder if you haven't run the server yet.
+   To instead use your own SSL cert, change the `SSL_TYPE` argument to `self` and place your certificate files at `data/nginx/cert/ssl.crt` and `data/nginx/cert/ssl.key`. You will need to create a `data/nginx/cert` path from the root folder if you haven't run the server yet.
   
-   To use no SSL cert, change the `ENCRYPTION_TYPE` argument to `none`, but your server will only be accessible locally.
+   To use no SSL cert, change the `SSL_TYPE` argument to `none`, but your server will only be accessible locally.
 
 4. Save the file and run `docker-compose up --build -d`. You should wait for some ten minutes or less for your environment to be up and running. Deployment speed will vary based on your internet connection speed and the quality of your infrastructure
 
