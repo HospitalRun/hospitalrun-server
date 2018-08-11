@@ -24,7 +24,7 @@
     "csv-stringify": "^2.0.0",
     "express": "^4.13.4",
     "hospitalrun": "1.0.0-beta",
-    "hospitalrun-dblisteners": "1.0.0-beta",
+    "hospitalrun-dblisteners": "1.0.1",
     "hospitalrun-server-routes": "1.0.0-beta",
     "moment": "^2.15.2",
     "morgan": "^1.6.1",
