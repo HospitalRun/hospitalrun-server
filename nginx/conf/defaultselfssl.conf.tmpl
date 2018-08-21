@@ -67,7 +67,6 @@ server {
         deny  all;
     }
 
-
-  ssl_certificate /etc/letsencrypt/live/${DOMAIN_NAME}/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/${DOMAIN_NAME}/privkey.pem;
+    ssl_certificate /etc/nginx/cert/ssl.crt;
+    ssl_certificate_key /etc/nginx/cert/ssl.key;
 }

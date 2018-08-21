@@ -4,16 +4,18 @@ services:
     build:
       args:
         DOMAIN_NAME: www.example.com
+        SSL_TYPE: auto
       context: nginx/.
       dockerfile: Dockerfile
     links:
       - hospitalrun
     ports:
-      - "8055:80"
+      - "80:80"
       - "443:443"
     image: hospitalrun_nginx
     volumes:
       - ./data/nginx/letsencrypt:/etc/letsencrypt
+      - ./data/nginx/cert:/etc/nginx/cert
 
   hospitalrun:
     container_name: hospitalrun
