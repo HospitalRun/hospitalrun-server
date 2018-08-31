@@ -21,29 +21,17 @@ Welcome to HospitalRun Deployment Documentation. You can log issues, comments or
 Here are some configuration scripts that have been used in designing this application. It is important you know exactly what they do, so you can manipulate your configuration or scale them as you desire.
 
 * docker-compose.yml
-
 * config-example.js
-
 * Dockerfile
-
 * utils/elasticsearch.sh
-
 * nginx/conf/certbot-auto
-
 * nginx/conf/*.tmpl, nginx/conf/*.conf
-
 * nginx/conf/entrypoint.sh
-
 * nginx/Dockerfile
-
 * logstash/pipeline/logstash.conf
-
 * logstash/Dockerfile
-
 * data
-
 * conf/initcouch.sh
-
 * conf/entrypoint.sh
 
 # **Deploying HospitalRun to a Production Environment**
@@ -55,29 +43,32 @@ Here are some configuration scripts that have been used in designing this applic
 Follow these five easy steps to get HospitalRun up and running
 
 1. Clone the repository  `git clone git@github.com:HospitalRun/hospitalrun-server.git`.
-
 2. Run `cd hospitalrun-server`. This should take you into the `hospitalrun-server` root folder
-
-3. From this location, edit the `docker-compose.yml` file.
-
+3. From this location, edit the `docker-compose.yml` file. 
    To use automatic SSL cert generation, edit the `DOMAIN_NAME` argument and replace `www.example.com` as shown in the image below with the publicly accessible domain name that HospitalRun will run on.
-
    To instead use your own SSL cert, change the `SSL_TYPE` argument to `self` and place your certificate files at `data/nginx/cert/ssl.crt` and `data/nginx/cert/ssl.key`. You will need to create a `data/nginx/cert` path from the root folder if you haven't run the server yet.
-
+   ![screenshot](screenshot.png)
 4. Save the file and run `docker-compose up --build -d`. You should wait for some ten minutes or less for your environment to be up and running. Deployment speed will vary based on your internet connection speed and the quality of your infrastructure
-
 5. Go to [http://localhost/](http://localhost/) in a browser and login with username ```hradmin``` and password ```test```
 
-![screenshot](screenshot.png)
+## Troubleshooting
+
+### Check which containers run and which do not
+
+Run `docker-compose ps`. Note the `State` column of the command's output.
+
+###  Error starting userland proxy: Bind for 0.0.0.0:80: unexpected error Permission denied'
+
+or something similar: the port `80` is in use already. Either find which application uses that and free the port
+or edit the `docker-compose.yml` and change the `"80:80"` into `"<another port which is free>:80"`.
+
 
 # **The Data Folder**
 
 This folder contains all the data needed to be available should the containers be shutdown, or restarted for any reason. It should contain after startup, the following:
 
 1. Nginx folder, and Let's Encrypt certificates
-
 2. CouchDB Data
-
 3. Elasticsearch Data
 
 If you delete this folder, you WILL lose all your data and installed SSL certificate
@@ -87,13 +78,9 @@ If you delete this folder, you WILL lose all your data and installed SSL certifi
 **List of Containers:**
 
 1. Nginx - WebServer
-
 2. HospitalRun - Node.JS App Server
-
 3. Logstash - Log Streaming Application
-
 4. Elasticsearch - For Search
-
 5. CouchDB - NoSQL Data Store
 
 **Nginx**
