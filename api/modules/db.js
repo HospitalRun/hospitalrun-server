@@ -69,7 +69,7 @@ exports.show = (id, designName, viewName) => {
         return resolve(body.data);
       });
     // Otherwise do a key search
-    } else if (!designName || !viewName) {
+    } else if (designName && viewName) {
       maindb.view(designName, viewName, {
         startkey : [ id ],
         endkey   : [ id, {} ]
