@@ -62,6 +62,10 @@ Run `docker-compose ps`. Note the `State` column of the command's output.
 or something similar: the port `80` is in use already. Either find which application uses that and free the port
 or edit the `docker-compose.yml` and change the `"80:80"` into `"<another port which is free>:80"`.
 
+### Nginx container shuts down soon after being started
+
+Usually due to SSL configuration being incorrect. Either 'auto' configuration and the cert generation is failing, or 'self' and the cert files are not placed correctly. Viewing the container's log output should provide more info.
+
 # **The Data Folder**
 
 This folder contains all the data needed to be available should the containers be shutdown, or restarted for any reason. It should contain after startup, the following:
