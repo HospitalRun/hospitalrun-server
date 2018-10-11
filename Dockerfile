@@ -4,7 +4,7 @@ LABEL maintainer Mofesola Babalola <me@mofesola.com>
 #Get required applications
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && apt-get install -y git
+RUN apt-get update && apt-get install -y git dos2unix
 
 #Create App Directory
 WORKDIR /usr/src/app
@@ -16,6 +16,7 @@ RUN npm install --loglevel silent
 
 COPY . /usr/src/app
 COPY conf/entrypoint.sh .
+RUN dos2unix /usr/src/app/entrypoint.sh
 #Setup the DB with initial user
 RUN chmod +x conf/initcouch.sh entrypoint.sh
 COPY config-example.js config.js

@@ -4,10 +4,11 @@ LABEL Maintainer Mofesola Babalola <me@mofesola.com>
 ARG DOMAIN_NAME
 ARG SSL_TYPE
 
-RUN apt-get -y update && apt-get install -y cron
+RUN apt-get -y update && apt-get install -y cron dos2unix
 
 COPY conf/certbot-auto /usr/bin/
-RUN  certbot-auto --os-packages-only --non-interactive
+RUN dos2unix /usr/bin/certbot-auto
+RUN certbot-auto --os-packages-only --non-interactive
 
 ENV DOMAIN_NAME $DOMAIN_NAME
 ENV SSL_TYPE $SSL_TYPE
@@ -20,6 +21,7 @@ COPY conf/defaultautossl.conf.tmpl /etc/nginx/conf.d/defaultautossl.tmpl
 COPY conf/defaultselfssl.conf.tmpl /etc/nginx/conf.d/defaultselfssl
 
 COPY conf/entrypoint.sh entrypoint.sh
+RUN dos2unix /etc/nginx/entrypoint.sh
 
 RUN chmod +x entrypoint.sh
 RUN envsubst < /etc/nginx/conf.d/defaultautossl.tmpl > /etc/nginx/conf.d/defaultautossl
