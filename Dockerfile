@@ -17,6 +17,7 @@ RUN npm install --loglevel silent
 COPY . /usr/src/app
 COPY conf/entrypoint.sh .
 RUN dos2unix /usr/src/app/entrypoint.sh
+RUN dos2unix /usr/src/app/conf/initcouch.sh
 #Setup the DB with initial user
 RUN chmod +x conf/initcouch.sh entrypoint.sh
 COPY config-example.js config.js
