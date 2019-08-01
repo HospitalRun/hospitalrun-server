@@ -1,7 +1,7 @@
 HospitalRun Server
 ======
 
-[![Help Contribute to Open Source](https://www.codetriage.com/hospitalrun/hospitalrun-server/badges/users.svg)](https://www.codetriage.com/hospitalrun/hospitalrun-server)
+[![Help Contribute to Open Source](https://www.codetriage.com/hospitalrun/hospitalrun-server/badges/users.svg)](https://www.codetriage.com/hospitalrun/hospitalrun-server) [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/hospitalrun)
 
 This is the Node.js backend for HospitalRun.  The intention is that this would be used in HospitalRun production deployments. Having a Node.js backend server allows us to do the following:
 
