@@ -1,6 +1,9 @@
 HospitalRun Server
 ======
 
+## Important Note
+### We are now working on a new major version of HospitalRun. As soon as the [next branch](https://github.com/HospitalRun/hospitalrun-server/tree/next) will be ready, it will be merged onto master. Please don't do any PR to this branch. Use this README just as installation reference for the current version.
+
 [![Help Contribute to Open Source](https://www.codetriage.com/hospitalrun/hospitalrun-server/badges/users.svg)](https://www.codetriage.com/hospitalrun/hospitalrun-server) [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/hospitalrun)
 
 This is the Node.js backend for HospitalRun.  The intention is that this would be used in HospitalRun production deployments. Having a Node.js backend server allows us to do the following:
