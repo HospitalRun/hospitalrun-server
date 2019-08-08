@@ -11,7 +11,7 @@ This is the Node.js backend for HospitalRun.  The intention is that this would b
 ## Installation with Docker
 This is the preferred and recommended way of running `hospitalrun-server`.
 
-Full deployment documentation is available [here](https://github.com/HospitalRun/hospitalrun-server/blob/master/DEPLOYMENT_GUIDE.md).
+Full deployment documentation is available [here](https://github.com/HospitalRun/hospitalrun-server/blob/1.0.0-beta/DEPLOYMENT_GUIDE.md).
 
 ## Alternative Installation
 1. Make sure you have installed [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
