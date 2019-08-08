@@ -11,7 +11,7 @@ HospitalRun Server
 
 <hr />
 
-:warning: Looking for 1.0.0-beta legacy? Click [here](https://github.com/HospitalRun/hospitalrun-server/blob/master/INSTALLATION_GUIDE.md). 
+:warning: Looking for 1.0.0-beta legacy? Click [here](https://github.com/HospitalRun/hospitalrun-server/blob/1.0.0-beta/INSTALLATION_GUIDE.md). 
 
 ## Team
 
