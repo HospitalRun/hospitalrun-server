@@ -24,10 +24,12 @@ _HospitalRun_ is the result of the work of a great community.
 * [__M.D. Daniele Piccolo__](https://github.com/daninucleode)
 
 ### Core Team
-* [__Riccardo Gulin__](https://github.com/bazuzu666)
-* [__Matteo Vivona__](https://github.com/tehKapa)
-* [__Stefano Casasola__](https://github.com/irvelervel)
-* [__Stefano Miceli__](https://github.com/StefanoMiC)
+
+- [**Travis Boudreaux**](https://github.com/tjboudreaux)
+- [**Stefano Casasola**](https://github.com/irvelervel)
+- [**Michael J Feher**](https://github.com/PhearZero)
+- [**Riccardo Gulin**](https://github.com/bazuzu666)
+- [**Matteo Vivona**](https://github.com/tehKapa)
 
 ### Contributors
 
