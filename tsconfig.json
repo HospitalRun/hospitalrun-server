@@ -1,17 +1,29 @@
 {
+  "include": ["./src/**/*.ts"],
+  "exclude": ["node_modules", "dist"],
   "compilerOptions": {
-    "baseUrl": ".",
-    "lib": ["es2016"],
+    "baseUrl": "./src",
     "paths": {
       "*": ["src/*"]
     },
-    "allowJs": true,
-    "target": "es2016",
-    "module": "commonjs",
+    "typeRoots" : ["./node_modules/@types", "./typings"],
     "moduleResolution": "node",
+    "target": "es2017",
+    "module": "commonjs",
+    "outDir": "dist",
+    "pretty": true,
+    "lib": ["esnext"],
+    "strict": true,
+    "esModuleInterop": true,
+    "noEmitOnError": true,
     "sourceMap": true,
-    "outDir": "./dist"
+    "removeComments": true,
+    "noUnusedLocals": true,
+    "resolveJsonModule": true,
+    "noFallthroughCasesInSwitch": true
   },
-  "include": ["./src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "formatCodeOptions": {
+    "identSize": 2,
+    "tabSize": 2
+  }
 }

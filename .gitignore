@@ -60,4 +60,5 @@ profile*
 
 # generated code
 examples/typescript-server.js
-test/types/index.js
+package-lock.json
+dist

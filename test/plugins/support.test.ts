@@ -1,24 +1,11 @@
-const { test } = require('tap')
-const Fastify = require('fastify')
-import Support from '../../plugins/support'
+import { test } from 'tap'
+import Fastify from 'fastify'
+import Support from '../../src/plugins/support'
 
-test('support works standalone', (t) => {
-  t.plan(2)
+test('support works standalone', async (t: any) => {
   const fastify = Fastify()
   fastify.register(Support)
 
-  fastify.ready((err) => {
-    t.error(err)
-    t.equal(fastify.someSupport(), 'hugs')
-  })
+  await fastify.ready()
+  t.equal(fastify.someSupport(), 'hugs')
 })
-
-// If you prefer async/await, use the following
-//
-// test('support works standalone', async (t) => {
-//   const fastify = Fastify()
-//   fastify.register(Support)
-//
-//   await fastify.ready()
-//   t.equal(fastify.someSupport(), 'hugs')
-// })

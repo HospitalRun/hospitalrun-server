@@ -1,27 +1,11 @@
-#!/usr/bin/env ts-node
+import { test } from 'tap'
+import { build } from '../helper'
 
-const { test } = require('tap')
-const { build } = require('../helper')
-
-test('default root route', (t) => {
-  t.plan(2)
+test('default root route', async (t: any) => {
   const app = build(t)
 
-  app.inject({
-    url: '/'
-  }, (err, res) => {
-    t.error(err)
-    t.deepEqual(JSON.parse(res.payload), { root: true })
+  const res = await app.inject({
+    url: '/',
   })
+  t.deepEqual(JSON.parse(res.payload), { root: true })
 })
-
-// If you prefer async/await, use the following
-//
-// test('default root route', async (t) => {
-//   const app = build(t)
-//
-//   const res = await app.inject({
-//     url: '/'
-//   })
-//   t.deepEqual(JSON.parse(res.payload), { root: true })
-// })
