@@ -1,8 +1,12 @@
 {
   "name": "@hospitalrun/server",
-  "version": "2.0.0-0.1.0",
+  "version": "0.0.0-development",
   "description": "HospitalRun server",
   "main": "dist",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HospitalRun/hospitalrun-server.git"
+  },
   "scripts": {
     "prebuild": "npm run lint && npm run clean-build",
     "build": "tsc",
@@ -17,7 +21,8 @@
     "prettier": "prettier --loglevel warn --write \"./**/*.{ts,tsx}\"",
     "test": "cross-env TS_NODE_PROJECT=./test/tsconfig.json tap --no-ts --node-arg=--require=ts-node/register test/**/*.ts",
     "test:report": "npm run test | tee out.tap",
-    "test:reporter": "tap-mocha-reporter xunit < out.tap > junit-testresults.xml"
+    "test:reporter": "tap-mocha-reporter xunit < out.tap > junit-testresults.xml",
+    "semantic-release": "semantic-release"
   },
   "keywords": [],
   "author": "Maksim Sinik <maksim@sinik.it>",
@@ -34,20 +39,21 @@
     "qs": "~6.8.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^8.1.0",
-    "@commitlint/core": "^8.1.0",
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "@commitlint/prompt": "^8.2.0",
     "@semantic-release/changelog": "^3.0.4",
+    "@semantic-release/commit-analyzer": "^6.3.0",
     "@semantic-release/git": "^7.0.16",
     "@semantic-release/github": "^5.4.3",
-    "@semantic-release/npm": "^5.1.15",
     "@semantic-release/release-notes-generator": "^7.3.0",
     "@types/node": "^12.7.4",
     "@types/qs": "~6.5.3",
     "@typescript-eslint/eslint-plugin": "2.2.0",
     "@typescript-eslint/parser": "2.2.0",
     "commitizen": "^4.0.3",
-    "commitlint-config-gitmoji": "^1.0.1",
-    "cz-emoji": "^1.1.2",
+    "commitlint-config-cz": "^0.12.1",
+    "cz-conventional-changelog": "^3.0.2",
     "dotenv": "~8.1.0",
     "eslint": "~6.3.0",
     "eslint-config-prettier": "~6.2.0",
@@ -59,8 +65,6 @@
     "prettier": "~1.18.2",
     "rimraf": "~3.0.0",
     "semantic-release": "^15.13.24",
-    "semantic-release-cli": "^5.2.1",
-    "semantic-release-gitmoji": "^1.3.2",
     "tap": "^14.6.1",
     "tap-mocha-reporter": "~4.0.1",
     "ts-node": "^8.3.0",
@@ -68,7 +72,7 @@
   },
   "config": {
     "commitizen": {
-      "path": "./node_modules/cz-emoji"
+      "path": "./node_modules/cz-conventional-changelog"
     }
   },
   "husky": {
