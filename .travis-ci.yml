@@ -5,9 +5,9 @@ node_js:
   - "10"
   - "8"
 
-# branches:
-#   only:
-#     - master
+branches:
+  only:
+    - master
 
 install:
   - travis_retry npm install
