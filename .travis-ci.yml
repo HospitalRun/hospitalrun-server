@@ -1,0 +1,32 @@
+language: node_js
+
+node_js:
+  - "12"
+  - "10"
+  - "8"
+
+branches:
+  only:
+    - master
+
+install:
+  - travis_retry npm install
+
+before_script:
+  - npm run lint
+script:
+  - npm run build
+after_ script:
+  - npm run test
+
+jobs:
+  include:
+    - stage: release
+      node_js: lts/*
+      script:
+        - npm run semantic-release
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always

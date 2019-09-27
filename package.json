@@ -1,42 +1,84 @@
 {
-  "name": "hospitalrun-server",
-  "main": "app.js",
-  "version": "1.0.0-beta",
-  "description": "HospitalRun production server",
-  "homepage": "http://hospitalrun.io",
-  "scripts": {
-    "start": "node app.js",
-    "test": "snyk test && eslint *.js utils/*.js"
-  },
+  "name": "@hospitalrun/server",
+  "version": "0.0.0-development",
+  "description": "HospitalRun server",
+  "main": "dist",
   "repository": {
     "type": "git",
-    "url": "git@github.com:HospitalRun/hospitalrun-server"
+    "url": "https://github.com/HospitalRun/hospitalrun-server.git"
   },
-  "author": "John Kleinschmidt",
-  "contributors": [
-    "Joel Worrall",
-    "Joel Glovier"
-  ],
-  "license": "GPL-3.0",
+  "scripts": {
+    "prebuild": "npm run lint && npm run clean-build",
+    "build": "tsc",
+    "clean-build": "rimraf ./dist && mkdir dist",
+    "start": "cross-env NODE_ENV=production fastify start -a 0.0.0.0 -p 3000 -l info \"./dist/app.js\"",
+    "predev": "npm run lint",
+    "dev": "cross-env NODE_ENV=development nodemon -e ts -w \"./src\" -x \"npm run debug\"",
+    "debug": "node -r ts-node/register -r dotenv/config --inspect ./src/index.ts | pino-colada",
+    "update": "npx npm-check -u",
+    "prelint": "npm run prettier",
+    "lint": "eslint --fix \"./src/**/*.ts\"",
+    "prettier": "prettier --loglevel warn --write \"./**/*.{ts,tsx}\"",
+    "test": "cross-env TS_NODE_PROJECT=./test/tsconfig.json tap --no-ts --node-arg=--require=ts-node/register test/**/*.ts",
+    "test:report": "npm run test | tee out.tap",
+    "test:reporter": "tap-mocha-reporter xunit < out.tap > junit-testresults.xml",
+    "semantic-release": "semantic-release"
+  },
+  "keywords": [],
+  "author": "Maksim Sinik <maksim@sinik.it>",
+  "license": "MIT",
   "dependencies": {
-    "colors": "^1.1.2",
-    "csv-parse": "2.0.2",
-    "csv-stringify": "^2.0.0",
-    "express": "^4.13.4",
-    "hospitalrun": "1.0.0-beta",
-    "hospitalrun-dblisteners": "1.0.1",
-    "hospitalrun-server-routes": "1.0.0-beta",
-    "moment": "^2.15.2",
-    "morgan": "^1.6.1",
-    "nano": "^6.2.0",
-    "node-uuid": "^1.4.2",
-    "osprey": "^0.4.1",
-    "prompt": "^1.0.0",
-    "snyk": "^1.17.5"
+    "cross-env": "~5.2.1",
+    "fastify": "^2.0.0",
+    "fastify-autoload": "^1.0.0",
+    "fastify-blipp": "~2.1.0",
+    "fastify-cli": "^1.2.0",
+    "fastify-cors": "~2.1.3",
+    "fastify-helmet": "~3.0.1",
+    "fastify-no-icon": "~3.0.0",
+    "qs": "~6.8.0"
   },
   "devDependencies": {
-    "camelize": "^1.0.0",
-    "relational-pouch": "^2.0.0"
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "@commitlint/prompt": "^8.2.0",
+    "@semantic-release/changelog": "^3.0.4",
+    "@semantic-release/commit-analyzer": "^6.3.0",
+    "@semantic-release/git": "^7.0.16",
+    "@semantic-release/github": "^5.4.3",
+    "@semantic-release/release-notes-generator": "^7.3.0",
+    "@types/node": "^12.7.4",
+    "@types/qs": "~6.5.3",
+    "@typescript-eslint/eslint-plugin": "2.2.0",
+    "@typescript-eslint/parser": "2.2.0",
+    "commitizen": "^4.0.3",
+    "commitlint-config-cz": "^0.12.1",
+    "cz-conventional-changelog": "^3.0.2",
+    "dotenv": "~8.1.0",
+    "eslint": "~6.3.0",
+    "eslint-config-prettier": "~6.2.0",
+    "eslint-plugin-prettier": "~3.1.0",
+    "fastify-plugin": "~1.6.0",
+    "husky": "^3.0.5",
+    "nodemon": "~1.19.2",
+    "pino-colada": "~1.4.5",
+    "prettier": "~1.18.2",
+    "rimraf": "~3.0.0",
+    "semantic-release": "^15.13.24",
+    "tap": "^14.6.1",
+    "tap-mocha-reporter": "~4.0.1",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.6.2"
   },
-  "snyk": true
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "npm test"
+    }
+  }
 }
