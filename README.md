@@ -1,10 +1,10 @@
 # HospitalRun Server
 
-[![Help Contribute to Open Source](https://www.codetriage.com/hospitalrun/hospitalrun-server/badges/users.svg)](https://www.codetriage.com/hospitalrun/hospitalrun-server) [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/hospitalrun)
+![Maintenance](https://img.shields.io/maintenance/no/2018) ![license](https://img.shields.io/badge/license-GPLv3-green) [![CouchDB](https://img.shields.io/badge/couchdb-1.x-green.svg)](http://couchdb.apache.org/) [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/hospitalrun) 
 
 ## Important Note
 
-### We are now working on a new major version of HospitalRun. As soon as the [next branch](https://github.com/HospitalRun/hospitalrun-server/tree/next) will be ready, it will be merged onto master. Please don't do any PR to this branch.
+### We are now working on a new major version of HospitalRun. As soon as the new master branch will be ready, it will be merged onto master. Please don't do any PR to this branch.
 
 ### Please read [this message](https://twitter.com/HospitalRun/status/1159428978790338561) from the project maintainer.
 
@@ -19,18 +19,6 @@ _HospitalRun_ is the result of the work of a great community.
 ### Lead Maintainer
 
 - [**Maksim Sinik**](https://github.com/fox1t)
-
-### Medical Supervisor
-
-- [**M.D. Daniele Piccolo**](https://github.com/daninucleode)
-
-### Core Team
-
-- [**Travis Boudreaux**](https://github.com/tjboudreaux)
-- [**Stefano Casasola**](https://github.com/irvelervel)
-- [**Michael J Feher**](https://github.com/PhearZero)
-- [**Riccardo Gulin**](https://github.com/bazuzu666)
-- [**Matteo Vivona**](https://github.com/tehKapa)
 
 ### Contributors
 
