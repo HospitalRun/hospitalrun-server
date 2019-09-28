@@ -2,8 +2,18 @@ import { join } from 'path'
 import AutoLoad from 'fastify-autoload'
 import { FastifyInstance } from 'fastify'
 import { nextCallback } from 'fastify-plugin'
+import noIcon from 'fastify-no-icon'
+import helmet from 'fastify-helmet'
+import qs from 'qs'
+import cors from 'fastify-cors'
 
-export = function(fastify: FastifyInstance, opts: {}, next: nextCallback) {
+function App(fastify: FastifyInstance, opts: {}, next: nextCallback) {
+  fastify.register(cors, {
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+  fastify.register(helmet)
+  fastify.register(noIcon)
+
   // This loads all application wide plugins defined in plugins folder
   fastify.register(AutoLoad, {
     dir: join(__dirname, 'plugins'),
@@ -20,3 +30,11 @@ export = function(fastify: FastifyInstance, opts: {}, next: nextCallback) {
 
   next()
 }
+
+App.options = {
+  querystringParser: (str: string) => qs.parse(str),
+  logger: true,
+  ignoreTrailingSlash: true,
+}
+
+export = App
