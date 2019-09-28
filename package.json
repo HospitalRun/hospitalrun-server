@@ -8,6 +8,7 @@
     "url": "https://github.com/HospitalRun/hospitalrun-server.git"
   },
   "scripts": {
+    "commit": "npx git-cz",
     "prebuild": "npm run lint && npm run clean-build",
     "build": "tsc",
     "clean-build": "rimraf ./dist && mkdir dist",
