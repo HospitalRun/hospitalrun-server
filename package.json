@@ -1,7 +1,7 @@
 {
   "name": "@hospitalrun/server",
   "version": "0.0.0-development",
-  "description": "HospitalRun server",
+  "description": "HospitalRun Nodejs server",
   "main": "dist",
   "repository": {
     "type": "git",

@@ -16,7 +16,7 @@ before_script:
   - npm run lint
 script:
   - npm run build
-after_ script:
+after_success:
   - npm run test
 
 jobs:
