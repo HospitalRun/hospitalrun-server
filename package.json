@@ -21,6 +21,7 @@
     "lint": "eslint --fix \"./src/**/*.ts\"",
     "prettier": "prettier --loglevel warn --write \"./**/*.{ts,tsx}\"",
     "test": "cross-env TS_NODE_PROJECT=./test/tsconfig.json tap --no-ts --node-arg=--require=ts-node/register test/**/*.ts",
+    "coveralls": "tap --coverage-report=text-lcov",
     "test:report": "npm run test | tee out.tap",
     "test:reporter": "tap-mocha-reporter xunit < out.tap > junit-testresults.xml",
     "semantic-release": "semantic-release"
