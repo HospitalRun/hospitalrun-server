@@ -23,7 +23,7 @@
     "test": "cross-env TS_NODE_PROJECT=./test/tsconfig.json tap --no-ts --node-arg=--require=ts-node/register test/**/*.ts",
     "test:report": "npm run test | tee out.tap",
     "test:reporter": "tap-mocha-reporter xunit < out.tap > junit-testresults.xml",
-    "coveralls": "npm run test -- --cov --coverage-report=html",
+    "test:coveralls": "npm run test -- --cov --coverage-report=html",
     "semantic-release": "semantic-release"
   },
   "keywords": [],

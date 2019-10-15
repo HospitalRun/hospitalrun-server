@@ -1,9 +1,7 @@
 language: node_js
 
 node_js:
-  - "12"
-  - "10"
-  - "8"
+  - lts/*
 
 branches:
   only:
@@ -17,7 +15,7 @@ before_script:
 script:
   - npm run build
 after_success:
-  - npm run coveralls
+  - npm run test:coveralls
 
 jobs:
   include:
