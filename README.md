@@ -37,6 +37,7 @@ Read more on <a href="https://github.com/HospitalRun/hospitalrun-server/blob/nex
 ## Sponsors
 
 [![Sponsors](https://opencollective.com/hospitalrun/sponsors.svg?width=890)](https://opencollective.com/hospitalrun/contribute/sponsors-336/checkout)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FHospitalRun%2Fhospitalrun-server.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FHospitalRun%2Fhospitalrun-server?ref=badge_shield)
 
 ## Backers
 
@@ -69,3 +70,6 @@ Read more on <a href="https://github.com/HospitalRun/hospitalrun-server/blob/nex
 # License
 
 Released under the [MIT license](LICENSE).
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FHospitalRun%2Fhospitalrun-server.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FHospitalRun%2Fhospitalrun-server?ref=badge_large)
