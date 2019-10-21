@@ -6,9 +6,8 @@
 
 <div align="center">
 
-[![Release](https://img.shields.io/github/release/HospitalRun/hospitalrun-server.svg)](https://img.shields.io/github/release) [![Build Status](https://dev.azure.com/HospitalRun/hospitalrun-server/_apis/build/status/HospitalRun.hospitalrun-server?branchName=master)](https://dev.azure.com/HospitalRun/hospitalrun-server/_build/latest?definitionId=2&branchName=master) [![Build Status](https://travis-ci.com/HospitalRun/hospitalrun-server.svg?branch=master)](https://travis-ci.com/HospitalRun/hospitalrun-server) [![Coverage Status](https://coveralls.io/repos/github/HospitalRun/hospitalrun-server/badge.svg?branch=master)](https://coveralls.io/github/HospitalRun/hospitalrun-server?branch=master) [![Help Contribute to Open Source](https://www.codetriage.com/hospitalrun/hospitalrun-server/badges/users.svg)](https://www.codetriage.com/hospitalrun/hospitalrun-server) [![Contributor](https://img.shields.io/github/contributors/HospitalRun/hospitalrun-server.svg)](https://github.com/HospitalRun/hospitalrun-server/graphs/contributors)
-
-[![license](https://badgen.now.sh/badge/license/MIT)](./LICENSE) [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2FHospitalRun%2Fhospitalrun-server.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2FHospitalRun%2Fhospitalrun-server?ref=badge_shield) [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/hospitalrun)
+[![Release](https://img.shields.io/github/release/HospitalRun/hospitalrun-server.svg)](https://img.shields.io/github/release) [![Build Status](https://dev.azure.com/HospitalRun/hospitalrun-server/_apis/build/status/HospitalRun.hospitalrun-server?branchName=master)](https://dev.azure.com/HospitalRun/hospitalrun-server/_build/latest?definitionId=2&branchName=master) [![Build Status](https://travis-ci.com/HospitalRun/hospitalrun-server.svg?branch=master)](https://travis-ci.com/HospitalRun/hospitalrun-server) [![Coverage Status](https://coveralls.io/repos/github/HospitalRun/hospitalrun-server/badge.svg?branch=master)](https://coveralls.io/github/HospitalRun/hospitalrun-server?branch=master) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FHospitalRun%2Fhospitalrun-server.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FHospitalRun%2Fhospitalrun-server?ref=badge_shield) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) 
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release) [![Slack](https://hospitalrun-slackin.herokuapp.com/badge.svg)](https://hospitalrun-slackin.herokuapp.com) [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/hospitalrun)
 
 </div>
 
@@ -37,7 +36,6 @@ Read more on <a href="https://github.com/HospitalRun/hospitalrun-server/blob/nex
 ## Sponsors
 
 [![Sponsors](https://opencollective.com/hospitalrun/sponsors.svg?width=890)](https://opencollective.com/hospitalrun/contribute/sponsors-336/checkout)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FHospitalRun%2Fhospitalrun-server.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FHospitalRun%2Fhospitalrun-server?ref=badge_shield)
 
 ## Backers
 
