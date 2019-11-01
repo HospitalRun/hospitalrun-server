@@ -1,13 +1,18 @@
 # Contributing
 
-Contributions are always welcome. Before contributing please read the
-[code of conduct](https://js.foundation/community/code-of-conduct) &
-[search the issue tracker](https://github.com/HospitalRun/hospitalrun-server/issues); your issue
-may have already been discussed or fixed in `master`. To contribute,
-[fork](https://help.github.com/articles/fork-a-repo/) HospitalRun, commit your changes,
-& [send a Pull Request](https://help.github.com/articles/using-pull-requests/).
+HospitalRun is a community project. We invite your participation through
+financial contributions, issues, and pull requests!
 
-Please note we have a [code of conduct](https://github.com/HospitalRun/hospitalrun-server/blob/next/.github/CODE_OF_CONDUCT.md), please follow it in all your interactions with the project.
+Contributions are always welcome. Before contributing please read the [JS Foundation's
+code of conduct](https://js.foundation/community/code-of-conduct) and
+[search the issue tracker](https://github.com/HospitalRun/hospitalrun-server/issues); your issue
+may have already been discussed or fixed in `master`. If you're new to the project,
+maybe you'd like to open a pull request to address one of [good-first-issue](https://github.com/HospitalRun/hospitalrun-server/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
+
+To contribute,
+[fork](https://help.github.com/articles/fork-a-repo/) HospitalRun components, commit your changes, and [send a Pull Request](https://help.github.com/articles/using-pull-requests/).
+
+Please note we have a [code of conduct](https://github.com/HospitalRun/hospitalrun-server/blob/master/.github/CODE_OF_CONDUCT.md), please follow it in all your interactions with the project.
 
 ## Feature Requests
 
