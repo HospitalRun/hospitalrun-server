@@ -17,9 +17,7 @@
     "dev": "cross-env NODE_ENV=development nodemon -e ts -w \"./src\" -x \"npm run debug\"",
     "debug": "node -r ts-node/register -r dotenv/config --inspect ./src/index.ts | pino-colada",
     "update": "yarn upgrade-interactive --latest",
-    "prelint": "npm run prettier",
-    "lint": "eslint --fix \"./src/**/*.ts\"",
-    "prettier": "prettier --loglevel warn --write \"./**/*.{ts,tsx}\"",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" \"test/**/*.{js,jsx,ts,tsx}\" --fix",
     "test": "cross-env TS_NODE_PROJECT=./test/tsconfig.json tap --no-ts --node-arg=--require=ts-node/register test/**/*.ts",
     "test:report": "npm run test | tee out.tap",
     "test:reporter": "tap-mocha-reporter xunit < out.tap > junit-testresults.xml",
@@ -39,6 +37,7 @@
     "fastify-helmet": "^3.0.1",
     "fastify-no-icon": "^3.0.0",
     "fastify-plugin": "^1.6.0",
+    "make-promises-safe": "^5.1.0",
     "qs": "^6.9.0"
   },
   "devDependencies": {
@@ -60,6 +59,7 @@
     "dotenv": "^8.1.0",
     "eslint": "^6.4.0",
     "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-prettier": "^3.1.0",
     "husky": "^3.0.5",
     "nodemon": "^1.19.2",

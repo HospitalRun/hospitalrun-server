@@ -18,14 +18,14 @@ function App(fastify: FastifyInstance, opts: {}, next: nextCallback) {
   fastify.register(AutoLoad, {
     dir: join(__dirname, 'plugins'),
     includeTypeScript: true,
-    options: Object.assign({}, opts),
+    options: { ...opts },
   })
 
   // This loads all routes and services defined in services folder
   fastify.register(AutoLoad, {
     dir: join(__dirname, 'services'),
     includeTypeScript: true,
-    options: Object.assign({}, opts),
+    options: { ...opts },
   })
 
   next()

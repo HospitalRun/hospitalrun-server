@@ -4,9 +4,7 @@ import App from '../src/app'
 
 // Fill in this config with all the configurations
 // needed for testing the application
-export const config = () => {
-  return {}
-}
+export const config = () => ({})
 
 // automatically build and tear down our instance
 export const build = (t: any) => {
