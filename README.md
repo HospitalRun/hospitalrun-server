@@ -20,10 +20,10 @@ Node.js backend for [HospitalRun](http://hospitalrun.io/): free software for dev
 
 # Documentations
 ## Plugins
-Read more on <a href="https://github.com/HospitalRun/hospitalrun-server/blob/next/docs/Plugins.md"><code><b>HospitalRun Plugins</b></code></a>.
+Read more on <a href="https://github.com/HospitalRun/hospitalrun-server/blob/master/docs/Plugins.md"><code><b>HospitalRun Plugins</b></code></a>.
 
 ## Services
-Read more on <a href="https://github.com/HospitalRun/hospitalrun-server/blob/next/docs/Services.md"><code><b>HospitalRun Services</b></code></a>.
+Read more on <a href="https://github.com/HospitalRun/hospitalrun-server/blob/master/docs/Services.md"><code><b>HospitalRun Services</b></code></a>.
 
 <hr />
 
