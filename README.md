@@ -1,8 +1,4 @@
-<div align="center">
-
-![hospitalrun-logo-v1](https://github.com/HospitalRun/design/blob/master/logo/logo-on-transparent.png)
-
-</div>
+# HospitalRun Server
 
 <div align="center">
 
@@ -11,12 +7,9 @@
 
 </div>
 
-<div align="center">
-
-### Free, easy-to-use software for developing world healthcare.
 Node.js backend for [HospitalRun](http://hospitalrun.io/): free software for developing world hospitals.
 
-</div>
+---
 
 # Documentations
 ## Plugins
@@ -68,6 +61,3 @@ Read more on <a href="https://github.com/HospitalRun/hospitalrun-server/blob/mas
 # License
 
 Released under the [MIT license](LICENSE).
-
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FHospitalRun%2Fhospitalrun-server.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FHospitalRun%2Fhospitalrun-server?ref=badge_large)
