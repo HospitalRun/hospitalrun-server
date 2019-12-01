@@ -7,7 +7,7 @@ jobs:
   - template: azure/azure-pipelines-npm.yml
     parameters:
       name: Linux_npm
-      vmImage: ubuntu-16.04
+      vmImage: ubuntu-18.04
   - template: azure/azure-pipelines-npm.yml
     parameters:
       name: Windows_npm
@@ -15,11 +15,11 @@ jobs:
   - template: azure/azure-pipelines-npm.yml
     parameters:
       name: macOs_npm
-      vmImage: macOS-10.14
+      vmImage: macOS-10.15
   - template: azure/azure-pipelines-yarn.yml
     parameters:
       name: Linux_yarn
-      vmImage: ubuntu-16.04
+      vmImage: ubuntu-18.04
   - template: azure/azure-pipelines-yarn.yml
     parameters:
       name: Windows_yarn
@@ -27,4 +27,4 @@ jobs:
   - template: azure/azure-pipelines-yarn.yml
     parameters:
       name: macOS_yarn
-      vmImage: macOS-10.14
+      vmImage: macOS-10.15
