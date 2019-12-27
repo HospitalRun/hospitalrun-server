@@ -29,7 +29,7 @@
   "license": "MIT",
   "dependencies": {
     "cross-env": "~6.0.0",
-    "fastify": "~2.0.0",
+    "fastify": "~2.11.0",
     "fastify-autoload": "~1.0.0",
     "fastify-blipp": "~2.1.0",
     "fastify-cli": "~1.2.0",
