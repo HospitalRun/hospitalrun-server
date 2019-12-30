@@ -69,7 +69,7 @@
     "semantic-release": "~15.14.0",
     "tap": "~14.10.5",
     "tap-mocha-reporter": "~5.0.0",
-    "ts-node": "~8.3.0",
+    "ts-node": "~8.5.4",
     "typescript": "~3.7.2"
   },
   "config": {
