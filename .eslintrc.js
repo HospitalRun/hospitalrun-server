@@ -27,6 +27,7 @@ module.exports = {
     'eol-last': ['error', 'always'],
     'no-debugger': 'error',
     '@typescript-eslint/unified-signatures': 'error',
+    'import/no-unresolved': 'off',
     '@typescript-eslint/no-inferrable-types': ['error', { ignoreParameters: true }],
   },
 }
