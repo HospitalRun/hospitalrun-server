@@ -52,7 +52,7 @@
     "@types/node": "~13.1.0",
     "@types/qs": "~6.9.0",
     "@typescript-eslint/eslint-plugin": "~2.14.0",
-    "@typescript-eslint/parser": "~2.14.0",
+    "@typescript-eslint/parser": "~2.15.0",
     "commitizen": "~4.0.3",
     "commitlint-config-cz": "~0.12.1",
     "cz-conventional-changelog": "~3.0.2",
