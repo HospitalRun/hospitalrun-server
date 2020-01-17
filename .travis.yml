@@ -16,6 +16,8 @@ script:
   - npm run build
 after_script:
   - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls
+  - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls:report
+  - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls:reporter
 
 # Re-enable for version v2.0.0
 # jobs:
