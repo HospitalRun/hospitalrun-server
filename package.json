@@ -22,6 +22,8 @@
     "test:report": "npm run test | tee out.tap",
     "test:reporter": "tap-mocha-reporter xunit < out.tap > junit-testresults.xml",
     "coveralls": "npm run test",
+    "coveralls:report": "npm run test:report",
+    "coveralls:reporter": "npm run test:reporter",
     "semantic-release": "semantic-release"
   },
   "keywords": [],
