@@ -22,8 +22,6 @@
     "test:report": "npm run test | tee out.tap",
     "test:reporter": "tap-mocha-reporter xunit < out.tap > junit-testresults.xml",
     "coveralls": "npm run test",
-    "coveralls:report": "npm run test:report",
-    "coveralls:reporter": "npm run test:reporter",
     "semantic-release": "semantic-release"
   },
   "keywords": [],
@@ -57,6 +55,7 @@
     "@typescript-eslint/parser": "~2.16.0",
     "commitizen": "~4.0.3",
     "commitlint-config-cz": "~0.12.1",
+    "coveralls": "~3.0.9",
     "cz-conventional-changelog": "~3.0.2",
     "dotenv": "~8.2.0",
     "eslint": "~6.8.0",
