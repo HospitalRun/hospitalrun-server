@@ -15,7 +15,7 @@ before_script:
 script:
   - npm run build
 after_script:
-  - NODE_ENV=test COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run test:report
+  - npm run test
 
 # Re-enable for version v2.0.0
 # jobs:
