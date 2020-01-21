@@ -15,7 +15,7 @@ before_script:
 script:
   - npm run build
 after_script:
-  - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls
+  - npm run test:ci
 
 # Re-enable for version v2.0.0
 # jobs:
