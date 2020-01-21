@@ -15,7 +15,7 @@ before_script:
 script:
   - npm run build
 after_script:
-  - npm run test
+  - npm run coveralls
 
 # Re-enable for version v2.0.0
 # jobs:
