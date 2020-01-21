@@ -18,8 +18,8 @@
     "debug": "node -r ts-node/register -r dotenv/config --inspect ./src/index.ts | pino-colada",
     "update": "yarn upgrade-interactive --latest",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" \"test/**/*.{js,jsx,ts,tsx}\" --fix",
-    "test": "cross-env TS_NODE_PROJECT=./test/tsconfig.json tap --coverage-report=text-lcov --no-ts --node-arg=--require=ts-node/register test/**/*.ts",
-    "coveralls": "npm run test | coveralls", 
+    "test": "cross-env TS_NODE_PROJECT=./test/tsconfig.json tap --no-ts --node-arg=--require=ts-node/register test/**/*.ts",
+    "test:ci": "cross-env TS_NODE_PROJECT=./test/tsconfig.json tap --coverage-report=text-lcov --no-ts --node-arg=--require=ts-node/register test/**/*.ts | coveralls", 
     "semantic-release": "semantic-release"
   },
   "keywords": [],
