@@ -46,7 +46,7 @@
     "@semantic-release/commit-analyzer": "~6.3.0",
     "@semantic-release/git": "~7.0.16",
     "@semantic-release/github": "~5.5.5",
-    "@semantic-release/release-notes-generator": "~7.3.0",
+    "@semantic-release/release-notes-generator": "~9.0.0",
     "@types/node": "~13.5.0",
     "@types/qs": "~6.9.0",
     "@typescript-eslint/eslint-plugin": "~2.18.0",
