@@ -54,7 +54,7 @@
     "commitizen": "~4.0.3",
     "commitlint-config-cz": "~0.12.1",
     "coveralls": "~3.0.9",
-    "cz-conventional-changelog": "~3.0.2",
+    "cz-conventional-changelog": "~3.1.0",
     "dotenv": "~8.2.0",
     "eslint": "~6.8.0",
     "eslint-config-prettier": "~6.10.0",
