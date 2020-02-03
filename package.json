@@ -50,7 +50,7 @@
     "@types/node": "~13.7.0",
     "@types/qs": "~6.9.0",
     "@typescript-eslint/eslint-plugin": "~2.18.0",
-    "@typescript-eslint/parser": "~2.18.0",
+    "@typescript-eslint/parser": "~2.19.0",
     "commitizen": "~4.0.3",
     "commitlint-config-cz": "~0.12.1",
     "coveralls": "~3.0.9",
