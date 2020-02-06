@@ -1,6 +1,6 @@
 import fp from 'fastify-plugin'
 
-export default fp((fastify, opts, next) => {
+export default fp((fastify, _, next) => {
   fastify.decorate('someSupport', function() {
     return 'hugs'
   })

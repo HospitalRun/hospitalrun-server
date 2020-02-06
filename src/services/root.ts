@@ -4,10 +4,10 @@ import { nextCallback } from 'fastify-plugin'
 
 export default (
   fastify: FastifyInstance<Server, IncomingMessage, ServerResponse>,
-  opts: {},
+  _: {},
   next: nextCallback,
 ) => {
-  fastify.get('/', (request, reply) => {
+  fastify.get('/', (_, reply) => {
     reply.send({ root: true })
   })
   next()
