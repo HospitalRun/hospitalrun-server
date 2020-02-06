@@ -1,38 +1,35 @@
 {
   "include": [
-    "./src/**/*.ts"
+    "src"
   ],
   "exclude": [
     "node_modules",
     "dist"
   ],
   "compilerOptions": {
-    "baseUrl": "./src",
-    "paths": {
-      "*": [
-        "src/*"
-      ]
-    },
     "typeRoots": [
       "./node_modules/@types",
       "./typings"
     ],
     "moduleResolution": "node",
-    "target": "es2017",
+    "target": "es2018",
     "module": "commonjs",
     "outDir": "dist",
-    "pretty": true,
     "lib": [
       "esnext"
     ],
     "strict": true,
     "esModuleInterop": true,
-    "noEmitOnError": true,
+    "declaration": true,
     "sourceMap": true,
     "removeComments": true,
     "newLine": "lf",
+    "noEmitOnError": true,
     "noUnusedLocals": true,
-    "resolveJsonModule": true,
-    "noFallthroughCasesInSwitch": true
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
   }
 }
