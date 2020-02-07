@@ -1,6 +1,6 @@
 {
   "name": "@hospitalrun/server",
-  "version": "0.0.0-development",
+  "version": "2.0.0-alpha.0",
   "description": "HospitalRun Nodejs server",
   "main": "dist",
   "repository": {
@@ -9,18 +9,22 @@
   },
   "scripts": {
     "commit": "npx git-cz",
-    "prebuild": "npm run lint && npm run clean-build",
-    "build": "tsc",
-    "clean-build": "rimraf ./dist && mkdir dist",
-    "start": "cross-env NODE_ENV=production fastify start -a 0.0.0.0 -p 3000 -l info \"./dist/app.js\"",
-    "predev": "npm run lint",
-    "dev": "cross-env NODE_ENV=development nodemon -e ts -w \"./src\" -x \"npm run debug\"",
-    "debug": "node -r ts-node/register -r dotenv/config --inspect ./src/index.ts | pino-colada",
+    "build": "npm run clean && tsc -p ./tsconfig.json",
+    "start": "node dist",
+    "clean": "rimraf dist",
+    "nodemon": "",
+    "dev:db": "pouchdb-server --config ./db/config.json",
+    "dev:build": "tsc --incremental -p tsconfig.json",
+    "dev:start": "node --inspect -r source-map-support/register -r dotenv/config dist/index.js | pino-colada",
+    "dev:watch": "cross-env NODE_ENV=development npm run clean && nodemon -w src -e ts --exec \"npm run dev:build && npm run dev:start\"",
+    "dev": "run-p dev:db dev:watch",
     "update": "yarn upgrade-interactive --latest",
-    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" \"test/**/*.{js,jsx,ts,tsx}\" --fix",
-    "test": "cross-env TS_NODE_PROJECT=./test/tsconfig.json tap --no-ts --node-arg=--require=ts-node/register test/**/*.ts",
-    "test:ci": "cross-env TS_NODE_PROJECT=./test/tsconfig.json tap --coverage-report=text-lcov --no-ts --node-arg=--require=ts-node/register test/**/*.ts | coveralls",
-    "semantic-release": "semantic-release"
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" \"test/**/*.{js,jsx,ts,tsx}\"",
+    "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" \"test/**/*.{js,jsx,ts,tsx}\" --fix",
+    "test": "cross-env TS_NODE_PROJECT=./test/tsconfig.json tap test/**/*.ts",
+    "test:ci": "cross-env TS_NODE_PROJECT=./test/tsconfig.json tap --coverage-report=text-lcov test/**/*.ts | coveralls",
+    "lint-staged": "lint-staged",
+    "commitlint": "commitlint"
   },
   "keywords": [],
   "author": "Maksim Sinik <maksim@sinik.it>",
@@ -30,23 +34,19 @@
     "fastify": "~2.12.0",
     "fastify-autoload": "~1.2.0",
     "fastify-blipp": "~2.1.0",
-    "fastify-cli": "~1.4.0",
     "fastify-cors": "~3.0.0",
     "fastify-helmet": "~3.0.1",
+    "fastify-http-proxy": "~3.0.0",
     "fastify-no-icon": "~3.0.0",
     "fastify-plugin": "~1.6.0",
     "make-promises-safe": "~5.1.0",
+    "nano": "~8.1.0",
     "qs": "~6.9.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "~8.3.3",
-    "@commitlint/config-conventional": "~8.3.3",
-    "@commitlint/prompt": "~8.3.3",
-    "@semantic-release/changelog": "~5.0.0",
-    "@semantic-release/commit-analyzer": "~6.3.0",
-    "@semantic-release/git": "~7.0.16",
-    "@semantic-release/github": "~5.5.5",
-    "@semantic-release/release-notes-generator": "~9.0.0",
+    "@commitlint/cli": "8.3.3",
+    "@commitlint/config-conventional": "8.3.3",
+    "@commitlint/prompt": "8.3.3",
     "@types/node": "~13.7.0",
     "@types/qs": "~6.9.0",
     "@typescript-eslint/eslint-plugin": "~2.19.0",
@@ -54,6 +54,7 @@
     "commitizen": "~4.0.3",
     "commitlint-config-cz": "~0.13.0",
     "coveralls": "~3.0.9",
+    "cross-env": "~7.0.0",
     "cz-conventional-changelog": "~3.1.0",
     "dotenv": "~8.2.0",
     "eslint": "~6.8.0",
@@ -61,15 +62,17 @@
     "eslint-plugin-import": "~2.20.0",
     "eslint-plugin-prettier": "~3.1.0",
     "husky": "~4.2.0",
+    "lint-staged": "~10.0.7",
     "nodemon": "~2.0.0",
+    "npm-run-all": "~4.1.5",
     "pino-colada": "~1.5.0",
+    "pouchdb-server": "~4.2.0",
     "prettier": "~1.19.1",
     "rimraf": "~3.0.0",
-    "semantic-release": "~15.14.0",
+    "source-map-support": "~0.5.16",
     "tap": "~14.10.5",
     "tap-mocha-reporter": "~5.0.0",
-    "ts-node": "~8.6.0",
-    "typescript": "~3.7.4"
+    "typescript": "~3.7.5"
   },
   "config": {
     "commitizen": {
@@ -78,8 +81,15 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "npm run lint && npm test"
+      "commit-msg": "npm run commitlint -- -E HUSKY_GIT_PARAMS",
+      "pre-commit": "npm run lint-staged"
     }
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "npm run lint:fix",
+      "npm run test",
+      "git add ."
+    ]
   }
 }

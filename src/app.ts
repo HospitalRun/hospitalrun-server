@@ -7,7 +7,7 @@ import helmet from 'fastify-helmet'
 import qs from 'qs'
 import cors from 'fastify-cors'
 
-function App(fastify: FastifyInstance, opts: {}, next: nextCallback) {
+function HospitalRun(fastify: FastifyInstance, opts: any, next: nextCallback) {
   fastify.register(cors, {
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
@@ -31,10 +31,10 @@ function App(fastify: FastifyInstance, opts: {}, next: nextCallback) {
   next()
 }
 
-App.options = {
+HospitalRun.options = {
   querystringParser: (str: string) => qs.parse(str),
   logger: true,
   ignoreTrailingSlash: true,
 }
 
-export = App
+export = HospitalRun
