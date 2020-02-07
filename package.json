@@ -23,7 +23,7 @@
     "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" \"test/**/*.{js,jsx,ts,tsx}\" --fix",
     "test": "cross-env TS_NODE_PROJECT=./test/tsconfig.json tap test/**/*.ts",
     "test:ci": "cross-env TS_NODE_PROJECT=./test/tsconfig.json tap --coverage-report=text-lcov test/**/*.ts | coveralls",
-    "semantic-release": "semantic-release"
+    "release": "standard-version"
   },
   "keywords": [],
   "author": "Maksim Sinik <maksim@sinik.it>",
@@ -46,11 +46,6 @@
     "@commitlint/cli": "8.3.3",
     "@commitlint/config-conventional": "8.3.3",
     "@commitlint/prompt": "8.3.3",
-    "@semantic-release/changelog": "~5.0.0",
-    "@semantic-release/commit-analyzer": "~6.3.0",
-    "@semantic-release/git": "~7.0.16",
-    "@semantic-release/github": "~5.5.5",
-    "@semantic-release/release-notes-generator": "~9.0.0",
     "@types/node": "~13.7.0",
     "@types/qs": "~6.9.0",
     "@typescript-eslint/eslint-plugin": "~2.19.0",
@@ -73,8 +68,8 @@
     "pouchdb-server": "^4.2.0",
     "prettier": "~1.19.1",
     "rimraf": "~3.0.0",
-    "semantic-release": "~15.14.0",
     "source-map-support": "^0.5.16",
+    "standard-version": "~7.1.0",
     "tap": "~14.10.5",
     "tap-mocha-reporter": "~5.0.0",
     "typescript": "~3.7.5"
