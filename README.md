@@ -7,31 +7,38 @@
 
 </div>
 
-Node.js backend for [HospitalRun](http://hospitalrun.io/): free software for developing world hospitals.
+Node.js backend for [HospitalRun](http://hospitalrun.io/): free software for developing world hospitals. To contribute, follow the guidelines in this readme or alternatively ask for details on the community Slack channel: [#contributors](https://hospitalrun-slack.herokuapp.com).
 
 ---
 
-**Version 1.0.0-beta is no longer supported. Version 2 is currently under development.**
-
-- To contribute, follow the guidelines in the readme or alternatively ask for details on Slack channel [#contributors](https://hospitalrun-slack.herokuapp.com).
-- To use version 1.0.0-beta (not production ready) in a hospital facility, ask for support on Slack channel [#troubleshooting](https://hospitalrun-slack.herokuapp.com) or Spectrum channel [#support](https://spectrum.chat/hospitalrun).
+**This repository is for the HospitalRun v2 and it is currently under heavy development. If you are searching for the no longer supported version 1.0.0-beta, you can find it [here](https://github.com/HospitalRun/hospitalrun-server/tree/1.0.0-beta).**
 
 # Contributing
 
-Contributions are always welcome. Before contributing please read our [contributor guide](https://github.com/HospitalRun/hospitalrun-server/blob/master/.github/CONTRIBUTING.md).
+Contributions are always welcome. Before contributing please read our [contributor guide](https://github.com/HospitalRun/hospitalrun-server/blob/master/.github/CONTRIBUTING.md). Then follow these steps:
 
-1. Fork this repository to your own GitHub account and then clone it to your local device
-2. Navigate to the cloned folder: `cd hospitalrun-server`
-3. Install the dependencies: `yarn`
-4. Run `yarn run dev` to build and watch for code changes
+1. [Fork](https://github.com/HospitalRun/hospitalrun-server/fork) this repository to your own GitHub account
+2. Clone it to your local machine
+3. Navigate to the cloned folder: `cd hospitalrun-server`
+4. Install the dependencies: `npm install` or `yarn install`
+5. Run `npm run dev` or `yarn dev` to build and watch for code changes:
+   - a development database will start on http://localhost:5984
+   - you can access its Admin interface on http://localhost:5984/_utils, `username: dev` and `password: dev`
+
+## Environment
+In order to run `hospitalrun-server`  you need to set the correct environment variables. Since [dotenv](https://www.npmjs.com/package/dotenv) is already included, it is just matter of renaming `.env.example` file to `.env`: this file include all of the mandatory defaults.
+
+## Database
+This project uses [pouchdb-server](https://www.npmjs.com/package/pouchdb-server) for development and you, as contributor, don't need to provide your own CouchDB instance. Upon first run of the `dev` script (`npm run dev` or `yarn dev`), a new `data` folder will be created inside the `./db` folder. The database credentials are: `username: dev` and `password: dev`. The file `./db/config.json` contains the DB's configuration: you can change it if you want, but please don't commit any changes to it.
+
+**Note: PouchDB-server is meant to be use only during development. Please don't deploy any production/testing HospitalRun instances on it. For production deployments please follow the deployment guide.**
+
+## Tests
+Every code additions or fixs on the existing code, has to be tested. This project uses [node-tap](https://node-tap.org/) as test runner. To run all tests use `npm run test` or `yarn test`.
 
 ## How to commit
 
-This repo uses [Conventional Commits](https://www.conventionalcommits.org/). [Commitizen](https://github.com/commitizen/cz-cli) is recommended for development. Once you have changes staged
-you can run `git cz` from the root directory in order to commit to the proper standards.
-
-Alternatively, if you are using NPM 5.2+ you can use [npx](https://medium.com/@maybekatz/introducing-npx-an-npm-package-runner-55f7d4bd282b) instead of installing globally:
-`npx git-cz`
+This repo uses [Conventional Commits](https://www.conventionalcommits.org/). [Commitizen](https://github.com/commitizen/cz-cli) is mandatory for making proper commits. Once you have staged your changes, can run `npm run commit` or `yarn commit` from the root directory in order to commit following our standards.
 
 # Documentations
 ## Plugins

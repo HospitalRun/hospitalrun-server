@@ -2,7 +2,6 @@
 logs
 *.log
 npm-debug.log*
-.idea
 
 # Runtime data
 pids
@@ -46,9 +45,6 @@ profile-*
 # vim swap files
 *.swp
 
-# webstorm
-.idea
-
 *code-workspace
 
 # clinic
@@ -57,8 +53,12 @@ profile*
 *flamegraph*
 
 # generated code
-examples/typescript-server.js
 package-lock.json
 dist
 yarn.lock
 .coveralls.yml
+
+#misc
+db/**
+!db/config.json
+.env
