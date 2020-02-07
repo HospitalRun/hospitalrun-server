@@ -4,7 +4,9 @@ import App from '../src/app'
 
 // Fill in this config with all the configurations
 // needed for testing the application
-export const config = () => ({})
+export const config = () => ({
+  url: 'http://localhost:5984',
+})
 
 // automatically build and tear down our instance
 export const build = (t: any) => {

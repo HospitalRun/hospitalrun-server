@@ -3,16 +3,17 @@ import fp from 'fastify-plugin'
 import nano, { ServerScope, Configuration } from 'nano'
 import proxy from './proxy'
 
-const COUCHDB_URL = String(process.env.COUCHDB_URL)
+const COUCHDB_URL = process.env.COUCHDB_URL ? String(process.env.COUCHDB_URL) : undefined
 
 function couchDB(
   fastify: FastifyInstance,
   options: Configuration,
   next: (err?: FastifyError | undefined) => void,
 ) {
-  const couch = nano(options)
+  const url = COUCHDB_URL || options.url
+  const couch = nano({ ...options, url })
   fastify.decorate('couch', couch)
-  fastify.register(proxy, { url: COUCHDB_URL })
+  fastify.register(proxy, { url })
   next()
 }
 
