@@ -20,7 +20,6 @@
     ],
     "strict": true,
     "esModuleInterop": true,
-    "declaration": true,
     "sourceMap": true,
     "removeComments": true,
     "newLine": "lf",
