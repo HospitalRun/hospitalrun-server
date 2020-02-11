@@ -46,7 +46,7 @@
   "devDependencies": {
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4",
-    "@commitlint/prompt": "8.3.3",
+    "@commitlint/prompt": "8.3.5",
     "@types/node": "~13.7.0",
     "@types/qs": "~6.9.0",
     "@typescript-eslint/eslint-plugin": "~2.19.0",
