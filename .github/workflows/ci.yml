@@ -42,6 +42,8 @@ jobs:
         #     node-version: 13.x
     steps:
       - uses: actions/checkout@v1
+        run: |
+          git config --global core.autocrlf false
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
