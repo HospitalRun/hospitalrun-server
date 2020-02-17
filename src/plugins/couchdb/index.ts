@@ -21,7 +21,7 @@ couchDB.autoConfig = {
   url: COUCHDB_URL,
 }
 
-export = fp(couchDB)
+export default fp(couchDB)
 
 declare module 'fastify' {
   interface FastifyInstance {

@@ -21,4 +21,4 @@ couchDBProxy.autoConfig = {
   url: process.env.COUCHDB_URL,
 }
 
-export = couchDBProxy
+export default couchDBProxy
