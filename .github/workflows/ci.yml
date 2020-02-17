@@ -31,7 +31,6 @@ jobs:
         run: |
           npm run test
 
-
   yarn:
     runs-on: ${{ matrix.os }}
     strategy:
@@ -59,9 +58,6 @@ jobs:
       - name: Build
         run: |
           yarn build
-      - name: Storybook build
-        run: |
-          yarn build-storybook
       - name: Run tests
         run: |
           yarn test:ci
