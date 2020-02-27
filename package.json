@@ -12,7 +12,6 @@
     "build": "npm run clean && tsc -p ./tsconfig.json",
     "start": "node dist",
     "clean": "rimraf dist",
-    "nodemon": "",
     "dev:db": "pouchdb-server --config ./db/config.json",
     "dev:build": "tsc --incremental -p tsconfig.json",
     "dev:start": "node --inspect -r source-map-support/register -r dotenv/config dist/index.js | pino-colada",
@@ -32,16 +31,16 @@
   "dependencies": {
     "cross-env": "~7.0.0",
     "fastify": "~2.12.0",
-    "fastify-autoload": "~1.2.1",
+    "fastify-autoload": "~1.2.2",
     "fastify-blipp": "~2.1.0",
-    "fastify-cors": "~3.0.0",
-    "fastify-helmet": "~3.0.1",
+    "fastify-cors": "~3.0.2",
+    "fastify-helmet": "~3.0.2",
     "fastify-http-proxy": "~3.0.0",
     "fastify-no-icon": "~3.0.0",
-    "fastify-plugin": "~1.6.0",
+    "fastify-plugin": "~1.6.1",
     "make-promises-safe": "~5.1.0",
-    "nano": "~8.1.0",
-    "qs": "~6.9.0"
+    "nano": "~8.2.0",
+    "qs": "~6.9.1"
   },
   "devDependencies": {
     "@commitlint/cli": "8.3.5",
