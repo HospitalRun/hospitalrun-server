@@ -10,6 +10,7 @@
   "scripts": {
     "commit": "npx git-cz",
     "build": "npm run clean && tsc -p ./tsconfig.json",
+    "build:designs": "tsc -p ./src/db/tsconfig.json",
     "start": "node dist",
     "clean": "rimraf dist",
     "dev:db": "pouchdb-server --config ./db/config.json",
