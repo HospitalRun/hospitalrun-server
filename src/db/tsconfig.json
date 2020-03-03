@@ -10,7 +10,7 @@
   "compilerOptions": {
     "typeRoots": [
       "../../node_modules/@types",
-      "./context.ts"
+      "./design-functions-context.d.ts"
     ],
     "outDir": "../../dist/db",
   }
