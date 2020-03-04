@@ -10,9 +10,10 @@
   "scripts": {
     "ddoc": "node bin/ddoc",
     "commit": "npx git-cz",
-    "build": "npm run clean && tsc -p ./tsconfig.json && npm run build:designs",
-    "build:designs": "tsc -p ./src/db/tsconfig.json",
-    "build:bin": "rimraf bin && tsc -p ./src/bin/tsconfig.json",
+    "build": "npm run clean && tsc -p ./tsconfig.json",
+    "build:all": "run-s build build:ddoc build:designs",
+    "build:ddoc": "rimraf bin && tsc -p ./src/bin/tsconfig.json",
+    "build:designs": "npm run ddoc -- src/db/designs -c src/db/tsconfig.json",
     "start": "node dist",
     "clean": "rimraf dist",
     "dev:db": "pouchdb-server --config ./db/config.json",

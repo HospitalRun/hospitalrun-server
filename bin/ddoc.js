@@ -36,7 +36,7 @@ prog
     try {
         const cwd = process.cwd();
         const tsconfigPath = path_1.default.isAbsolute(opts.config) ? opts.config : path_1.default.join(cwd, opts.config);
-        console.log(`> using ${tsconfigPath} config`);
+        console.log(`> ${chalk_1.default.bgBlueBright(chalk_1.default.black(' ddoc build config '))} ${chalk_1.default.cyan(tsconfigPath)}`);
         const tsconfig = require(tsconfigPath);
         src = path_1.default.isAbsolute(src) ? path_1.default.normalize(src) : path_1.default.join(cwd, src);
         const srcStats = await stat(src);
@@ -51,17 +51,16 @@ prog
             dest = dest || path_1.default.dirname(src);
             ddocs = [src];
         }
-        console.log(`> src directory is ${src}`);
+        console.log(`> ${chalk_1.default.bgBlueBright(chalk_1.default.black(' ddoc build src '))} ${chalk_1.default.cyan(src)}`);
         await mkdirp_1.default(dest);
         await deleteOldDdocs(dest);
-        console.log(`> destination directory is ${dest}`);
+        console.log(`> ${chalk_1.default.bgBlueBright(chalk_1.default.black(' ddoc build dest '))} ${chalk_1.default.cyan(dest)}`);
         const errors = [];
         await Promise.all(ddocs.map(async (srcPath) => {
             try {
                 const sourceFile = (await readFile(srcPath)).toString();
                 const output = typescript_1.default.transpileModule(sourceFile, tsconfig);
                 const filename = path_1.default.basename(srcPath, '.ts');
-                await writeFile(path_1.default.join(src, `${filename}.js`), output.outputText);
                 const ddoc = require_from_string_1.default(output.outputText);
                 const stringifiedDesign = JSON.stringify(ddoc, (_, val) => {
                     if (typeof val === 'function') {
@@ -78,13 +77,13 @@ prog
         if (errors.length > 0) {
             errors.forEach(err => {
                 var _a;
-                console.log(`\n${chalk_1.default.red('ddoc error')} - ${chalk_1.default.cyan(err.file)}${(_a = err.error.stack) === null || _a === void 0 ? void 0 : _a.toString()}\n`);
+                console.log(`\n> ${chalk_1.default.bgRed(chalk_1.default.white(' ddoc build compile error '))} ${chalk_1.default.cyan(err.file)}${(_a = err.error.stack) === null || _a === void 0 ? void 0 : _a.toString()}\n`);
             });
-            throw new Error(`Compilation failed. Resolve errors in your code and try again.`);
+            throw new Error(`ddoc compilation failed. Resolve errors ${errors.length} ${errors.length > 1 ? 'files' : 'file'} and try again.`);
         }
     }
     catch (err) {
-        console.error(err);
+        console.error(chalk_1.default.bgRed(chalk_1.default.white(` ${err.message} `)));
         process.exit(1);
     }
 });

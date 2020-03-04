@@ -38,7 +38,9 @@ prog
       const cwd = process.cwd()
       const tsconfigPath = path.isAbsolute(opts.config) ? opts.config : path.join(cwd, opts.config)
 
-      console.log(`> using ${tsconfigPath} config`)
+      console.log(
+        `> ${chalk.bgBlueBright(chalk.black(' ddoc build config '))} ${chalk.cyan(tsconfigPath)}`,
+      )
       const tsconfig = require(tsconfigPath) // eslint-disable-line
 
       src = path.isAbsolute(src) ? path.normalize(src) : path.join(cwd, src) // eslint-disable-line
@@ -57,10 +59,10 @@ prog
         ddocs = [src]
       }
 
-      console.log(`> src directory is ${src}`)
+      console.log(`> ${chalk.bgBlueBright(chalk.black(' ddoc build src '))} ${chalk.cyan(src)}`)
       await mkdirp(dest)
       await deleteOldDdocs(dest)
-      console.log(`> destination directory is ${dest}`)
+      console.log(`> ${chalk.bgBlueBright(chalk.black(' ddoc build dest '))} ${chalk.cyan(dest)}`)
 
       const errors: { file: string; error: Error }[] = []
       await Promise.all(
@@ -89,15 +91,19 @@ prog
       if (errors.length > 0) {
         errors.forEach(err => {
           console.log(
-            `\n${chalk.red('ddoc error')} - ${chalk.cyan(
+            `\n> ${chalk.bgRed(chalk.white(' ddoc build compile error '))} ${chalk.cyan(
               err.file,
             )}${err.error.stack?.toString()}\n`,
           )
         })
-        throw new Error(`Compilation failed. Resolve errors in your code and try again.`)
+        throw new Error(
+          `ddoc compilation failed. Resolve errors ${errors.length} ${
+            errors.length > 1 ? 'files' : 'file'
+          } and try again.`,
+        )
       }
     } catch (err) {
-      console.error(err)
+      console.error(chalk.bgRed(chalk.white(` ${err.message} `)))
       process.exit(1)
     }
   })
