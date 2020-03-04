@@ -31,7 +31,7 @@ In order to optimize the workflow and to prevent multiple contributors working o
 ## Environment
 In order to run `hospitalrun-server`  you need to set the correct environment variables. Since [dotenv](https://www.npmjs.com/package/dotenv) is already included, it is just matter of renaming `.env.example` file to `.env`: this file include all of the mandatory defaults.
 
-## Database
+## Development Database
 This project uses [pouchdb-server](https://www.npmjs.com/package/pouchdb-server) for development and you, as contributor, don't need to provide your own CouchDB instance. Upon first run of the `dev` script (`npm run dev` or `yarn dev`), a new `data` folder will be created inside the `./db` folder. The database credentials are: `username: dev` and `password: dev`. The file `./db/config.json` contains the DB's configuration: you can change it if you want, but please don't commit any changes to it.
 
 **Note: PouchDB-server is meant to be use only during development. Please don't deploy any production/testing HospitalRun instances on it. For production deployments please follow the deployment guide.**
@@ -43,12 +43,15 @@ Every code additions or fixs on the existing code, has to be tested. This projec
 
 This repo uses [Conventional Commits](https://www.conventionalcommits.org/). [Commitizen](https://github.com/commitizen/cz-cli) is mandatory for making proper commits. Once you have staged your changes, can run `npm run commit` or `yarn commit` from the root directory in order to commit following our standards.
 
-# Documentations
+# Documentation
+## DataBase
+Read more at <a href="https://github.com/HospitalRun/hospitalrun-server/blob/master/docs/database.md"><code><b>HospitalRun DataBase</b></code></a>.
+
 ## Plugins
-Read more on <a href="https://github.com/HospitalRun/hospitalrun-server/blob/master/docs/Plugins.md"><code><b>HospitalRun Plugins</b></code></a>.
+Read more at <a href="https://github.com/HospitalRun/hospitalrun-server/blob/master/docs/Plugins.md"><code><b>HospitalRun Plugins</b></code></a>.
 
 ## Services
-Read more on <a href="https://github.com/HospitalRun/hospitalrun-server/blob/master/docs/Services.md"><code><b>HospitalRun Services</b></code></a>.
+Read more at <a href="https://github.com/HospitalRun/hospitalrun-server/blob/master/docs/Services.md"><code><b>HospitalRun Services</b></code></a>.
 
 <hr />
 
