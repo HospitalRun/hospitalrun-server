@@ -1,4 +1,5 @@
 module.exports = {
+  ignorePatterns: ['bin'],
   extends: [
     'plugin:@typescript-eslint/recommended',
     'prettier',
