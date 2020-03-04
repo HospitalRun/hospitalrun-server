@@ -12,10 +12,16 @@ const typescript_1 = __importDefault(require("typescript"));
 const require_from_string_1 = __importDefault(require("require-from-string"));
 const glob_1 = __importDefault(require("glob"));
 const mkdirp_1 = __importDefault(require("mkdirp"));
+const chalk_1 = __importDefault(require("chalk"));
 const stat = util_1.promisify(fs_1.default.stat);
 const readFile = util_1.promisify(fs_1.default.readFile);
 const writeFile = util_1.promisify(fs_1.default.writeFile);
+const unlink = util_1.promisify(fs_1.default.unlink);
 const glob = util_1.promisify(glob_1.default);
+async function deleteOldDdocs(dest) {
+    const oldDdocs = await glob(path_1.default.join(dest, '**/*.json'));
+    return Promise.all(oldDdocs.map(file => unlink(file)));
+}
 const prog = sade_1.default('ddoc');
 prog.version('0.1.0');
 prog
@@ -47,14 +53,16 @@ prog
         }
         console.log(`> src directory is ${src}`);
         await mkdirp_1.default(dest);
+        await deleteOldDdocs(dest);
         console.log(`> destination directory is ${dest}`);
         const errors = [];
         await Promise.all(ddocs.map(async (srcPath) => {
             try {
                 const sourceFile = (await readFile(srcPath)).toString();
                 const output = typescript_1.default.transpileModule(sourceFile, tsconfig);
-                const ddoc = require_from_string_1.default(output.outputText);
                 const filename = path_1.default.basename(srcPath, '.ts');
+                await writeFile(path_1.default.join(src, `${filename}.js`), output.outputText);
+                const ddoc = require_from_string_1.default(output.outputText);
                 const stringifiedDesign = JSON.stringify(ddoc, (_, val) => {
                     if (typeof val === 'function') {
                         return val.toString();
@@ -63,13 +71,14 @@ prog
                 }, 1);
                 await writeFile(path_1.default.join(dest, `${filename}.json`), stringifiedDesign);
             }
-            catch (err) {
-                errors.push(err);
+            catch (error) {
+                errors.push({ file: srcPath, error });
             }
         }));
         if (errors.length > 0) {
             errors.forEach(err => {
-                console.error(err);
+                var _a;
+                console.log(`\n${chalk_1.default.red('ddoc error')} - ${chalk_1.default.cyan(err.file)}${(_a = err.error.stack) === null || _a === void 0 ? void 0 : _a.toString()}\n`);
             });
             throw new Error(`Compilation failed. Resolve errors in your code and try again.`);
         }

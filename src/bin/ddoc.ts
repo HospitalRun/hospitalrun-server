@@ -8,11 +8,18 @@ import ts from 'typescript'
 import requireFromString from 'require-from-string'
 import originalGlob from 'glob'
 import mkdirp from 'mkdirp'
+import chalk from 'chalk'
 
 const stat = promisify(fs.stat)
 const readFile = promisify(fs.readFile)
 const writeFile = promisify(fs.writeFile)
+const unlink = promisify(fs.unlink)
 const glob = promisify(originalGlob)
+
+async function deleteOldDdocs(dest: string) {
+  const oldDdocs = await glob(path.join(dest, '**/*.json'))
+  return Promise.all(oldDdocs.map(file => unlink(file)))
+}
 
 const prog = sade('ddoc')
 
@@ -52,16 +59,18 @@ prog
 
       console.log(`> src directory is ${src}`)
       await mkdirp(dest)
+      await deleteOldDdocs(dest)
       console.log(`> destination directory is ${dest}`)
 
-      const errors: Error[] = []
+      const errors: { file: string; error: Error }[] = []
       await Promise.all(
         ddocs.map(async srcPath => {
           try {
             const sourceFile = (await readFile(srcPath)).toString()
             const output = ts.transpileModule(sourceFile, tsconfig)
-            const ddoc = requireFromString(output.outputText)
             const filename = path.basename(srcPath, '.ts')
+            await writeFile(path.join(src, `${filename}.js`), output.outputText)
+            const ddoc = requireFromString(output.outputText)
             const stringifiedDesign = JSON.stringify(
               ddoc,
               (_, val) => {
@@ -73,14 +82,18 @@ prog
               1,
             )
             await writeFile(path.join(dest, `${filename}.json`), stringifiedDesign)
-          } catch (err) {
-            errors.push(err)
+          } catch (error) {
+            errors.push({ file: srcPath, error })
           }
         }),
       )
       if (errors.length > 0) {
         errors.forEach(err => {
-          console.error(err)
+          console.log(
+            `\n${chalk.red('ddoc error')} - ${chalk.cyan(
+              err.file,
+            )}${err.error.stack?.toString()}\n`,
+          )
         })
         throw new Error(`Compilation failed. Resolve errors in your code and try again.`)
       }
