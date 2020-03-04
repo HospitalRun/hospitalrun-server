@@ -44,8 +44,16 @@ prog
       const tsconfig = require(tsconfigPath) // eslint-disable-line
 
       src = path.isAbsolute(src) ? path.normalize(src) : path.join(cwd, src) // eslint-disable-line
-
-      const srcStats = await stat(src)
+      let srcStats: any
+      try {
+        srcStats = await stat(src)
+      } catch (err) {
+        if (err.code === 'ENOENT') {
+          console.log(chalk.bgGreen(chalk.black(`\n ddoc build - No input files found. Done. `)))
+          process.exit(0)
+        }
+        throw err
+      }
       // use outDir if specified inside tsconfig, otherwise build json alongside ts files
       let dest: string = tsconfig?.compilerOptions?.outDir
         ? path.join(path.dirname(tsconfigPath), tsconfig.compilerOptions.outDir)
@@ -72,8 +80,9 @@ prog
             const output = ts.transpileModule(sourceFile, tsconfig)
             const filename = path.basename(srcPath, '.ts')
             const ddoc = requireFromString(output.outputText)
+
             const stringifiedDesign = JSON.stringify(
-              ddoc,
+              ddoc.default ?? ddoc,
               (_, val) => {
                 if (typeof val === 'function') {
                   return val.toString()
@@ -102,6 +111,7 @@ prog
           } and try again.`,
         )
       }
+      console.log(chalk.bgGreen(chalk.black(`\n ddoc build - done on ${ddocs.length} files. `)))
     } catch (err) {
       console.error(chalk.bgRed(chalk.white(` ${err.message} `)))
       process.exit(1)

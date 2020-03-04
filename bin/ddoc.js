@@ -39,7 +39,17 @@ prog
         console.log(`> ${chalk_1.default.bgBlueBright(chalk_1.default.black(' ddoc build config '))} ${chalk_1.default.cyan(tsconfigPath)}`);
         const tsconfig = require(tsconfigPath);
         src = path_1.default.isAbsolute(src) ? path_1.default.normalize(src) : path_1.default.join(cwd, src);
-        const srcStats = await stat(src);
+        let srcStats;
+        try {
+            srcStats = await stat(src);
+        }
+        catch (err) {
+            if (err.code === 'ENOENT') {
+                console.log(chalk_1.default.bgGreen(chalk_1.default.black(`\n ddoc build - No input files found. Done. `)));
+                process.exit(0);
+            }
+            throw err;
+        }
         let dest = ((_a = tsconfig === null || tsconfig === void 0 ? void 0 : tsconfig.compilerOptions) === null || _a === void 0 ? void 0 : _a.outDir) ? path_1.default.join(path_1.default.dirname(tsconfigPath), tsconfig.compilerOptions.outDir)
             : '';
         let ddocs;
@@ -57,12 +67,13 @@ prog
         console.log(`> ${chalk_1.default.bgBlueBright(chalk_1.default.black(' ddoc build dest '))} ${chalk_1.default.cyan(dest)}`);
         const errors = [];
         await Promise.all(ddocs.map(async (srcPath) => {
+            var _a;
             try {
                 const sourceFile = (await readFile(srcPath)).toString();
                 const output = typescript_1.default.transpileModule(sourceFile, tsconfig);
                 const filename = path_1.default.basename(srcPath, '.ts');
                 const ddoc = require_from_string_1.default(output.outputText);
-                const stringifiedDesign = JSON.stringify(ddoc, (_, val) => {
+                const stringifiedDesign = JSON.stringify((_a = ddoc.default) !== null && _a !== void 0 ? _a : ddoc, (_, val) => {
                     if (typeof val === 'function') {
                         return val.toString();
                     }
@@ -81,6 +92,7 @@ prog
             });
             throw new Error(`ddoc compilation failed. Resolve errors ${errors.length} ${errors.length > 1 ? 'files' : 'file'} and try again.`);
         }
+        console.log(chalk_1.default.bgGreen(chalk_1.default.black(`\n ddoc build - done on ${ddocs.length} files. `)));
     }
     catch (err) {
         console.error(chalk_1.default.bgRed(chalk_1.default.white(` ${err.message} `)));
