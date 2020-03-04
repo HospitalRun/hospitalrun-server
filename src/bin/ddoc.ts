@@ -69,7 +69,6 @@ prog
             const sourceFile = (await readFile(srcPath)).toString()
             const output = ts.transpileModule(sourceFile, tsconfig)
             const filename = path.basename(srcPath, '.ts')
-            await writeFile(path.join(src, `${filename}.js`), output.outputText)
             const ddoc = requireFromString(output.outputText)
             const stringifiedDesign = JSON.stringify(
               ddoc,
