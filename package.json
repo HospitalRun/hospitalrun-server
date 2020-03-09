@@ -47,13 +47,15 @@
     "require-from-string": "~2.0.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "8.3.5",
-    "@commitlint/config-conventional": "8.3.4",
-    "@commitlint/prompt": "8.3.5",
+    "@commitlint/cli": "~8.3.5",
+    "@commitlint/config-conventional": "~8.3.4",
+    "@commitlint/prompt": "~8.3.5",
     "@types/glob": "~7.1.1",
     "@types/mkdirp": "~1.0.0",
     "@types/node": "~13.9.0",
     "@types/qs": "~6.9.0",
+    "@typescript-eslint/eslint-plugin": "~2.22.0",
+    "@typescript-eslint/parser": "~2.22.0",
     "@types/require-from-string": "~1.2.0",
     "@types/sade": "~1.6.0",
     "@typescript-eslint/eslint-plugin": "~2.22.0",
