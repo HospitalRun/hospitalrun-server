@@ -1,4 +1,5 @@
 module.exports = {
+  ignorePatterns: ['bin', 'commitlint.config.js'],
   extends: [
     'plugin:@typescript-eslint/recommended',
     'prettier',
@@ -7,10 +8,8 @@ module.exports = {
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    project: './tsconfig.json',
+    project: ['./tsconfig.json', './test/tsconfig.json', './src/db/tsconfig.json'],
     tsconfigRootDir: './',
-    // TODO: we need this because of an issue with @typescript-eslint/parser: https://github.com/typescript-eslint/typescript-eslint/issues/864
-    createDefaultProgram: true,
   },
   plugins: ['@typescript-eslint', 'prettier'],
   rules: {

@@ -3,7 +3,7 @@
 <div align="center">
 
 ![Status](https://img.shields.io/badge/Status-developing-brightgree) [![Release](https://img.shields.io/github/release/HospitalRun/hospitalrun-server.svg)](https://github.com/HospitalRun/hospitalrun-server/releases) [![Version](https://img.shields.io/github/package-json/v/hospitalrun/hospitalrun-frontend)](https://github.com/HospitalRun/hospitalrun-server/releases) [![GitHub CI](https://github.com/HospitalRun/server/workflows/GitHub%20CI/badge.svg)](https://github.com/HospitalRun/server/actions) [![Build Status](https://travis-ci.com/HospitalRun/hospitalrun-server.svg?branch=master)](https://travis-ci.com/HospitalRun/hospitalrun-server) [![Coverage Status](https://coveralls.io/repos/github/HospitalRun/hospitalrun-server/badge.svg?branch=master)](https://coveralls.io/github/HospitalRun/hospitalrun-server?branch=master) [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/HospitalRun/hospitalrun-server.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/HospitalRun/hospitalrun-server/context:javascript) [![Documentation Status](https://readthedocs.org/projects/hospitalrun-server/badge/?version=latest)](https://hospitalrun-server.readthedocs.io)
- [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FHospitalRun%2Fhospitalrun-server.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FHospitalRun%2Fhospitalrun-server?ref=badge_shield) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) ![dependabot](https://api.dependabot.com/badges/status?host=github&repo=HospitalRun/hospitalrun-server) [![Slack](https://hospitalrun-slack.herokuapp.com/badge.svg)](https://hospitalrun-slack.herokuapp.com) [![Join the community on Spectrum](https://withspectrum.github.io/badge/badge.svg)](https://spectrum.chat/hospitalrun)
+ [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FHospitalRun%2Fhospitalrun-server.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FHospitalRun%2Fhospitalrun-server?ref=badge_shield) [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) ![dependabot](https://api.dependabot.com/badges/status?host=github&repo=HospitalRun/hospitalrun-server) [![Slack](https://hospitalrun-slack.herokuapp.com/badge.svg)](https://hospitalrun-slack.herokuapp.com)
 
 </div>
 
@@ -31,7 +31,7 @@ In order to optimize the workflow and to prevent multiple contributors working o
 ## Environment
 In order to run `hospitalrun-server`  you need to set the correct environment variables. Since [dotenv](https://www.npmjs.com/package/dotenv) is already included, it is just matter of renaming `.env.example` file to `.env`: this file include all of the mandatory defaults.
 
-## Database
+## Development Database
 This project uses [pouchdb-server](https://www.npmjs.com/package/pouchdb-server) for development and you, as contributor, don't need to provide your own CouchDB instance. Upon first run of the `dev` script (`npm run dev` or `yarn dev`), a new `data` folder will be created inside the `./db` folder. The database credentials are: `username: dev` and `password: dev`. The file `./db/config.json` contains the DB's configuration: you can change it if you want, but please don't commit any changes to it.
 
 **Note: PouchDB-server is meant to be use only during development. Please don't deploy any production/testing HospitalRun instances on it. For production deployments please follow the deployment guide.**
@@ -43,12 +43,15 @@ Every code additions or fixs on the existing code, has to be tested. This projec
 
 This repo uses [Conventional Commits](https://www.conventionalcommits.org/). [Commitizen](https://github.com/commitizen/cz-cli) is mandatory for making proper commits. Once you have staged your changes, can run `npm run commit` or `yarn commit` from the root directory in order to commit following our standards.
 
-# Documentations
+# Documentation
+## DataBase
+Read more at <a href="https://github.com/HospitalRun/hospitalrun-server/blob/master/docs/database.md"><code><b>HospitalRun DataBase</b></code></a>.
+
 ## Plugins
-Read more on <a href="https://github.com/HospitalRun/hospitalrun-server/blob/master/docs/Plugins.md"><code><b>HospitalRun Plugins</b></code></a>.
+Read more at <a href="https://github.com/HospitalRun/hospitalrun-server/blob/master/docs/Plugins.md"><code><b>HospitalRun Plugins</b></code></a>.
 
 ## Services
-Read more on <a href="https://github.com/HospitalRun/hospitalrun-server/blob/master/docs/Services.md"><code><b>HospitalRun Services</b></code></a>.
+Read more at <a href="https://github.com/HospitalRun/hospitalrun-server/blob/master/docs/Services.md"><code><b>HospitalRun Services</b></code></a>.
 
 <hr />
 

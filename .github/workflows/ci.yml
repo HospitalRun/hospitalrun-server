@@ -27,7 +27,7 @@ jobs:
           npm run lint
       - name: Build
         run: |
-          npm run build
+          npm run build:all
       - name: Run tests
         run: |
           npm run test
@@ -59,7 +59,7 @@ jobs:
           yarn lint
       - name: Build
         run: |
-          yarn build
+          yarn build:all
       - name: Run tests
         run: |
           yarn test

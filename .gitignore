@@ -59,6 +59,7 @@ yarn.lock
 .coveralls.yml
 
 #misc
-db/**
+db/*
 !db/config.json
+!db/designs
 .env

@@ -1,17 +1,16 @@
-// we need this custom tsconfig.json to handle CouchDB Javascript Context locally to this folder
 {
   "extends": "../../tsconfig.json",
   "include": [
     "."
   ],
   "exclude": [
-    "node_modules",
+    "node_modules"
   ],
   "compilerOptions": {
     "typeRoots": [
-      "../../node_modules/@types",
       "./design-functions-context.d.ts"
     ],
-    "outDir": "../../dist/db",
+    "outDir": "../../db/designs",
+    "sourceMap": false
   }
 }
