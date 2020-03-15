@@ -54,7 +54,7 @@
     "@types/mkdirp": "~1.0.0",
     "@types/node": "~13.9.0",
     "@types/qs": "~6.9.0",
-    "@typescript-eslint/eslint-plugin": "~2.22.0",
+    "@typescript-eslint/eslint-plugin": "~2.23.0",
     "@typescript-eslint/parser": "~2.23.0",
     "@types/require-from-string": "~1.2.0",
     "@types/sade": "~1.6.0",
