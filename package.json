@@ -25,7 +25,7 @@
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" \"test/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" \"test/**/*.{js,jsx,ts,tsx}\" --fix",
     "test": "cross-env TS_NODE_PROJECT=./test/tsconfig.json tap test/**/*.ts",
-    "test:ci": "cross-env TS_NODE_PROJECT=./test/tsconfig.json tap --coverage-report=text-lcov test/**/*.ts | coveralls",
+    "test:ci": "cross-env TS_NODE_PROJECT=./test/tsconfig.json tap --coverage-report=text-lcov test/**/*.ts > lcov.info",
     "lint-staged": "lint-staged",
     "commitlint": "commitlint"
   },
@@ -63,7 +63,6 @@
     "chalk": "~3.0.0",
     "commitizen": "~4.0.3",
     "commitlint-config-cz": "~0.13.0",
-    "coveralls": "~3.0.9",
     "cross-env": "~7.0.0",
     "cz-conventional-changelog": "~3.1.0",
     "dotenv": "~8.2.0",
