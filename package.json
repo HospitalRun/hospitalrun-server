@@ -60,7 +60,7 @@
     "@types/sade": "~1.6.0",
     "@typescript-eslint/eslint-plugin": "~2.26.0",
     "@typescript-eslint/parser": "~2.26.0",
-    "chalk": "~3.0.0",
+    "chalk": "~4.0.0",
     "commitizen": "~4.0.3",
     "commitlint-config-cz": "~0.13.0",
     "cross-env": "~7.0.0",
