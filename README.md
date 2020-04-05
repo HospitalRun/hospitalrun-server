@@ -48,10 +48,10 @@ This repo uses [Conventional Commits](https://www.conventionalcommits.org/). [Co
 Read more at <a href="https://github.com/HospitalRun/hospitalrun-server/blob/master/docs/database.md"><code><b>HospitalRun DataBase</b></code></a>.
 
 ## Plugins
-Read more at <a href="https://github.com/HospitalRun/hospitalrun-server/blob/master/docs/Plugins.md"><code><b>HospitalRun Plugins</b></code></a>.
+Read more at <a href="https://github.com/HospitalRun/hospitalrun-server/blob/master/docs/plugins.md"><code><b>HospitalRun Plugins</b></code></a>.
 
 ## Services
-Read more at <a href="https://github.com/HospitalRun/hospitalrun-server/blob/master/docs/Services.md"><code><b>HospitalRun Services</b></code></a>.
+Read more at <a href="https://github.com/HospitalRun/hospitalrun-server/blob/master/docs/services.md"><code><b>HospitalRun Services</b></code></a>.
 
 <hr />
 
