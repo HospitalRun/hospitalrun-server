@@ -58,7 +58,7 @@
     "@typescript-eslint/parser": "~2.24.0",
     "@types/require-from-string": "~1.2.0",
     "@types/sade": "~1.6.0",
-    "@typescript-eslint/eslint-plugin": "~2.28.0",
+    "@typescript-eslint/eslint-plugin": "~2.29.0",
     "@typescript-eslint/parser": "~2.28.0",
     "chalk": "~4.0.0",
     "commitizen": "~4.0.3",
