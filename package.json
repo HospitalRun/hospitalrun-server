@@ -35,7 +35,7 @@
   "dependencies": {
     "fastify": "~2.13.0",
     "fastify-autoload": "~1.2.2",
-    "fastify-blipp": "~2.2.1",
+    "fastify-blipp": "~2.3.0",
     "fastify-cors": "~3.0.2",
     "fastify-helmet": "~3.0.2",
     "fastify-http-proxy": "~3.0.0",
