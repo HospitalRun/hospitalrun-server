@@ -11,6 +11,13 @@ maybe you'd like to open a pull request to address one of [good-first-issue](htt
 To contribute,
 [fork](https://help.github.com/articles/fork-a-repo/) this repo, commit your changes, and [send a Pull Request](https://help.github.com/articles/using-pull-requests/).
 
+## Online one-click setup for contributing
+
+Contribute to HospitalRun using a fully featured online development environment that will automatically: clone the repo, install the dependencies and start the webserver.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
+
+
 ## Working on an Issue
 In order to optimize the workflow and to prevent multiple contributors working on the same issue without interactions, a contributor must ask to be assigned to an issue by one of the core team members: it's enough to ask it inside the specific issue.
 
