@@ -24,6 +24,13 @@ Contributions are always welcome. Before contributing please read our [contribut
 5. Run `npm run dev` or `yarn dev` to build and watch for code changes:
    - a development database will start on http://localhost:5984
    - you can access its Admin interface on http://localhost:5984/_utils, `username: dev` and `password: dev`
+   
+## Online one-click setup for contributing
+
+Contribute to HospitalRun using a fully featured online development environment that will automatically: clone the repo, install the dependencies and start the webserver.
+
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
+
 
 ## Working on Issues
 In order to optimize the workflow and to prevent multiple contributors working on the same issue without interactions, a contributor must ask to be assigned to an issue by one of the core team members: it's enough to ask it inside the specific issue.
