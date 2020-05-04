@@ -38,7 +38,7 @@
     "fastify-blipp": "~2.3.0",
     "fastify-cors": "~3.0.2",
     "fastify-helmet": "~3.0.2",
-    "fastify-http-proxy": "~3.0.0",
+    "fastify-http-proxy": "~3.1.0",
     "fastify-no-icon": "~3.0.0",
     "fastify-plugin": "~1.6.1",
     "make-promises-safe": "~5.1.0",
