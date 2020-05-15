@@ -53,7 +53,7 @@
     "@types/glob": "~7.1.1",
     "@types/mkdirp": "~1.0.0",
     "@types/node": "~13.13.2",
-    "@types/qs": "6.9.1",
+    "@types/qs": "6.9.2",
     "@typescript-eslint/eslint-plugin": "~2.30.0",
     "@typescript-eslint/parser": "~2.31.0",
     "@types/require-from-string": "~1.2.0",
