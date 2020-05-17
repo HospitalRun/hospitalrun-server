@@ -82,7 +82,7 @@
     "source-map-support": "~0.5.16",
     "tap": "~14.10.5",
     "tap-mocha-reporter": "~5.0.0",
-    "typescript": "~3.8.2"
+    "typescript": "~3.9.2"
   },
   "config": {
     "commitizen": {
