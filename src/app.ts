@@ -10,6 +10,7 @@ import cors from 'fastify-cors'
 function HospitalRun(fastify: FastifyInstance, opts: any, next: nextCallback) {
   fastify.register(cors, {
     allowedHeaders: ['Content-Type', 'Authorization'],
+    preflight: false,
   })
   fastify.register(helmet)
   fastify.register(noIcon)

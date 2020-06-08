@@ -21,6 +21,7 @@ Contributions are always welcome. Before contributing please read our [contribut
 2. Clone it to your local machine
 3. Navigate to the cloned folder: `cd hospitalrun-server`
 4. Install the dependencies: `npm install` or `yarn install`
+5. [Install and Run CouchDB](#development-database)
 5. Run `npm run dev` or `yarn dev` to build and watch for code changes:
    - a development database will start on http://localhost:5984
    - you can access its Admin interface on http://localhost:5984/_utils, `username: dev` and `password: dev`
@@ -32,9 +33,9 @@ In order to optimize the workflow and to prevent multiple contributors working o
 In order to run `hospitalrun-server`  you need to set the correct environment variables. Since [dotenv](https://www.npmjs.com/package/dotenv) is already included, it is just matter of renaming `.env.example` file to `.env`: this file include all of the mandatory defaults.
 
 ## Development Database
-This project uses [pouchdb-server](https://www.npmjs.com/package/pouchdb-server) for development and you, as contributor, don't need to provide your own CouchDB instance. Upon first run of the `dev` script (`npm run dev` or `yarn dev`), a new `data` folder will be created inside the `./db` folder. The database credentials are: `username: dev` and `password: dev`. The file `./db/config.json` contains the DB's configuration: you can change it if you want, but please don't commit any changes to it.
-
-**Note: PouchDB-server is meant to be use only during development. Please don't deploy any production/testing HospitalRun instances on it. For production deployments please follow the deployment guide.**
+There are different ways to install CouchDB.
+- Install CouchDB [directly](https://docs.couchdb.org/en/stable/install/index.html)
+- Install and run via [Docker](https://hub.docker.com/_/couchdb)
 
 ## Tests
 Every code additions or fixs on the existing code, has to be tested. This project uses [node-tap](https://node-tap.org/) as test runner. To run all tests use `npm run test` or `yarn test`.
