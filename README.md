@@ -20,8 +20,8 @@ Contributions are always welcome. Before contributing please read our [contribut
 1. [Fork](https://github.com/HospitalRun/hospitalrun-server/fork) this repository to your own GitHub account
 2. Clone it to your local machine
 3. Navigate to the cloned folder: `cd hospitalrun-server`
-4. Install the dependencies: `npm install` or `yarn install`
-5. Run `npm run dev` or `yarn dev` to build and watch for code changes:
+4. Install the dependencies: `npm install`
+5. Run `npm run dev` to build and watch for code changes:
    - a development database will start on http://localhost:5984
    - you can access its Admin interface on http://localhost:5984/_utils, `username: dev` and `password: dev`
 
@@ -32,16 +32,16 @@ In order to optimize the workflow and to prevent multiple contributors working o
 In order to run `hospitalrun-server`  you need to set the correct environment variables. Since [dotenv](https://www.npmjs.com/package/dotenv) is already included, it is just matter of renaming `.env.example` file to `.env`: this file include all of the mandatory defaults.
 
 ## Development Database
-This project uses [pouchdb-server](https://www.npmjs.com/package/pouchdb-server) for development and you, as contributor, don't need to provide your own CouchDB instance. Upon first run of the `dev` script (`npm run dev` or `yarn dev`), a new `data` folder will be created inside the `./db` folder. The database credentials are: `username: dev` and `password: dev`. The file `./db/config.json` contains the DB's configuration: you can change it if you want, but please don't commit any changes to it.
+This project uses [pouchdb-server](https://www.npmjs.com/package/pouchdb-server) for development and you, as contributor, don't need to provide your own CouchDB instance. Upon first run of the `dev` script (`npm run dev`), a new `data` folder will be created inside the `./db` folder. The database credentials are: `username: dev` and `password: dev`. The file `./db/config.json` contains the DB's configuration: you can change it if you want, but please don't commit any changes to it.
 
 **Note: PouchDB-server is meant to be use only during development. Please don't deploy any production/testing HospitalRun instances on it. For production deployments please follow the deployment guide.**
 
 ## Tests
-Every code additions or fixs on the existing code, has to be tested. This project uses [node-tap](https://node-tap.org/) as test runner. To run all tests use `npm run test` or `yarn test`.
+Every code additions or fixs on the existing code, has to be tested. This project uses [node-tap](https://node-tap.org/) as test runner. To run all tests use `npm run test`.
 
 ## How to commit
 
-This repo uses [Conventional Commits](https://www.conventionalcommits.org/). [Commitizen](https://github.com/commitizen/cz-cli) is mandatory for making proper commits. Once you have staged your changes, can run `npm run commit` or `yarn commit` from the root directory in order to commit following our standards.
+This repo uses [Conventional Commits](https://www.conventionalcommits.org/). [Commitizen](https://github.com/commitizen/cz-cli) is mandatory for making proper commits. Once you have staged your changes, can run `npm run commit` from the root directory in order to commit following our standards.
 
 # Documentation
 ## DataBase
