@@ -23,6 +23,7 @@ Contributions are always welcome. Before contributing please read our [contribut
 4. Install the dependencies: `npm install` or `yarn install`
 5. [Install and Run CouchDB](#development-database)
 5. Run `npm run dev` or `yarn dev` to build and watch for code changes:
+
    - a development database will start on http://localhost:5984
    - you can access its Admin interface on http://localhost:5984/_utils, `username: dev` and `password: dev`
 
@@ -37,12 +38,13 @@ There are different ways to install CouchDB.
 - Install CouchDB [directly](https://docs.couchdb.org/en/stable/install/index.html)
 - Install and run via [Docker](https://hub.docker.com/_/couchdb)
 
+
 ## Tests
-Every code additions or fixs on the existing code, has to be tested. This project uses [node-tap](https://node-tap.org/) as test runner. To run all tests use `npm run test` or `yarn test`.
+Every code additions or fixs on the existing code, has to be tested. This project uses [node-tap](https://node-tap.org/) as test runner. To run all tests use `npm run test`.
 
 ## How to commit
 
-This repo uses [Conventional Commits](https://www.conventionalcommits.org/). [Commitizen](https://github.com/commitizen/cz-cli) is mandatory for making proper commits. Once you have staged your changes, can run `npm run commit` or `yarn commit` from the root directory in order to commit following our standards.
+This repo uses [Conventional Commits](https://www.conventionalcommits.org/). [Commitizen](https://github.com/commitizen/cz-cli) is mandatory for making proper commits. Once you have staged your changes, can run `npm run commit` from the root directory in order to commit following our standards.
 
 # Documentation
 ## DataBase
