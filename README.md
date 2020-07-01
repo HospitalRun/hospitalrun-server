@@ -20,10 +20,9 @@ Contributions are always welcome. Before contributing please read our [contribut
 1. [Fork](https://github.com/HospitalRun/hospitalrun-server/fork) this repository to your own GitHub account
 2. Clone it to your local machine
 3. Navigate to the cloned folder: `cd hospitalrun-server`
-4. Install the dependencies: `npm install` or `yarn install`
-5. [Install and Run CouchDB](#development-database)
-5. Run `npm run dev` or `yarn dev` to build and watch for code changes:
-
+4. Install the dependencies: `npm install`
+5. Check that [env variables](https://github.com/HospitalRun/hospitalrun-server#environment) are set correctly 
+6. Run `npm run dev` to build and watch for code changes:
    - a development database will start on http://localhost:5984
    - you can access its Admin interface on http://localhost:5984/_utils, `username: dev` and `password: dev`
 
