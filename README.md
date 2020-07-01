@@ -21,8 +21,9 @@ Contributions are always welcome. Before contributing please read our [contribut
 2. Clone it to your local machine
 3. Navigate to the cloned folder: `cd hospitalrun-server`
 4. Install the dependencies: `npm install`
-5. Check that [env variables](https://github.com/HospitalRun/hospitalrun-server#environment) are set correctly 
-6. Run `npm run dev` to build and watch for code changes:
+5. [Install and Run CouchDB](#development-database)
+6. Check that [env variables](https://github.com/HospitalRun/hospitalrun-server#environment) are set correctly 
+6. Run `npm run dev`  to build and watch for code changes:
    - a development database will start on http://localhost:5984
    - you can access its Admin interface on http://localhost:5984/_utils, `username: dev` and `password: dev`
 
@@ -36,7 +37,6 @@ In order to run `hospitalrun-server`  you need to set the correct environment va
 There are different ways to install CouchDB.
 - Install CouchDB [directly](https://docs.couchdb.org/en/stable/install/index.html)
 - Install and run via [Docker](https://hub.docker.com/_/couchdb)
-
 
 ## Tests
 Every code additions or fixs on the existing code, has to be tested. This project uses [node-tap](https://node-tap.org/) as test runner. To run all tests use `npm run test`.
