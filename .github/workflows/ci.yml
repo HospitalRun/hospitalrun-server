@@ -7,7 +7,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [10.x, 12.x, 14.x]
         os: [ubuntu-latest, windows-latest, macOS-latest]
         # exclude:
         #   - os: windows-latest
@@ -36,35 +36,3 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: ./lcov.info
-
-  yarn:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        node-version: [12.x]
-        os: [ubuntu-latest, windows-latest, macOS-latest]
-        # exclude:
-        #   - os: windows-latest
-        #     node-version: 13.x
-    steps:
-      - run: git config --global core.autocrlf false # this is needed to prevent git changing EOL after cloning on Windows OS
-      - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Init yarn
-        run: |
-          npm install -g yarn
-      - name: Install with yarn
-        run: |
-          yarn install
-      - name: Lint code
-        run: |
-          yarn lint
-      - name: Build
-        run: |
-          yarn build:all
-      - name: Run tests
-        run: |
-          yarn test
