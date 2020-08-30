@@ -22,8 +22,5 @@ fastify.listen(port, ip, err => {
   }
   if (process.env.NODE_ENV !== 'production') {
     fastify.blipp()
-    fastify.log.info(
-      `Database username 'dev', password 'dev, GUI running on: http://localhost:5984/_utils`,
-    )
   }
 })
