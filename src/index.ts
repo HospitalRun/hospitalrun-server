@@ -11,7 +11,7 @@ const fastify = Fastify({
 
 fastify.register(app)
 
-fastify.listen(port, ip, err => {
+fastify.listen(port, ip, (err) => {
   if (err) {
     console.log(err)
     process.exit(1)
