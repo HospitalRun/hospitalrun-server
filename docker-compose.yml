@@ -10,3 +10,10 @@ services:
       - COUCHDB_USER=admin
       - COUCHDB_PASSWORD=password
 
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: hospitalrun
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
