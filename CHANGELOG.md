@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-alpha.3](https://github.com/HospitalRun/hospitalrun-server/compare/v2.0.0-alpha.2...v2.0.0-alpha.3) (2020-09-01)
+
+
+### Features
+
+* add docker compose ([237c1a9](https://github.com/HospitalRun/hospitalrun-server/commit/237c1a99a125fcde565f8e31c5d6186308e9257b))
+
 ## 2.0.0-alpha.2 (2020-05-17)
 
 
