@@ -13,7 +13,7 @@ fastify.register(app)
 
 fastify.listen(port, ip, (err) => {
   if (err) {
-    console.log(err)
+    fastify.log.error(err)
     process.exit(1)
   }
 })
