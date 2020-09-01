@@ -1,6 +1,6 @@
 import Fastify from 'fastify'
 import fp from 'fastify-plugin'
-import App from '../src/app'
+import App from './../src/app'
 
 // Fill in this config with all the configurations
 // needed for testing the application
