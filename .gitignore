@@ -63,3 +63,4 @@ db/*
 !db/config.json
 !db/designs
 .env
+.idea/
