@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@commitlint/cli": "~9.1.2",
-    "@commitlint/config-conventional": "~9.1.1",
+    "@commitlint/config-conventional": "~11.0.0",
     "@commitlint/prompt": "~9.1.1",
     "@types/glob": "~7.1.1",
     "@types/mkdirp": "~1.0.0",
