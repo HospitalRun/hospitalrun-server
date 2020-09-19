@@ -51,7 +51,7 @@
     "@commitlint/prompt": "~11.0.0",
     "@types/glob": "~7.1.1",
     "@types/mkdirp": "~1.0.0",
-    "@types/node": "~14.10.1",
+    "@types/node": "~14.11.1",
     "@types/qs": "6.9.5",
     "@types/require-from-string": "~1.2.0",
     "@types/sade": "~1.7.0",
