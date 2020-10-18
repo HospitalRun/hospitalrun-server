@@ -34,7 +34,7 @@
     "fastify-autoload": "~3.3.0",
     "fastify-blipp": "~3.0.0",
     "fastify-http-proxy": "~4.0.2",
-    "fastify-plugin": "~2.3.3",
+    "fastify-plugin": "~3.0.0",
     "make-promises-safe": "~5.1.0",
     "nano": "~8.2.1",
     "qs": "~6.9.1",
