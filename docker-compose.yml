@@ -8,3 +8,5 @@ services:
       MONGO_INITDB_DATABASE: hospitalrun
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - '27017-27019:27017-27019'
