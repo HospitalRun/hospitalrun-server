@@ -56,7 +56,7 @@
     "@types/require-from-string": "~1.2.0",
     "@types/sade": "~1.7.0",
     "@types/tap": "~14.10.0",
-    "@types/ws": "~7.2.6",
+    "@types/ws": "~7.4.0",
     "@typescript-eslint/eslint-plugin": "~2.34.0",
     "@typescript-eslint/parser": "~2.34.0",
     "chalk": "~4.1.0",
