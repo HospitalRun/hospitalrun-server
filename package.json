@@ -57,7 +57,7 @@
     "@types/sade": "~1.7.0",
     "@types/tap": "~14.10.0",
     "@types/ws": "~7.4.0",
-    "@typescript-eslint/eslint-plugin": "~4.15.2",
+    "@typescript-eslint/eslint-plugin": "~4.16.1",
     "@typescript-eslint/parser": "~4.15.2",
     "chalk": "~4.1.0",
     "commitizen": "~4.2.1",
