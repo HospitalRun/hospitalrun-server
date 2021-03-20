@@ -37,7 +37,7 @@
     "fastify-plugin": "~3.0.0",
     "make-promises-safe": "~5.1.0",
     "nano": "~9.0.0",
-    "qs": "~6.9.1",
+    "qs": "~6.10.0",
     "require-from-string": "~2.0.2",
     "fastify-cors": "~5.2.0",
     "fastify-gql": "~5.8.1",
