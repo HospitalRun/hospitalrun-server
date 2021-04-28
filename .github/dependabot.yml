@@ -1,0 +1,57 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "09:00"
+    timezone: Europe/Rome
+  open-pull-requests-limit: 10
+  labels:
+  - dependencies
+  ignore:
+  - dependency-name: eslint-config-prettier
+    versions:
+    - ">= 8.0.a, < 8.1"
+  - dependency-name: eslint-config-prettier
+    versions:
+    - ">= 8.1.a, < 8.2"
+  - dependency-name: eslint-config-prettier
+    versions:
+    - ">= 8.a, < 9"
+  - dependency-name: tap
+    versions:
+    - ">= 15.a, < 16"
+  - dependency-name: typescript
+    versions:
+    - ">= 4.0.a, < 4.1"
+  - dependency-name: "@types/node"
+    versions:
+    - 15.0.0
+  - dependency-name: "@commitlint/prompt"
+    versions:
+    - 12.1.0
+  - dependency-name: "@commitlint/cli"
+    versions:
+    - 12.1.0
+  - dependency-name: "@commitlint/config-conventional"
+    versions:
+    - 12.1.0
+  - dependency-name: fastify
+    versions:
+    - 3.11.0
+    - 3.12.0
+    - 3.13.0
+    - 3.8.0
+  - dependency-name: "@typescript-eslint/eslint-plugin"
+    versions:
+    - 4.16.0
+  - dependency-name: "@typescript-eslint/parser"
+    versions:
+    - 4.16.0
+  - dependency-name: fastify-autoload
+    versions:
+    - 3.5.0
+  - dependency-name: husky
+    versions:
+    - 5.1.0
