@@ -30,7 +30,7 @@
   "author": "Maksim Sinik <maksim@sinik.it>",
   "license": "MIT",
   "dependencies": {
-    "fastify": "~3.16.1",
+    "fastify": "~3.17.0",
     "fastify-autoload": "~3.7.0",
     "fastify-blipp": "~3.0.0",
     "fastify-http-proxy": "~5.0.0",
@@ -57,7 +57,7 @@
     "@types/sade": "~1.7.0",
     "@types/tap": "~15.0.0",
     "@types/ws": "~7.4.0",
-    "@typescript-eslint/eslint-plugin": "~4.25.0",
+    "@typescript-eslint/eslint-plugin": "~4.26.1",
     "@typescript-eslint/parser": "~4.26.1",
     "chalk": "~4.1.0",
     "commitizen": "~4.2.1",
