@@ -46,9 +46,9 @@
     "graphql-tools": "~7.0.0"
   },
   "devDependencies": {
-    "@commitlint/cli": "~12.1.1",
+    "@commitlint/cli": "~13.1.0",
     "@commitlint/config-conventional": "~13.1.0",
-    "@commitlint/prompt": "~12.1.1",
+    "@commitlint/prompt": "~13.1.0",
     "@types/glob": "~7.1.1",
     "@types/mkdirp": "~1.0.0",
     "@types/node": "~16.4.0",
