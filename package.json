@@ -30,7 +30,7 @@
   "author": "Maksim Sinik <maksim@sinik.it>",
   "license": "MIT",
   "dependencies": {
-    "fastify": "~3.19.0",
+    "fastify": "~3.20.1",
     "fastify-autoload": "~3.8.0",
     "fastify-blipp": "~3.0.0",
     "fastify-http-proxy": "~6.0.0",
