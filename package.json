@@ -79,7 +79,7 @@
     "pouchdb-server": "~4.2.0",
     "prettier": "~2.5.0",
     "rimraf": "~3.0.0",
-    "sade": "~1.7.3",
+    "sade": "~1.8.0",
     "source-map-support": "~0.5.16",
     "tap": "~14.11.0",
     "tap-mocha-reporter": "~5.0.0",
