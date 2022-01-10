@@ -31,7 +31,7 @@
   "license": "MIT",
   "dependencies": {
     "fastify": "~3.25.0",
-    "fastify-autoload": "~3.9.0",
+    "fastify-autoload": "~3.10.0",
     "fastify-blipp": "~3.0.0",
     "fastify-http-proxy": "~6.2.0",
     "fastify-plugin": "~3.0.0",
