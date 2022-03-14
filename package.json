@@ -65,7 +65,7 @@
     "cross-env": "~7.0.0",
     "cz-conventional-changelog": "~3.3.0",
     "dotenv": "~10.0.0",
-    "eslint": "~8.9.0",
+    "eslint": "~8.11.0",
     "eslint-config-prettier": "~7.2.0",
     "eslint-plugin-import": "~2.25.1",
     "eslint-plugin-prettier": "~4.0.0",
